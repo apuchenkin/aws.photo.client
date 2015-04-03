@@ -1,0 +1,22 @@
+{
+  "nonew": true,
+  "nomen": true,
+  "curly": true,
+  "noarg": true,
+  "trailing": true,
+  "forin": true,
+  "white": true,
+  "noempty": true,
+  "node": true,
+  "eqeqeq": true,
+  "strict": true,
+  "undef": true,
+  "laxcomma": true,
+  "bitwise": true,
+  "newcap": true,
+  "immed": true,
+  "nonbsp": true,
+  "freeze": true,
+  "indent": 2,
+  "quotmark": "single"
+}
