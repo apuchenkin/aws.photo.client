@@ -2,14 +2,14 @@
 
 /**
  * @ngdoc overview
- * @name photoawesomestuffinApp
+ * @name aws-photo-client
  * @description
- * # photoawesomestuffinApp
+ * # aws-photo-client
  *
  * Main module of the application.
  */
 angular
-  .module('photoawesomestuffinApp', [
+  .module('aws.photo.client', [
     'ngAnimate',
     'ngCookies',
     'ngResource',
@@ -17,8 +17,10 @@ angular
     'ngSanitize',
     'ngTouch',
     'ui.router',
-    'wu.masonry'
+    //'wu.masonry',
+    'restmod'
   ])
+
   .config(function ($urlRouterProvider) {
     // when there is an empty route, redirect to /
     $urlRouterProvider.when('', '/');
@@ -55,34 +57,60 @@ angular
         url: '/',
         title: 'Home',
         templateUrl: 'views/gallery.html',
-        controller: 'AboutCtrl'
+        controller: 'aws.controller.images',
+        controllerAs: 'imagesCtrl'
       })
       .state('main.home.image', {
         url: ':id',
-        controller: 'ImageCtrl',
-        templateUrl: 'views/image.html'
+        templateUrl: 'views/image.html',
+        controller: 'aws.controller.image',
+        controllerAs: 'imageCtrl'
       })
     ;
+  }])
+
+  .config(['$httpProvider', function ($httpProvider) {
+    $httpProvider.defaults.useXDomain = true;
+  }])
+
+  .factory('restmodConfig', ['restmod', function (restmod) {
+    return restmod.mixin('DefaultPacker', { // include default packer extension
+      $config: {
+        primaryKey: 'id',
+        jsonRoot: '.',
+        jsonMeta: 'meta',
+        jsonLinks: 'links',
+        urlPrefix: 'http://localhost:3000'
+      },
+
+      $extend: {
+        // special snakecase to camelcase renaming
+        Model: {
+          unpack: function (_resource, _raw) {
+            var name = null;
+            var data = this.$super.apply(this, arguments);
+
+            if (_resource.$isCollection) {
+              name = this.getProperty('jsonRootMany') || this.getProperty('jsonRoot') || this.getProperty('plural');
+            } else {
+              name = this.getProperty('jsonRootSingle') || this.getProperty('jsonRoot') || this.getProperty('name');
+            }
+
+            return name === '.' ? _raw : data;
+          }
+        }
+      }
+    });
+  }])
+
+  .config(['restmodProvider', function (restmodProvider) {
+    restmodProvider.rebase('restmodConfig');
   }])
 
   .config(['$locationProvider', function ($locationProvider) {
     $locationProvider.html5Mode(false);
   }])
-  //
-  //.config(function ($routeProvider) {
-  //  $routeProvider
-  //    .when('/', {
-  //      templateUrl: 'views/story.html',
-  //      controller: 'MainCtrl'
-  //    })
-  //    .when('/about', {
-  //      templateUrl: 'views/gallery.html',
-  //      controller: 'AboutCtrl'
-  //    })
-  //    .otherwise({
-  //      redirectTo: '/'
-  //    });
-  //})
+
   .directive('colorbox', function() {
   return {
     restrict: 'AC',

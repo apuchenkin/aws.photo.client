@@ -7,11 +7,12 @@
  * # AboutCtrl
  * Controller of the photoawesomestuffinApp
  */
-angular.module('photoawesomestuffinApp')
-  .controller('ImageCtrl', function ($scope, $http, $stateParams) {
-    $scope.image = {};
-    debugger;
+angular.module('aws.photo.client')
+  .controller('aws.controller.image', ['$stateParams', function ($stateParams) {
+    var me = this;
+    me.image = {};
+
     $http.get('http://localhost:3000/photo/' + $stateParams.id).then(function(response){
-      angular.extend($scope.image, response.data);
+      angular.extend(me.image, response.data);
     });
-  });
+  }]);

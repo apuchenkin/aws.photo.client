@@ -2,12 +2,11 @@
 
 /**
  * @ngdoc function
- * @name photoawesomestuffinApp.controller:MainCtrl
+ * @name aws-photo-client.controller:aws.controller.main
  * @description
  * # MainCtrl
- * Controller of the photoawesomestuffinApp
  */
-angular.module('photoawesomestuffinApp')
-  .controller('MainCtrl', function ($scope) {
+angular.module('aws.photo.client')
+  .controller('aws.controller.main', function () {
     $('.photoset-grid').photosetGrid();
   });
