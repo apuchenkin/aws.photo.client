@@ -2,6 +2,7 @@
 body {
   padding-top: 20px;
   padding-bottom: 20px;
+  background: black;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -11,7 +12,10 @@ body {
   padding-left: 15px;
   padding-right: 15px;
 }
-
+.mfp-zoom{
+  width: 100%;
+  height: 100%;
+}
 img {border:none; outline: none; display:block;}
 #masonry {
   width:  100%;
@@ -19,6 +23,12 @@ img {border:none; outline: none; display:block;}
 }
 .masonry-brick {
   display: block;
+  outline: 2px solid rgba(0,0,0,0);
+  cursor: pointer;
+}
+.masonry-brick:hover {
+  outline: 2px solid #ff9d5b;
+  transition: outline-color 0.5s ease;
 }
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {

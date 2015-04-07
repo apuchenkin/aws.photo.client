@@ -31,6 +31,7 @@ angular.module('aws.photo.client')
       }
 
       return {
+        id: photo.id,
         width: dims[0],
         height: dims[1],
         src: 'http://localhost:3000/' + photo.thumb,

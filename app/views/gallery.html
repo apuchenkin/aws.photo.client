@@ -1,5 +1,4 @@
 <ui-view></ui-view>
-<div id="masonry"> <!-- masonry="{gutter: imagesCtrl.gutter}" column-width="{{imagesCtrl.size}}" item-selector=".masonry-brick" -->
-  <div class="masonry-brick" ng-style="{{brick.style}}" ui-sref="main.home.image({id: brick.id})" ng-repeat="brick in imagesCtrl.bricks"></div>
-    <!--<img ng-src="http://localhost:3000/{{ brick.thumb }}" alt="A masonry brick">-->
+<div id="masonry">
+  <div class="masonry-brick" ng-style="{{brick.style}}" ui-sref="home.gallery.image({id: brick.id})" ng-repeat="brick in imagesCtrl.bricks"></div>
 </div>

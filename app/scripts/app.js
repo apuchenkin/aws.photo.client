@@ -49,18 +49,18 @@ angular
 
     //main routes
     $stateProvider
-      .state('main', {
+      .state('home', {
         abstract: true,
         template: '<ui-view></ui-view>'
       })
-      .state('main.home', {
+      .state('home.gallery', {
         url: '/',
         title: 'Home',
         templateUrl: 'views/gallery.html',
         controller: 'aws.controller.images',
         controllerAs: 'imagesCtrl'
       })
-      .state('main.home.image', {
+      .state('home.gallery.image', {
         url: ':id',
         templateUrl: 'views/image.html',
         controller: 'aws.controller.image',
