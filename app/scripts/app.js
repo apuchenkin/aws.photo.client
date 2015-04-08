@@ -24,45 +24,62 @@ angular
   .config(function ($urlRouterProvider) {
     // when there is an empty route, redirect to /
     $urlRouterProvider.when('', '/');
+    $urlRouterProvider.otherwise('/404');
   })
 
   .config(['$stateProvider', function ($stateProvider) {
 
     // Public routes
     $stateProvider
-      .state('public', {
+      .state('error', {
         abstract: true,
         template: '<ui-view></ui-view>'
       })
-      .state('public.404', {
-        url: '/404/',
-        templateUrl: '404'
-      });
-
-    // Abstract error page
-    $stateProvider
-      .state('error', {
-        abstract: true,
-        url: '/error',
-        templateUrl: 'views/error.html'
+      .state('error.404', {
+        url: '/404',
+        templateUrl: '/views/error/404.html'
       });
 
     //main routes
     $stateProvider
       .state('home', {
         abstract: true,
+        url: '/',
+        controller: 'aws.controller.main',
+        resolve: {
+          categories: ['aws.model.category', function(Category) {
+            var categories =  Category.$collection();
+            return categories.$refresh().$asPromise();
+          }]
+        },
+        controllerAs: 'mainCtrl',
         template: '<ui-view></ui-view>'
       })
       .state('home.gallery', {
-        url: '/',
+        url: ':category/:subcategory',
+        params: {
+          subcategory: {value: null, squash: true}
+        },
         title: 'Home',
         templateUrl: 'views/gallery.html',
         controller: 'aws.controller.images',
-        controllerAs: 'imagesCtrl'
+        controllerAs: 'imagesCtrl',
+        resolve: {
+          category: ['$stateParams', '$state', 'categories', function($stateParams, $state, categories) {
+            var category = categories.$findByName($stateParams.category);
+            if (!category) {
+              $state.go('error.404');
+            }
+            category.childs = categories.$getChilds(category);
+            return category
+          }],
+          subcategory: ['$stateParams', '$state', 'categories', function($stateParams, $state, categories) {
+            return categories.$findByName($stateParams.subcategory);
+          }]
+        }
       })
       .state('home.gallery.image', {
         url: ':id',
-        templateUrl: 'views/image.html',
         controller: 'aws.controller.image',
         controllerAs: 'imageCtrl'
       })

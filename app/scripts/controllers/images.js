@@ -8,12 +8,13 @@
  * Controller of the photoawesomestuffinApp
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.images', ['aws.model.photo', '$timeout', function (Photo, $timeout) {
+  .controller('aws.controller.images', ['aws.model.photo', '$timeout', 'category', 'subcategory', function (Photo, $timeout, category, subcategory) {
     var me = this;
+    me.category = category;
 
     me.bricks = [];
     me.gutter = 5;
-    var s = me.size = 75;
+    var s = me.size = 100;
     var s2 = (s * 2) + me.gutter;
     var s3 = (s * 3) + (me.gutter * 2);
 
@@ -35,24 +36,26 @@ angular.module('aws.photo.client')
         width: dims[0],
         height: dims[1],
         src: 'http://localhost:3000/' + photo.thumb,
+
+        //todo: move to the directive
         style: {
           width:  dims[0],
           height: dims[1],
           "background-image": "url(http://localhost:3000/" + photo.thumb + ")",
+          "background-position": "center",
+          "background-size": 'cover',
           "margin-bottom": me.gutter
         }
       }
     };
 
-    me.photos = Photo.$collection();
+    me.photos = Photo.$collection({category: (subcategory || me.category).name});
     me.photos.$refresh();
     me.photos.$then(function (photos) {
       var bricks = photos.map(getBrick);
       angular.extend(me.bricks, bricks);
-
       $timeout(function() {
-        var container = angular.element('#masonry');
-        new Masonry( container[0], {
+        var masonry = new Masonry( angular.element('#masonry')[0], {
           columnWidth: me.size,
           itemSelector: '.masonry-brick',
           gutter: me.gutter
