@@ -79,7 +79,7 @@ angular
         }
       })
       .state('home.gallery.image', {
-        url: ':id',
+        url: '/:id',
         controller: 'aws.controller.image',
         controllerAs: 'imageCtrl'
       })
