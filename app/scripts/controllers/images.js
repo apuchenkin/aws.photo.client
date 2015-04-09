@@ -8,7 +8,13 @@
  * Controller of the photoawesomestuffinApp
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.images', ['aws.model.photo', '$timeout', 'category', 'subcategory', function (Photo, $timeout, category, subcategory) {
+  .controller('aws.controller.images', ['aws.model.photo', '$timeout', 'category', 'subcategory', 'photos', '$stateParams', '$state',
+    function (Photo, $timeout, category, subcategory, photos, $stateParams, $state) {
+    //if (!subcategory) {
+    //  debugger;
+    //  $state.go('home.gallery.image', {subcategory: null, id: +$stateParams.subcategory});
+    //}
+
     var me = this;
     me.category = category;
 
@@ -49,17 +55,12 @@ angular.module('aws.photo.client')
       }
     };
 
-    me.photos = Photo.$collection({category: (subcategory || me.category).name});
-    me.photos.$refresh();
-    me.photos.$then(function (photos) {
-      var bricks = photos.map(getBrick);
-      angular.extend(me.bricks, bricks);
-      $timeout(function() {
-        var masonry = new Masonry( angular.element('#masonry')[0], {
-          columnWidth: me.size,
-          itemSelector: '.masonry-brick',
-          gutter: me.gutter
-        });
+    angular.extend(me.bricks, photos.map(getBrick));
+    $timeout(function() {
+      var masonry = new Masonry( angular.element('#masonry')[0], {
+        columnWidth: me.size,
+        itemSelector: '.masonry-brick',
+        gutter: me.gutter
       });
     });
   }

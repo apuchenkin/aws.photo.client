@@ -24,7 +24,7 @@ angular
   .config(function ($urlRouterProvider) {
     // when there is an empty route, redirect to /
     $urlRouterProvider.when('', '/');
-    $urlRouterProvider.otherwise('/404');
+    //$urlRouterProvider.otherwise('/404');
   })
 
   .config(['$stateProvider', function ($stateProvider) {
@@ -44,7 +44,7 @@ angular
     $stateProvider
       .state('home', {
         abstract: true,
-        url: '/',
+        //url: '/',
         controller: 'aws.controller.main',
         resolve: {
           categories: ['aws.model.category', function(Category) {
@@ -55,17 +55,18 @@ angular
         controllerAs: 'mainCtrl',
         template: '<ui-view></ui-view>'
       })
+
       .state('home.gallery', {
-        url: ':category/:subcategory',
+        url: '/:category/:subcategory',
         params: {
-          subcategory: {value: null, squash: true}
+          subcategory: {value: 'featured', squash: 'featured'}
         },
         title: 'Home',
         templateUrl: 'views/gallery.html',
         controller: 'aws.controller.images',
         controllerAs: 'imagesCtrl',
         resolve: {
-          category: ['$stateParams', '$state', 'categories', function($stateParams, $state, categories) {
+          category: ['$stateParams', '$state', 'categories', function ($stateParams, $state, categories) {
             var category = categories.$findByName($stateParams.category);
             if (!category) {
               $state.go('error.404');
@@ -73,15 +74,25 @@ angular
             category.childs = categories.$getChilds(category);
             return category
           }],
-          subcategory: ['$stateParams', '$state', 'categories', function($stateParams, $state, categories) {
+          subcategory: ['$stateParams', '$state', 'categories', function ($stateParams, $state, categories) {
             return categories.$findByName($stateParams.subcategory);
+          }],
+          photos: ['aws.model.photo', 'category', 'subcategory', function (Photo, category, subcategory) {
+            var photos = Photo.$collection({category: (subcategory || category).name});
+            return photos.$refresh().$asPromise();
           }]
         }
       })
+
       .state('home.gallery.image', {
-        url: '/:id',
+        url: '/{id:int}',
         controller: 'aws.controller.image',
-        controllerAs: 'imageCtrl'
+        controllerAs: 'imageCtrl',
+        resolve: {
+          photo: ['$stateParams', 'aws.model.photo', function ($stateParams, Photo) {
+            return Photo.$find($stateParams.id).$asPromise();
+          }]
+        }
       })
     ;
   }])
