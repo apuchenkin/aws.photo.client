@@ -25,14 +25,21 @@ angular.module('aws.photo.client')
 
       var getBrick = function (photo) {
         var div = Math.floor(photo.views / std) + 1;
-        var agg = Math.floor(max / div) + 1;
-        var probs = _.flatten([_.fill(Array(agg * 2), 1),_.fill(Array(agg), 2),_.fill(Array(div), 3),_.fill(Array(div * 2), 4)]);
-        var k = probs[math.randomInt(0, probs.length)],
+        var agg = Math.floor(max / ((photo.views * std) + 1)) + 1;
+
+        var probs = _.flatten([
+          _.fill(Array((agg * agg * 8) + (div * div * 1)), 1),
+          _.fill(Array((agg * agg * 4) + (div * div * 2)), 2),
+          _.fill(Array((agg * agg * 2) + (div * div * 3)), 3),
+          _.fill(Array((agg * agg * 1) + (div * div * 4)), 4)
+        ]);
+
+        var mode = probs[math.randomInt(0, probs.length + 1)],
           isHorisontal = (photo.width > photo.height),
           dims
           ;
 
-        switch (k) {
+        switch (mode) {
           case 4:
             dims = isHorisontal ? [s3, s2] : [s2, s3];
             break;
