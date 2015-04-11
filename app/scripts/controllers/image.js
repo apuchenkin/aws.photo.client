@@ -8,21 +8,40 @@
  * Controller of the photoawesomestuffinApp
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.image', ['$stateParams', '$state', 'aws.model.photo', '$compile', '$scope', '$timeout', 'photos', 'photo',
-    function ($stateParams, $state, Photo, $compile, $scope, $timeout, photos, photo) {
+  .controller('aws.controller.image', ['$stateParams', '$state', 'aws.model.photo', '$compile', '$scope', '$timeout', 'photos', 'photo', '$resolve', '$injector',
+    function ($stateParams, $state, Photo, $compile, $scope, $timeout, photos, photo, $resolve, $injector) {
       var me = this;
 
       me.photo = photo;
       var index = _.findIndex(photos, {id: me.photo.$pk});
+
+
+      var getTitle = function(photo) {
+        var exif = JSON.parse(photo.exif);
+        return exif['EXIF:Artist'];
+      };
+
+      var updatePage = function(magnific) {
+        var current = magnific.items[magnific.index];
+        $state.go('home.gallery.image', {id: current.data.id}, {notify: false}).then(function(state, photo){
+          $state.$current.locals.resolve.then(function(args){
+            current.data.title = getTitle(args.photo);
+            magnific.updateItemHTML();
+          })
+        });
+      };
+
       photos = _.union(_.slice(photos, index), _.take(photos, index));
+      photos[0].title = getTitle(photo);
 
       $.magnificPopup.instance.next = function() {
-        $.magnificPopup.proto.next.call(this /*, optional arguments */);
-        $state.go('home.gallery.image', {id: this.items[this.index].data.id}, {notify: false});
+        $.magnificPopup.proto.next.call(this);
+        updatePage(this);
       };
+
       $.magnificPopup.instance.prev = function() {
-        $.magnificPopup.proto.prev.call(this /*, optional arguments */);
-        $state.go('home.gallery.image', {id: this.items[this.index].data.id}, {notify: false});
+        $.magnificPopup.proto.prev.call(this);
+        updatePage(this);
       };
 
       $.magnificPopup.open({
@@ -92,7 +111,7 @@ angular.module('aws.photo.client')
         },
         items: photos.map(function(item) {return {
           src: 'http://localhost:3000/' + item.src,
-          title: item.name + '<button>zoom</button>',
+          title: item.title,
           id: item.id
         }})
       });

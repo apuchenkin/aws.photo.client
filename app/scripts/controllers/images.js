@@ -24,7 +24,7 @@ angular.module('aws.photo.client')
       var s3 = (s * 3) + (me.gutter * 2);
 
       var getBrick = function (photo) {
-        var div = Math.floor(photo.views / std) + 1;
+        var div = Math.floor(photo.views / (std + 1)) + 1;
         var agg = Math.floor(max / ((photo.views * std) + 1)) + 1;
 
         var probs = _.flatten([
