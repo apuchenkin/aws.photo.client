@@ -8,8 +8,8 @@
  * Controller of the photoawesomestuffinApp
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.image', ['$stateParams', '$state', 'aws.model.photo', '$compile', '$scope', '$timeout', 'photos', 'photo', '$resolve', '$injector',
-    function ($stateParams, $state, Photo, $compile, $scope, $timeout, photos, photo, $resolve, $injector) {
+  .controller('aws.controller.image', ['$stateParams', '$state', 'aws.model.photo', '$compile', '$scope', '$timeout', 'photos', 'photo',
+    function ($stateParams, $state, Photo, $compile, $scope, $timeout, photos, photo) {
       var me = this;
 
       me.photo = photo;
