@@ -17,7 +17,7 @@ angular
     'ngSanitize',
     'ngTouch',
     'ui.router',
-    //'wu.masonry',
+    'pascalprecht.translate',
     'restmod'
   ])
 
