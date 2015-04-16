@@ -17,7 +17,7 @@ angular
     'ngSanitize',
     'ngTouch',
     'ui.router',
-    'pascalprecht.translate',
+    //'pascalprecht.translate',
     'restmod'
   ])
 
