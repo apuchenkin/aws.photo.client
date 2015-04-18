@@ -17,15 +17,36 @@ angular
     'ngSanitize',
     'ngTouch',
     'ui.router',
-    //'pascalprecht.translate',
+    'pascalprecht.translate',
     'restmod'
   ])
 
-  .config(function ($urlRouterProvider) {
-    // when there is an empty route, redirect to /
+  .factory('customLoader', ['aws.model.translation', '$q', function (Translation, $q) {
+    // return loaderFn
+    return function (options) {
+      var deferred = $q.defer(),
+          translation =  Translation.$collection({language: options.key});
+
+      translation.$refresh().$then(function(items) {
+        deferred.resolve(items.reduce(function(acc, item){
+          var type = acc[item.type]   = acc[item.type]    || {},
+              ref  = type[item.refId] = type[item.refId]  || {};
+          ref[item.field] = item.value;
+          return acc;
+        }, {}));
+      });
+      return deferred.promise;
+    };
+  }])
+
+  .config(['$translateProvider', function ($translateProvider) {
+    $translateProvider.useLoader('customLoader', { key: 'en'});
+  }])
+
+  .config(['$urlRouterProvider', function ($urlRouterProvider) {
     $urlRouterProvider.when('', '/');
-    //$urlRouterProvider.otherwise('/404');
-  })
+    $urlRouterProvider.otherwise('/404');
+  }])
 
   .config(['$stateProvider', function ($stateProvider) {
 

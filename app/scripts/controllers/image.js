@@ -15,24 +15,12 @@ angular.module('aws.photo.client')
       me.photo = photo;
       var index = _.findIndex(photos, {id: me.photo.$pk});
 
-
-      var getTitle = function(photo) {
-        var exif = JSON.parse(photo.exif);
-        return exif['EXIF:Artist'];
-      };
-
       var updatePage = function(magnific) {
         var current = magnific.items[magnific.index];
-        $state.go('home.gallery.image', {id: current.data.id}, {notify: false}).then(function(state, photo){
-          $state.$current.locals.resolve.then(function(args){
-            current.data.title = getTitle(args.photo);
-            magnific.updateItemHTML();
-          })
-        });
+        $state.go('home.gallery.image', {id: current.data.id}, {notify: false}).then(magnific.updateItemHTML);
       };
 
       photos = _.union(_.slice(photos, index), _.take(photos, index));
-      photos[0].title = getTitle(photo);
 
       $.magnificPopup.instance.next = function() {
         $.magnificPopup.proto.next.call(this);
@@ -109,10 +97,16 @@ angular.module('aws.photo.client')
             }
           }
         },
-        items: photos.map(function(item) {return {
-          src: 'http://localhost:3000/' + item.src,
-          title: item.title,
-          id: item.id
-        }})
+        items: photos.map(function (item) {
+          var title = angular.element('<div class="title">{{"photo." + item.$pk + ".caption" | translate}} by {{item.author}}</div>'),
+              scope = $scope.$new();
+
+          scope.item = item;
+          return {
+            src: 'http://localhost:3000/' + item.src,
+            title: $compile(title)(scope),
+            id: item.id
+          }
+        })
       });
     }]);

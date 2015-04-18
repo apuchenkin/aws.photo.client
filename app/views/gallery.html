@@ -1,10 +1,10 @@
 <nav class="top">
   <ul>
-    <li class="item" ui-sref-active="active" ui-sref="home.gallery({category: imagesCtrl.category.name, subcategory: null})">featured</li>
+    <li class="item" ui-sref-active="active" ui-sref="home.gallery({category: imagesCtrl.category.name, subcategory: null})">{{'category.' + imagesCtrl.category.$pk + '.title' | translate}}</li>
     <li class="item"
         ui-sref-active="active"
         ui-sref="home.gallery({category: imagesCtrl.category.name, subcategory: child.name})"
-        ng-repeat="child in imagesCtrl.category.childs">{{child.name}}</li>
+        ng-repeat="child in imagesCtrl.category.childs">{{'category.' + child.$pk + '.title' | translate}}</li>
   </ul>
 </nav>
 <div id="masonry">
