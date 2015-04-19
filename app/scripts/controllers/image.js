@@ -8,8 +8,8 @@
  * Controller of the photoawesomestuffinApp
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.image', ['$stateParams', '$state', 'aws.model.photo', '$compile', '$scope', '$timeout', 'photos', 'photo',
-    function ($stateParams, $state, Photo, $compile, $scope, $timeout, photos, photo) {
+  .controller('aws.controller.image', ['$state', 'aws.model.photo', '$compile', '$scope', '$timeout', 'photos', 'photo',
+    function ($state, Photo, $compile, $scope, $timeout, photos, photo) {
       var me = this;
 
       me.photo = photo;
@@ -97,14 +97,14 @@ angular.module('aws.photo.client')
             }
           }
         },
-        items: photos.map(function (item) {
-          var title = angular.element('<div class="title">{{"photo." + item.$pk + ".caption" | translate}} by {{item.author}}</div>'),
-              scope = $scope.$new();
 
-          scope.item = item;
+        items: photos.map(function (item) {
+          var scope = $scope.$new();
+
+          scope.data = item;
           return {
-            src: 'http://localhost:3000/' + item.src,
-            title: $compile(title)(scope),
+            src: 'http://localhost:3000/' + item.src, //todo: app settings
+            title: $compile('<div class="aws-photo-title" ng-model="data"></div>')(scope),
             id: item.id
           }
         })

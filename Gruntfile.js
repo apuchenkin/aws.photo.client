@@ -46,6 +46,7 @@ module.exports = function (grunt) {
       },
       less: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.less'],
+        tasks: ['less'],
         options: {
           livereload: '<%= connect.options.livereload %>'
         }
@@ -73,17 +74,7 @@ module.exports = function (grunt) {
       },
       livereload: {
         options: {
-          open: false,
-          middleware: function (connect) {
-            return [
-              connect.static('.tmp'),
-              connect().use(
-                '/bower_components',
-                connect.static('./bower_components')
-              ),
-              connect.static(appConfig.app)
-            ];
-          }
+          open: true
         }
       },
       test: {
