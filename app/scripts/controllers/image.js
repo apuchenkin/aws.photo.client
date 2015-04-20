@@ -34,11 +34,13 @@ angular.module('aws.photo.client')
 
       $.magnificPopup.open({
         type: 'image',
-        image: { cursor: null },
+        image: {
+          markup: $compile('<div class="aws-photo"></div>')($scope),
+          verticalFit: true,
+          cursor: null
+        },
         gallery: {
-          enabled: true,
-          // currently bound by imagezoom
-          navigateByImgClick: false
+          enabled: true
         },
         zoom: {
           enabled: true, // By default it's false, so don't forget to enable it
@@ -51,50 +53,6 @@ angular.module('aws.photo.client')
         callbacks: {
           close: function () {
             $state.go('home.gallery');
-          },
-          imageLoadComplete: function () {
-            var magnific = this;
-            if (magnific.content) {
-              var imgContainer = magnific.content.find('img');
-
-              // Get an instance API
-              imgContainer.on('click', function () {
-                var currentItem = magnific.items[magnific.index].data;
-                var zoom = angular.element('<div class="mfp-zoom" ng-style="zoomStyle" ng-click="toggle()"></div>');
-                zoom.mousemove(function (e) {
-                  angular.extend($scope.zoomStyle, {
-                    "background-position": e.clientX / zoom.width() * 100 + '% ' + e.clientY / zoom.height() * 100 + '%'
-                  });
-                  $scope.$digest();
-                });
-
-                magnific.items[magnific.index] = {
-                  item: currentItem,
-                  src: $compile(zoom)($scope),
-                  title: currentItem.title,
-                  id: currentItem.id,
-                  type: 'inline'
-                };
-
-                magnific.arrowLeft.hide();
-                magnific.arrowRight.hide();
-
-                $scope.toggle = function () {
-                  magnific.arrowLeft.show();
-                  magnific.arrowRight.show();
-                  magnific.items[magnific.index] = magnific.items[magnific.index].data.item;
-                  magnific.updateItemHTML();
-                };
-
-                $timeout(function () {
-                  magnific.updateItemHTML();
-                  $scope.zoomStyle = {
-                    "background-image": 'url("' + magnific.items[magnific.index].data.item.src + '")',
-                    "background-position": 'center center'
-                  };
-                });
-              });
-            }
           }
         },
 
@@ -109,4 +67,5 @@ angular.module('aws.photo.client')
           }
         })
       });
+      $scope.magnific = $.magnificPopup.instance;
     }]);

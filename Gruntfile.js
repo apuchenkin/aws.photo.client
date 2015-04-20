@@ -74,7 +74,17 @@ module.exports = function (grunt) {
       },
       livereload: {
         options: {
-          open: true
+          open: false,
+          middleware: function (connect) {
+            return [
+              connect.static('.tmp'),
+              connect().use(
+                '/bower_components',
+                connect.static('./bower_components')
+              ),
+              connect.static(appConfig.app)
+            ];
+          }
         }
       },
       test: {
