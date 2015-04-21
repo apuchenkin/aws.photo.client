@@ -1,16 +1,27 @@
 nav.top {
-  color: gray;
+  color: @light-grey;
+  padding: @divisor/2 @divisor;
 }
+
 nav.top ul{
   list-style: none;
   margin: 0;
   padding: 0;
 }
+
 nav.top ul li{
-  margin: 0.2em 0.4em;
+  margin: 0;
+  margin-right: @divisor;
   display: inline-block;
   cursor: pointer;
 }
-nav.top ul li.active{
-  color: white;
+
+nav.top ul li{
+  transition: color 0.2s ease-out;
+  &:hover{
+    color: @accent;
+  }
+  &.active{
+    color: @white;
+  }
 }

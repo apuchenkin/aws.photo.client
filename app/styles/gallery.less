@@ -1,8 +1,6 @@
 
 #masonry {
-  width:  100%;
-  height: 100%;
-  padding: @divisor;
+  padding: @divisor/2 @divisor;
 }
 .masonry-brick {
   display: block;
@@ -10,6 +8,7 @@
   cursor: pointer;
   transition: outline-color 0.2s ease-out;
 }
+
 .masonry-brick:hover {
-  outline: 2px solid #ff6d3a;
+  outline-color: @accent;
 }

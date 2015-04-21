@@ -8,7 +8,10 @@ angular.module('aws.photo.client')
         '<div class="mfp-figure" ng-show="!me.visible">'+
           '<div class="mfp-img"></div>'+
         '</div>'+
-        '<div class="mfp-tools"><div class="zoom" ng-click="me.toggleZoom();">zoom</div><div class="mfp-close"></div></div>'+
+        '<div class="mfp-tools">' +
+          '<button title="Zoom" class="mfp-btn" ng-click="me.toggleZoom();"><i class="fa fa-arrows-alt"></i></button>' +
+          '<button title="Close (Esc)" class="mfp-btn" ng-click="me.close();"><i class="mfp-close-icn fa fa-times"></i></button>' +
+        '</div>'+
         '<div class="mfp-bottom-bar">'+
           '<div class="mfp-title"></div>'+
         '<div class="mfp-counter"></div>'+
@@ -21,6 +24,10 @@ angular.module('aws.photo.client')
         var me = this;
         me.visible = false;
 
+        me.close = function () {
+          $scope.magnific.close();
+        };
+
         me.move = function (e) {
             angular.extend(me.style, {
               "background-position": e.clientX / e.screenX * 100 + '% ' + e.clientY / e.screenY * 100 + '%'
@@ -32,7 +39,8 @@ angular.module('aws.photo.client')
 
           me.style = {
             "background-image": 'url("' + m.items[m.index].src + '")',
-            "background-position": 'center center'
+            "background-position": 'center center',
+            "background-repeat": "no-repeat"
           };
 
           me.visible = !me.visible;

@@ -1,3 +1,6 @@
+.mfp-container {
+  padding: 0 @divisor;
+}
 
 .mfp-content {
   position: relative;
@@ -28,30 +31,57 @@
     text-align: right;
     width: 100%;
 
-    .zoom {
-      font-size: 28px;
-      color: gray;
-      display: inline-block;
+    i.fa {
+      font-size: 18px;
+      color: @light-grey;
       position: relative;
+      width: auto;
+      &:hover {
+        color: @white;
+      }
+      &.fa-times {
+        font-size: 21px;
+      }
     }
-    .mfp-close {
+
+    button.mfp-btn {
       display: inline-block;
       position: relative;
       width: auto;
+      right: 0;
+      overflow: hidden;
+      cursor: pointer;
+      background: transparent;
+      border: 0;
+      -webkit-appearance: none;
+      -webkit-box-shadow: none;
+      outline: none;
+      padding: 0;
+      z-index: 1046;
+      box-shadow: none;
+      margin-left: @divisor / 2;
     }
   }
 }
-
-.mfp-title {
-  color: gray;
+img.mfp-img {
+  padding-bottom: 60px;
+}
+.mfp-bottom-bar {
+  margin-top: -50px;
+}
+.mfp-title, .mfp-counter {
+  font-size: 10pt;
+  color: darken(@light-grey, 20%);
+  font-family: @font-default;
 
   .caption {
+    font-size: 14pt;
     display: block;
     float: none;
-    color: white;
+    color: @white;
   }
   .author {
-    color: white;
+    color: @light-grey;
   }
 }
 
@@ -75,7 +105,6 @@
 /* content at start */
 .mfp-fade.mfp-wrap .mfp-content {
   opacity: 0;
-
   -webkit-transition: all 0.15s ease-out;
   -moz-transition: all 0.15s ease-out;
   transition: all 0.15s ease-out;
