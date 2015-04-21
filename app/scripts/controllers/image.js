@@ -8,8 +8,8 @@
  * Controller of the photoawesomestuffinApp
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.image', ['$state', '$compile', '$scope', 'photos', 'photo',
-    function ($state, $compile, $scope, photos, photo) {
+  .controller('aws.controller.image', ['$state', '$compile', '$scope', 'photos', 'photo', 'CONFIG',
+    function ($state, $compile, $scope, photos, photo, config) {
       var index = _.findIndex(photos, {id: photo.$pk});
 
       var updatePage = function(magnific) {
@@ -44,7 +44,7 @@ angular.module('aws.photo.client')
           duration: 300, // duration of the effect, in milliseconds
           easing: 'ease-in-out', // CSS transition easing function
           opener: function (item) {
-            return angular.element('#masonry > .photo-' + item.data.id);
+            return angular.element('#masonry .photo-' + item.data.id);
           }
         },
         callbacks: {
@@ -58,7 +58,7 @@ angular.module('aws.photo.client')
 
           scope.data = item;
           return {
-            src: 'http://localhost:3000/' + item.src, //todo: app settings
+            src: config.static_endpoint + item.src,
             title: $compile('<div class="aws-photo-title"></div>')(scope),
             id: item.id
           }

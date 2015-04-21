@@ -1,8 +1,8 @@
 angular.module('aws.photo.client')
-  .directive('awsBrick', [function () {
+  .directive('awsBrick', ['CONFIG', function (config) {
 
     return {
-      template: '<div class="masonry-brick photo-{{brick.id}}" ng-style="{{style}}"></div>',
+      template: '<div class="masonry-brick photo-{{ngModel.id}}" ng-style="{{style}}"></div>',
       restrict: 'E',
       scope: {
         ngModel: '='
@@ -16,7 +16,7 @@ angular.module('aws.photo.client')
           "background-image": "url(" + brick.src + ")",
           "background-position": "center",
           "background-size": 'cover',
-          "margin-bottom": 5 //todo: app settings
+          "margin-bottom": config.gutter
         }
       }]
     };

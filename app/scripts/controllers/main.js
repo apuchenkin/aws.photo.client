@@ -7,11 +7,12 @@
  * # MainCtrl
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.main', ['$translate', 'categories', 'category', function ($translate, categories, category) {
-    var me = this;
-    me.language = 'en';
-    me.categories = categories;
-    me.category = category;
+  .controller('aws.controller.main', ['$translate', 'categories', 'category', 'CONFIG',
+    function ($translate, categories, category, config) {
+      var me = this;
+      me.language = config.language;
+      me.categories = categories;
+      me.category = category;
 
-    $translate.use(me.language);
-  }]);
+      $translate.use(me.language);
+    }]);

@@ -8,11 +8,11 @@
  * Controller of the aws-photo-client
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.gallery', ['$timeout', 'photos',
-    function ($timeout, photos) {
+  .controller('aws.controller.gallery', ['$timeout', 'photos', 'CONFIG',
+    function ($timeout, photos, config) {
       var me = this;
       me.bricks = [];
-      me.gutter = 5;
+      me.gutter = config.gutter;
 
       var views = _.pluck(photos, "views");
       var std = math.std(views);
@@ -57,7 +57,7 @@ angular.module('aws.photo.client')
           id: photo.id,
           width: dims[0],
           height: dims[1],
-          src: 'http://localhost:3000/' + photo.thumb
+          src: config.static_endpoint + photo.thumb
         }
       };
 

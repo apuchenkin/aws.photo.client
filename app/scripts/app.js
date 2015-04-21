@@ -10,6 +10,7 @@
  */
 angular
   .module('aws.photo.client', [
+    'aws.config',
     'ngAnimate',
     'ui.router',
     'pascalprecht.translate',
@@ -133,14 +134,15 @@ angular
     $httpProvider.defaults.useXDomain = true;
   }])
 
-  .factory('restmodConfig', ['restmod', function (restmod) {
+  .factory('restmodConfig', ['restmod', 'CONFIG', function (restmod, config) {
+
     return restmod.mixin('DefaultPacker', { // include default packer extension
       $config: {
         primaryKey: 'id',
         jsonRoot: '.',
         jsonMeta: 'meta',
         jsonLinks: 'links',
-        urlPrefix: 'http://localhost:3000'
+        urlPrefix: config.api_endpoint
       },
 
       $extend: {
