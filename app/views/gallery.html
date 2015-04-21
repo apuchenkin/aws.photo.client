@@ -1,5 +1,5 @@
 <ui-view></ui-view>
 <div id="masonry">
-  <div class="masonry-brick photo-{{brick.id}}" ng-style="{{brick.style}}" ui-sref="home.gallery.image({id: brick.id})" ng-repeat="brick in gallery.bricks"></div>
+  <aws-brick ng-model="brick" ui-sref="home.gallery.image({id: brick.id})" ng-repeat="brick in gallery.bricks"></aws-brick>
 </div>
 

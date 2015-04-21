@@ -57,21 +57,12 @@ angular.module('aws.photo.client')
           id: photo.id,
           width: dims[0],
           height: dims[1],
-          src: 'http://localhost:3000/' + photo.thumb,
-
-          //todo: move to the directive
-          style: {
-            width: dims[0],
-            height: dims[1],
-            "background-image": "url(http://localhost:3000/" + photo.thumb + ")",
-            "background-position": "center",
-            "background-size": 'cover',
-            "margin-bottom": me.gutter
-          }
+          src: 'http://localhost:3000/' + photo.thumb
         }
       };
 
       angular.extend(me.bricks, photos.map(getBrick));
+
       $timeout(function () {
         var masonry = new Masonry(angular.element('#masonry')[0], {
           columnWidth: me.size,

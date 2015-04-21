@@ -3,20 +3,19 @@ angular.module('aws.photo.client')
 
     return {
       template:
-      '<div class="mfp-zoom" ng-click="me.toggleZoom()" ng-mousemove="me.move($event)" ng-style="me.style" ng-show="me.visible"></div>'+
-      '<div class="mfp-figure" ng-show="!me.visible">'+
-        '<div class="mfp-img"></div>'+
-      '</div>'+
-      '<div class="mfp-tools"><div class="zoom" ng-click="me.toggleZoom();">zoom</div><div class="mfp-close"></div></div>'+
-      '<div class="mfp-bottom-bar">'+
-        '<div class="mfp-title"></div>'+
-      '<div class="mfp-counter"></div>'+
-      '</div>'
+      '<figure>'+
+        '<div class="mfp-zoom" ng-click="me.toggleZoom()" ng-mousemove="me.move($event)" ng-style="me.style" ng-show="me.visible"></div>'+
+        '<div class="mfp-figure" ng-show="!me.visible">'+
+          '<div class="mfp-img"></div>'+
+        '</div>'+
+        '<div class="mfp-tools"><div class="zoom" ng-click="me.toggleZoom();">zoom</div><div class="mfp-close"></div></div>'+
+        '<div class="mfp-bottom-bar">'+
+          '<div class="mfp-title"></div>'+
+        '<div class="mfp-counter"></div>'+
+        '</div>'+
+      '</figure>'
       , // Popup HTML markup. `.mfp-img` div will be replaced with img tag, `.mfp-close` by close button
-      transclude: false,
-      restrict: 'AC',
-      templateNamespace: 'html',
-      scope: false,
+      restrict: 'C',
       controllerAs: 'me',
       controller: ['$scope', function($scope) {
         var me = this;
