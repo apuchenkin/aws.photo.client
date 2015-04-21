@@ -8,12 +8,9 @@
  * Controller of the photoawesomestuffinApp
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.image', ['$state', 'aws.model.photo', '$compile', '$scope', '$timeout', 'photos', 'photo',
-    function ($state, Photo, $compile, $scope, $timeout, photos, photo) {
-      var me = this;
-
-      me.photo = photo;
-      var index = _.findIndex(photos, {id: me.photo.$pk});
+  .controller('aws.controller.image', ['$state', '$compile', '$scope', 'photos', 'photo',
+    function ($state, $compile, $scope, photos, photo) {
+      var index = _.findIndex(photos, {id: photo.$pk});
 
       var updatePage = function(magnific) {
         var current = magnific.items[magnific.index];
@@ -62,10 +59,12 @@ angular.module('aws.photo.client')
           scope.data = item;
           return {
             src: 'http://localhost:3000/' + item.src, //todo: app settings
-            title: $compile('<div class="aws-photo-title" ng-model="data"></div>')(scope),
+            title: $compile('<div class="aws-photo-title"></div>')(scope),
             id: item.id
           }
         })
       });
+
       $scope.magnific = $.magnificPopup.instance;
-    }]);
+    }
+  ]);

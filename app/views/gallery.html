@@ -1,13 +1,5 @@
-<nav class="top">
-  <ul>
-    <li class="item" ui-sref-active="active" ui-sref="home.gallery({category: imagesCtrl.category.name, subcategory: null})">{{'category.' + imagesCtrl.category.$pk + '.title' | translate}}</li>
-    <li class="item"
-        ui-sref-active="active"
-        ui-sref="home.gallery({category: imagesCtrl.category.name, subcategory: child.name})"
-        ng-repeat="child in imagesCtrl.category.childs">{{'category.' + child.$pk + '.title' | translate}}</li>
-  </ul>
-</nav>
-<div id="masonry">
-  <div class="masonry-brick photo-{{brick.id}}" ng-style="{{brick.style}}" ui-sref="home.gallery.image({id: brick.id})" ng-repeat="brick in imagesCtrl.bricks"></div>
-</div>
 <ui-view></ui-view>
+<div id="masonry">
+  <div class="masonry-brick photo-{{brick.id}}" ng-style="{{brick.style}}" ui-sref="home.gallery.image({id: brick.id})" ng-repeat="brick in gallery.bricks"></div>
+</div>
+

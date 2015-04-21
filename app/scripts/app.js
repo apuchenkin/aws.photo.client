@@ -11,11 +11,6 @@
 angular
   .module('aws.photo.client', [
     'ngAnimate',
-    'ngCookies',
-    'ngResource',
-    'ngRoute',
-    'ngSanitize',
-    'ngTouch',
     'ui.router',
     'pascalprecht.translate',
     'restmod'
@@ -65,28 +60,14 @@ angular
     $stateProvider
       .state('home', {
         abstract: true,
-        //url: '/',
+        url: '/:category',
         controller: 'aws.controller.main',
+        controllerAs: 'main',
         resolve: {
           categories: ['aws.model.category', function(Category) {
             var categories =  Category.$collection();
             return categories.$refresh().$asPromise();
-          }]
-        },
-        controllerAs: 'mainCtrl',
-        template: '<ui-view></ui-view>'
-      })
-
-      .state('home.gallery', {
-        url: '/:category/:subcategory',
-        params: {
-          subcategory: {value: 'featured', squash: 'featured'}
-        },
-        title: 'Home',
-        templateUrl: 'views/gallery.html',
-        controller: 'aws.controller.images',
-        controllerAs: 'imagesCtrl',
-        resolve: {
+          }],
           category: ['$stateParams', '$state', 'categories', function ($stateParams, $state, categories) {
             var category = categories.$findByName($stateParams.category);
             if (!category) {
@@ -94,7 +75,37 @@ angular
             }
             category.childs = categories.$getChilds(category);
             return category
-          }],
+          }]
+        },
+        templateUrl: function ($stateParams) {
+          var registered = ['chile'];
+          if (_.indexOf(registered, $stateParams.category) >= 0) {
+            return 'views/gallery/' + $stateParams.category + '.html';
+          } else {
+            return 'views/gallery/default.html';
+          }
+        }
+      })
+
+      .state('home.gallery', {
+        url: '/:subcategory',
+        params: {
+          subcategory: {value: null, squash: true}
+        },
+        title: 'Home',
+        views: {
+          navigation: {
+            templateUrl: 'views/navigation.html',
+            controller: 'aws.controller.navigation',
+            controllerAs: 'navigation'
+          },
+          gallery: {
+            templateUrl: 'views/gallery.html',
+            controller: 'aws.controller.gallery',
+            controllerAs: 'gallery'
+          }
+        },
+        resolve: {
           subcategory: ['$stateParams', '$state', 'categories', function ($stateParams, $state, categories) {
             return categories.$findByName($stateParams.subcategory);
           }],
@@ -106,7 +117,7 @@ angular
       })
 
       .state('home.gallery.image', {
-        url: '/{id:int}',
+        url: '/photo/{id:int}',
         controller: 'aws.controller.image',
         controllerAs: 'imageCtrl',
         resolve: {
@@ -158,13 +169,4 @@ angular
 
   .config(['$locationProvider', function ($locationProvider) {
     $locationProvider.html5Mode(false);
-  }])
-
-  .directive('colorbox', function() {
-  return {
-    restrict: 'AC',
-    link: function (scope, element, attrs) {
-      $(element).colorbox(attrs.colorbox);
-    }
-  };
-});
+  }]);

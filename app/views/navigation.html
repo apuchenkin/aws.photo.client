@@ -1,0 +1,8 @@
+<nav class="top">
+  <ul>
+    <li class="item"
+        ui-sref-active="active"
+        ui-sref="home.gallery({category: navigation.category.name, subcategory: child.name})"
+        ng-repeat="child in navigation.category.childs">{{'category.' + child.$pk + '.title' | translate}}</li>
+  </ul>
+</nav>

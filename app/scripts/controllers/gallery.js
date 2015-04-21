@@ -2,16 +2,15 @@
 
 /**
  * @ngdoc function
- * @name photoawesomestuffinApp.controller:AboutCtrl
+ * @name aws-photo-client.controller:aws.controller.gallery
  * @description
- * # AboutCtrl
- * Controller of the photoawesomestuffinApp
+ * # aws.controller.gallery
+ * Controller of the aws-photo-client
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.images', ['aws.model.photo', '$timeout', 'category', 'subcategory', 'photos', '$stateParams', '$state',
-    function (Photo, $timeout, category, subcategory, photos, $stateParams, $state) {
+  .controller('aws.controller.gallery', ['$timeout', 'photos',
+    function ($timeout, photos) {
       var me = this;
-      me.category = category;
       me.bricks = [];
       me.gutter = 5;
 
