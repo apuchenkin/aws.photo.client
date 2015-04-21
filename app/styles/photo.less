@@ -1,0 +1,90 @@
+
+.mfp-content {
+  position: relative;
+  //padding: 20px;
+  overflow: hidden;
+
+  .mfp-figure {
+    //position: relative;
+  }
+
+  .mfp-zoom {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  .mfp-tools {
+    position: absolute;
+    height: 44px;
+    line-height: 44px;
+    top: 0;
+    right: 0;
+    text-align: right;
+    width: 100%;
+
+    .zoom {
+      font-size: 28px;
+      color: gray;
+      display: inline-block;
+      position: relative;
+    }
+    .mfp-close {
+      display: inline-block;
+      position: relative;
+      width: auto;
+    }
+  }
+}
+
+.mfp-title {
+  color: gray;
+
+  .caption {
+    display: block;
+    float: none;
+    color: white;
+  }
+  .author {
+    color: white;
+  }
+}
+
+/* overlay at start */
+.mfp-fade.mfp-bg {
+  opacity: 0;
+
+  -webkit-transition: all 0.15s ease-out;
+  -moz-transition: all 0.15s ease-out;
+  transition: all 0.15s ease-out;
+}
+/* overlay animate in */
+.mfp-fade.mfp-bg.mfp-ready {
+  opacity: 0.8;
+}
+/* overlay animate out */
+.mfp-fade.mfp-bg.mfp-removing {
+  opacity: 0;
+}
+
+/* content at start */
+.mfp-fade.mfp-wrap .mfp-content {
+  opacity: 0;
+
+  -webkit-transition: all 0.15s ease-out;
+  -moz-transition: all 0.15s ease-out;
+  transition: all 0.15s ease-out;
+}
+/* content animate it */
+.mfp-fade.mfp-wrap.mfp-ready .mfp-content {
+  opacity: 1;
+}
+/* content animate out */
+.mfp-fade.mfp-wrap.mfp-removing .mfp-content {
+  opacity: 0;
+}

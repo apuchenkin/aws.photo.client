@@ -18,7 +18,7 @@ angular.module('aws.photo.client')
       var std = math.std(views);
       var max = math.max(views);
 
-      var s = me.size = 100;
+      var s = me.size = config.gallery_column_width;
       var s2 = (s * 2) + me.gutter;
       var s3 = (s * 3) + (me.gutter * 2);
 

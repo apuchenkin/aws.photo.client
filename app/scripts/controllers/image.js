@@ -31,6 +31,12 @@ angular.module('aws.photo.client')
 
       $.magnificPopup.open({
         type: 'image',
+        // Delay in milliseconds before popup is removed
+        removalDelay: 300,
+
+        // Class that is added to popup wrapper and background
+        // make it unique to apply your CSS animations just to this exact popup
+        mainClass: 'mfp-fade',
         image: {
           markup: $compile('<div class="aws-photo"></div>')($scope),
           verticalFit: true,

@@ -2,5 +2,6 @@
   "language": "en",
   "api_endpoint": "http://localhost:3000",
   "static_endpoint": "http://localhost:3000/",
-  "gutter": 10
+  "gutter": 10,
+  "gallery_column_width": 100
 }
