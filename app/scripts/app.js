@@ -54,7 +54,7 @@ angular
       })
       .state('error.404', {
         url: '/404',
-        templateUrl: '/views/error/404.html'
+        templateUrl: 'views/error/404.html'
       });
 
     //main routes
@@ -130,10 +130,6 @@ angular
     ;
   }])
 
-  .config(['$httpProvider', function ($httpProvider) {
-    $httpProvider.defaults.useXDomain = true;
-  }])
-
   .factory('restmodConfig', ['restmod', 'CONFIG', function (restmod, config) {
 
     return restmod.mixin('DefaultPacker', { // include default packer extension
@@ -169,6 +165,7 @@ angular
     restmodProvider.rebase('restmodConfig');
   }])
 
-  .config(['$locationProvider', function ($locationProvider) {
-    $locationProvider.html5Mode(false);
+  .config(['$locationProvider', '$httpProvider', 'CONFIG', function ($locationProvider, $httpProvider, config) {
+    $httpProvider.defaults.useXDomain = config.useXDomain;
+    $locationProvider.html5Mode(config.html5);
   }]);
