@@ -5,5 +5,8 @@
   "apiEndpoint": "http://localhost:3000",
   "staticEndpoint": "http://localhost:3000/",
   "gutter": 10,
-  "galleryColumnWidth": 100
+  "galleryColumnWidth": 100,
+  "customTemplates": [
+    "chile"
+  ]
 }

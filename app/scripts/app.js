@@ -44,7 +44,7 @@ angular
     $urlRouterProvider.otherwise('/404');
   }])
 
-  .config(['$stateProvider', function ($stateProvider) {
+  .config(['$stateProvider', 'CONFIG', function ($stateProvider, config) {
 
     // Public routes
     $stateProvider
@@ -79,8 +79,7 @@ angular
           }]
         },
         templateUrl: function ($stateParams) {
-          var registered = ['chile'];
-          if (_.indexOf(registered, $stateParams.category) >= 0) {
+          if (_.indexOf(config.customTemplates, $stateParams.category) >= 0) {
             return 'views/gallery/' + $stateParams.category + '.html';
           } else {
             return 'views/gallery/default.html';
