@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('aws.photo.client')
   .directive('awsPhotoTitle', [function () {
 

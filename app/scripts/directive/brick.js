@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('aws.photo.client')
   .directive('awsBrick', ['CONFIG', function (config) {
 
@@ -13,11 +15,11 @@ angular.module('aws.photo.client')
         $scope.style = {
           width: brick.width,
           height: brick.height,
-          "background-image": "url(" + brick.src + ")",
-          "background-position": "center",
-          "background-size": 'cover',
-          "margin-bottom": config.gutter
-        }
+          'background-image': 'url(' + brick.src + ')',
+          'background-position': 'center',
+          'background-size': 'cover',
+          'margin-bottom': config.gutter
+        };
       }]
     };
   }]);

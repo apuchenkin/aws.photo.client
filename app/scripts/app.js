@@ -75,7 +75,7 @@ angular
               $state.go('error.404');
             }
             category.childs = categories.$getChilds(category);
-            return category
+            return category;
           }]
         },
         templateUrl: function ($stateParams) {
@@ -138,7 +138,7 @@ angular
         jsonRoot: '.',
         jsonMeta: 'meta',
         jsonLinks: 'links',
-        urlPrefix: config.api_endpoint
+        urlPrefix: config.apiEndpoint
       },
 
       $extend: {

@@ -14,11 +14,11 @@ angular.module('aws.photo.client')
       me.bricks = [];
       me.gutter = config.gutter;
 
-      var views = _.pluck(photos, "views");
+      var views = _.pluck(photos, 'views');
       var std = math.std(views);
       var max = math.max(views);
 
-      var s = me.size = config.gallery_column_width;
+      var s = me.size = config.galleryColumnWidth;
       var s2 = (s * 2) + me.gutter;
       var s3 = (s * 3) + (me.gutter * 2);
 
@@ -27,10 +27,10 @@ angular.module('aws.photo.client')
         var agg = Math.floor(max / ((photo.views * std) + 1)) + 1;
 
         var probs = _.flatten([
-          _.fill(Array((agg * agg * 8) + (div * div * 1)), 1),
-          _.fill(Array((agg * agg * 4) + (div * div * 2)), 2),
-          _.fill(Array((agg * agg * 2) + (div * div * 3)), 3),
-          _.fill(Array((agg * agg * 1) + (div * div * 4)), 4)
+          _.fill(new Array((agg * agg * 8) + (div * div * 1)), 1),
+          _.fill(new Array((agg * agg * 4) + (div * div * 2)), 2),
+          _.fill(new Array((agg * agg * 2) + (div * div * 3)), 3),
+          _.fill(new Array((agg * agg * 1) + (div * div * 4)), 4)
         ]);
 
         var mode = probs[math.randomInt(0, probs.length + 1)],
@@ -57,14 +57,14 @@ angular.module('aws.photo.client')
           id: photo.id,
           width: dims[0],
           height: dims[1],
-          src: config.static_endpoint + photo.thumb
-        }
+          src: config.staticEndpoint + photo.thumb
+        };
       };
 
       angular.extend(me.bricks, photos.map(getBrick));
 
       $timeout(function () {
-        var masonry = new Masonry(angular.element('#masonry')[0], {
+        new Masonry(angular.element('#masonry')[0], {
           columnWidth: me.size,
           itemSelector: '.masonry-brick',
           gutter: me.gutter

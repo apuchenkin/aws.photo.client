@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('aws.photo.client')
   .directive('awsPhoto', [function () {
 
@@ -16,8 +18,7 @@ angular.module('aws.photo.client')
           '<div class="mfp-title"></div>'+
         '<div class="mfp-counter"></div>'+
         '</div>'+
-      '</figure>'
-      , // Popup HTML markup. `.mfp-img` div will be replaced with img tag, `.mfp-close` by close button
+      '</figure>', // Popup HTML markup. `.mfp-img` div will be replaced with img tag, `.mfp-close` by close button
       restrict: 'C',
       controllerAs: 'me',
       controller: ['$scope', function($scope) {
@@ -30,7 +31,7 @@ angular.module('aws.photo.client')
 
         me.move = function (e) {
             angular.extend(me.style, {
-              "background-position": e.clientX / e.screenX * 100 + '% ' + e.clientY / e.screenY * 100 + '%'
+              'background-position': e.clientX / e.screenX * 100 + '% ' + e.clientY / e.screenY * 100 + '%'
             });
         };
 
@@ -38,9 +39,9 @@ angular.module('aws.photo.client')
           var m = $scope.magnific;
 
           me.style = {
-            "background-image": 'url("' + m.items[m.index].src + '")',
-            "background-position": 'center center',
-            "background-repeat": "no-repeat"
+            'background-image': 'url("' + m.items[m.index].src + '")',
+            'background-position': 'center center',
+            'background-repeat': 'no-repeat'
           };
 
           me.visible = !me.visible;
@@ -52,7 +53,7 @@ angular.module('aws.photo.client')
             m.arrowLeft.show();
             m.arrowRight.show();
           }
-        }
+        };
       }]
     };
   }]);

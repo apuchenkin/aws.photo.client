@@ -19,16 +19,6 @@ angular.module('aws.photo.client')
 
       photos = _.union(_.slice(photos, index), _.take(photos, index));
 
-      $.magnificPopup.instance.next = function() {
-        $.magnificPopup.proto.next.call(this);
-        updatePage(this);
-      };
-
-      $.magnificPopup.instance.prev = function() {
-        $.magnificPopup.proto.prev.call(this);
-        updatePage(this);
-      };
-
       $.magnificPopup.open({
         type: 'image',
         // Delay in milliseconds before popup is removed
@@ -59,16 +49,26 @@ angular.module('aws.photo.client')
 
         items: photos.map(function (item) {
           var scope = $scope.$new();
-
           scope.data = item;
+
           return {
-            src: config.static_endpoint + item.src,
+            src: config.staticEndpoint + item.src,
             title: $compile('<div class="aws-photo-title"></div>')(scope),
             id: item.id
-          }
+          };
         })
       });
 
       $scope.magnific = $.magnificPopup.instance;
+
+      $scope.magnific.next = function() {
+        $.magnificPopup.proto.next.call(this);
+        updatePage(this);
+      };
+
+      $scope.magnific.prev = function() {
+        $.magnificPopup.proto.prev.call(this);
+        updatePage(this);
+      };
     }
   ]);
