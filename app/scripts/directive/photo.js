@@ -30,9 +30,10 @@ angular.module('aws.photo.client')
         };
 
         me.move = function (e) {
-            angular.extend(me.style, {
-              'background-position': e.clientX / e.screenX * 100 + '% ' + e.clientY / e.screenY * 100 + '%'
-            });
+          console.log(e);
+          angular.extend(me.style, {
+            'background-position': e.clientX / e.target.clientWidth * 100 + '% ' + e.clientY / e.target.clientHeight * 100 + '%'
+          });
         };
 
         me.toggleZoom = function () {
