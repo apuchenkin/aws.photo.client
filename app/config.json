@@ -2,8 +2,9 @@
   "useXDomain": true,
   "html5": false,
   "language": "en",
+  "test": true,
   "apiEndpoint": "http://localhost:3000",
-  "staticEndpoint": "http://localhost:3000/",
+  "staticEndpoint": "",
   "gutter": 10,
   "galleryColumnWidth": 100,
   "customTemplates": [

@@ -8,7 +8,12 @@
       function (response) {
         angular.module('aws.config', []).constant('CONFIG', response.data);
         angular.element(document).ready(function() {
-          angular.bootstrap(document, ['aws.photo.client']);
+          var modules =  ['aws.photo.client'];
+          if (response.data.test) {
+            modules.push('aws.photo.mock');
+          }
+
+          angular.bootstrap(document, modules);
         });
       }
     );
