@@ -167,4 +167,15 @@ angular
   .config(['$locationProvider', '$httpProvider', 'CONFIG', function ($locationProvider, $httpProvider, config) {
     $httpProvider.defaults.useXDomain = config.useXDomain;
     $locationProvider.html5Mode(config.html5);
+  }])
+
+  .run(['$rootScope', function($rootScope) {
+    $rootScope.$on('$stateChangeStart',
+      function(){
+        $rootScope.loading = true;
+      });
+    $rootScope.$on('$stateChangeSuccess',
+      function(){
+        $rootScope.loading = false;
+      });
   }]);

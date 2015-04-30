@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$/.gitignore" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Gruntfile.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/config.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/app.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/bootstrap.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/controllers/gallery.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/controllers/image.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/controllers/main.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/directive/brick.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/directive/photo.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/directive/photoTitle.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/model/category.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/model/translation.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/styles/app.less" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/styles/photo.less" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/views/error/404.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/views/gallery.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bower.json" charset="UTF-8" />
+  </component>
+</project>

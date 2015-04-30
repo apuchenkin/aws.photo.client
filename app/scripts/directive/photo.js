@@ -4,24 +4,23 @@ angular.module('aws.photo.client')
   .directive('awsPhoto', [function () {
 
     return {
-      template:
-      '<figure>'+
-        '<div class="mfp-zoom" ng-click="me.toggleZoom()" ng-mousemove="me.move($event)" ng-style="me.style" ng-show="me.visible"></div>'+
-        '<div class="mfp-figure" ng-show="!me.visible">'+
-          '<div class="mfp-img"></div>'+
-        '</div>'+
-        '<div class="mfp-tools">' +
-          '<button title="Zoom" class="mfp-btn" ng-click="me.toggleZoom();"><i class="fa fa-arrows-alt"></i></button>' +
-          '<button title="Close (Esc)" class="mfp-btn" ng-click="me.close();"><i class="mfp-close-icn fa fa-times"></i></button>' +
-        '</div>'+
-        '<div class="mfp-bottom-bar">'+
-          '<div class="mfp-title"></div>'+
-        '<div class="mfp-counter"></div>'+
-        '</div>'+
+      template: '<figure>' +
+      '<div class="mfp-zoom" ng-click="me.toggleZoom()" ng-mousemove="me.move($event)" ng-style="me.style" ng-show="me.visible"></div>' +
+      '<div class="mfp-figure" ng-show="!me.visible">' +
+      '<div class="mfp-img"></div>' +
+      '</div>' +
+      '<div class="mfp-tools">' +
+      '<button title="Zoom" class="mfp-btn" ng-click="me.toggleZoom();"><i class="fa fa-arrows-alt"></i></button>' +
+      '<button title="Close (Esc)" class="mfp-btn" ng-click="me.close();"><i class="mfp-close-icn fa fa-times"></i></button>' +
+      '</div>' +
+      '<div class="mfp-bottom-bar">' +
+      '<div class="mfp-title"></div>' +
+      '<div class="mfp-counter"></div>' +
+      '</div>' +
       '</figure>', // Popup HTML markup. `.mfp-img` div will be replaced with img tag, `.mfp-close` by close button
       restrict: 'C',
       controllerAs: 'me',
-      controller: ['$scope', function($scope) {
+      controller: ['$scope', '$rootScope', function ($scope, $rootScope) {
         var me = this;
         me.visible = false;
 
@@ -36,14 +35,23 @@ angular.module('aws.photo.client')
         };
 
         me.toggleZoom = function () {
+          me.style = {};
           var m = $scope.magnific;
+          m.updateStatus('loading');
+          $rootScope.loading = true;
 
-          me.style = {
-            'background-image': 'url("' + m.items[m.index].src + '")',
-            'background-position': 'center center',
-            'background-repeat': 'no-repeat'
+          var img = new Image();
+          img.onload = function () {
+            $rootScope.loading = false;
+            m.updateStatus('ready');
+            me.style = {
+              'background-image': 'url("' + img.src + '")',
+              'background-position': 'center center',
+              'background-repeat': 'no-repeat'
+            };
           };
 
+          img.src = m.items[m.index].src.replace('gallery', 'src');
           me.visible = !me.visible;
 
           if (me.visible) {
