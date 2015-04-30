@@ -4,7 +4,7 @@ angular.module('aws.photo.client')
   .directive('awsBrick', ['CONFIG', function (config) {
 
     return {
-      template: '<div class="masonry-brick photo-{{ngModel.id}}" ng-style="{{style}}"></div>',
+      template: '<div ng-cloak class="masonry-brick photo-{{ngModel.id}}" ng-style="{{style}}"></div>',
       restrict: 'E',
       scope: {
         ngModel: '='
