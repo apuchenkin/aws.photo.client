@@ -74,6 +74,9 @@ angular
             if (!category) {
               $state.go('error.404');
             }
+            if (category.parent) {
+              $state.go('home.gallery', {category: categories.$findById(category.parent).name, subcategory: category.name});
+            }
             category.childs = categories.$getChilds(category);
             return category;
           }]
