@@ -21,6 +21,7 @@ angular.module('aws.photo.client')
       var s = me.size = config.galleryColumnWidth;
       var s2 = (s * 2) + me.gutter;
       var s3 = (s * 3) + (me.gutter * 2);
+      var s4 = (s * 4) + (me.gutter * 3);
 
       var getBrick = function (photo) {
         var div = Math.floor(photo.views / (std + 1)) + 1;
@@ -33,25 +34,19 @@ angular.module('aws.photo.client')
           _.fill(new Array((agg * agg * 1) + (div * div * 4)), 4)
         ]);
 
-        var mode = probs[math.randomInt(0, probs.length + 1)],
+        var mode = probs[math.randomInt(0, probs.length)],
           isHorisontal = (photo.width > photo.height),
-          dims
-          ;
+          pk = Math.floor(photo.width / photo.height),
+          dims, dsmap;
 
-        switch (mode) {
-          case 4:
-            dims = isHorisontal ? [s3, s2] : [s2, s3];
-            break;
-          case 3:
-            dims = [s2, s2];
-            break;
-          case 2:
-            dims = isHorisontal ? [s2, s] : [s, s2];
-            break;
-          default:
-            dims = [s, s];
-            break;
-        }
+        dsmap = {
+          1: [pk >= 2 ? s2 : s, s],
+          2: isHorisontal ? [pk >= 3 ? s3 : s2, s] : [s, s2],
+          3: pk >= 4 ? [s4, s] : [pk >= 2 ? s3 : s2, s2],
+          4: isHorisontal ? [pk >= 2 ? s4 : s3, s2] : [s2, s3]
+        };
+
+        dims = dsmap[mode];
 
         return {
           id: photo.id,
