@@ -22,6 +22,7 @@ angular.module('aws.photo.client')
       controllerAs: 'me',
       controller: ['$scope', '$rootScope', function ($scope, $rootScope) {
         var me = this;
+        me.style = {};
         me.visible = false;
 
         me.close = function () {
@@ -51,7 +52,7 @@ angular.module('aws.photo.client')
             };
           };
 
-          img.src = m.items[m.index].src.replace('gallery', 'src');
+          img.src = m.items[m.index].data.dataSrc;
           me.visible = !me.visible;
 
           if (me.visible) {

@@ -7,6 +7,9 @@
   "staticEndpoint": "http://localhost:3000/",
   "gutter": 10,
   "galleryColumnWidth": 100,
+  "secret": "secret",
+  "hstep": 100,
+  "wstep": 100,
   "customTemplates": [
     "chile"
   ]

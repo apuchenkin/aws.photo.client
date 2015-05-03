@@ -10,7 +10,8 @@
 angular.module('aws.photo.client')
   .controller('aws.controller.image', ['$state', '$compile', '$scope', 'photos', 'photo', 'CONFIG', '$timeout',
     function ($state, $compile, $scope, photos, photo, config, $timeout) {
-      var index = _.findIndex(photos, {id: photo.$pk});
+      var index = _.findIndex(photos, {id: photo.$pk}),
+          sha = new Hashes.SHA1();
 
       var updatePage = function(magnific) {
         var current = magnific.items[magnific.index];
@@ -23,7 +24,7 @@ angular.module('aws.photo.client')
         type: 'image',
         // Delay in milliseconds before popup is removed
         removalDelay: 300,
-
+        preload: [0, 1],
         mainClass: 'mfp-zoom-in',
         image: {
           markup: $compile('<div class="aws-photo"></div>')($scope),
@@ -43,6 +44,18 @@ angular.module('aws.photo.client')
         //},
 
         callbacks: {
+          resize: function() {
+            this.items.map(function (item) {
+              var
+                id = item.data ? item.data.id : item.id,
+                w = (Math.floor (window.innerWidth / config.wstep)) * config.wstep,
+                h = (Math.floor (window.innerHeight / config.hstep)) * config.hstep,
+                sign = sha.hex_hmac(config.secret, id + "-" + w + 'x' + h);
+
+              item.src = [config.apiEndpoint, 'hs/photo', id, w, h, sign].join('/');
+             });
+            this.updateItemHTML();
+          },
           imageLoadComplete: function() {
             var self = this;
             $timeout(function() {
@@ -56,11 +69,15 @@ angular.module('aws.photo.client')
         },
 
         items: photos.map(function (item) {
-          var scope = $scope.$new();
-          scope.data = item;
+          var scope = $scope.$new(),
+              w = (Math.floor (window.innerWidth / config.wstep)) * config.wstep,
+              h = (Math.floor (window.innerHeight / config.hstep)) * config.hstep,
+              sign = sha.hex_hmac(config.secret, item.id + "-" + w + 'x' + h);
 
+          scope.data = item;
           return {
-            src: config.staticEndpoint + item.src,
+            src: [config.apiEndpoint, 'hs/photo', item.id, w, h, sign].join('/'),
+            dataSrc: config.staticEndpoint + item.src,
             title: $compile('<div class="aws-photo-title"></div>')(scope),
             id: item.id
           };
