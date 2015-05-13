@@ -41,7 +41,7 @@ angular
 
   .config(['$urlRouterProvider', function ($urlRouterProvider) {
     $urlRouterProvider.when('', '/');
-    $urlRouterProvider.otherwise('/404');
+    //$urlRouterProvider.otherwise('/404');
   }])
 
   .config(['$stateProvider', 'CONFIG', function ($stateProvider, config) {
@@ -57,52 +57,84 @@ angular
         templateUrl: 'views/error/404.html'
       });
 
+    // Public routes
+    $stateProvider
+      .state('static', {
+        abstract: true,
+        template: '<div class="static"><ui-view></ui-view></div>'
+      });
+
+    _.each(config.static, function(url, key) {
+      $stateProvider.state(key, {
+        url: url,
+        templateUrl: 'views/static' + url + '.html'
+      });
+    });
+
     //main routes
     $stateProvider
       .state('home', {
         abstract: true,
-        url: '/:category',
+        url: '',
         controller: 'aws.controller.main',
         controllerAs: 'main',
+        templateUrl: 'views/main.html',
         resolve: {
           categories: ['aws.model.category', function(Category) {
             var categories =  Category.$collection();
             return categories.$refresh().$asPromise();
-          }],
-          category: ['$stateParams', '$state', 'categories', function ($stateParams, $state, categories) {
-            var category = categories.$findByName($stateParams.category);
+          }]
+        }
+      })
+
+      .state('home.category', {
+        abstract: true,
+        url: '/:category',
+        resolve: {
+          category: ['$rootScope', '$stateParams', '$state', 'categories', function ($rootScope, $stateParams, $state, categories) {
+            var category = $rootScope.category = categories.$findByName($stateParams.category);
             if (!category) {
               $state.go('error.404');
             }
             if (category.parent) {
-              $state.go('home.gallery', {category: categories.$findById(category.parent).name, subcategory: category.name});
+              $state.go('home.category.gallery', {category: categories.$findById(category.parent).name, subcategory: category.name});
             }
             category.childs = categories.$getChilds(category);
             return category;
           }]
         },
-        templateUrl: function ($stateParams) {
-          if (_.indexOf(config.customTemplates, $stateParams.category) >= 0) {
-            return 'views/gallery/' + $stateParams.category + '.html';
-          } else {
-            return 'views/gallery/default.html';
+        views: {
+          title: {
+            templateUrl: 'views/title.html'
+          },
+          navigation: {
+            templateUrl: 'views/navigation.html',
+            controller: 'aws.controller.navigation',
+            controllerAs: 'navigation'
+          },
+          content: { }
+        }
+      })
+
+      .state('home.category.about', {
+        url: '/about',
+        views: {
+          'content@home': {
+            templateUrl: 'views/about.html',
+            controller: 'aws.controller.about',
+            controllerAs: 'about'
           }
         }
       })
 
-      .state('home.gallery', {
+      .state('home.category.gallery', {
         url: '/:subcategory',
         params: {
           subcategory: {value: null, squash: true}
         },
         title: 'Home',
         views: {
-          navigation: {
-            templateUrl: 'views/navigation.html',
-            controller: 'aws.controller.navigation',
-            controllerAs: 'navigation'
-          },
-          gallery: {
+          'content@home': {
             templateUrl: 'views/gallery.html',
             controller: 'aws.controller.gallery',
             controllerAs: 'gallery'
@@ -119,7 +151,7 @@ angular
         }
       })
 
-      .state('home.gallery.image', {
+      .state('home.category.gallery.image', {
         url: '/photo/{id:int}',
         controller: 'aws.controller.image',
         controllerAs: 'imageCtrl',

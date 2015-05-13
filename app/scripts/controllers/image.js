@@ -15,7 +15,7 @@ angular.module('aws.photo.client')
 
       var updatePage = function(magnific) {
         var current = magnific.items[magnific.index];
-        $state.go('home.gallery.image', {id: current.data.id}, {notify: false}).then(magnific.updateItemHTML);
+        $state.go('home.category.gallery.image', {id: current.data.id}, {notify: false}).then(magnific.updateItemHTML);
       };
 
       photos = _.union(_.slice(photos, index), _.take(photos, index));
@@ -64,7 +64,7 @@ angular.module('aws.photo.client')
           },
           close: function () {
             this.wrap.removeClass('mfp-image-loaded');
-            $state.go('home.gallery');
+            $state.go('home.category.gallery');
           }
         },
 

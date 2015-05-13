@@ -11,6 +11,7 @@ angular
       {
         id: 1,
         name: 'test',
+        hasAbout: true,
         parent: null
       },
       {
@@ -71,6 +72,14 @@ angular
         refId: 3,
         field: 'title',
         value: 'This category might exists'
+      },
+      {
+        id: 4,
+        type: 'category',
+        language: 'en',
+        refId: 1,
+        field: 'about',
+        value: '<h1>Hola</h1><p>This is page about category "test"</p><h2>Sup</h2><p>Another paragraph of text</p>'
       },
 
       // photo
