@@ -10,20 +10,20 @@ angular.module('aws.photo.client')
        */
       var user = null;
 
-      $rootScope.$on('event:auth-loginRequired', function () {
-          $cookieStore.remove('access_token');
-          $state.go('admin');
-      });
+      loginFailed = function () {
+        $rootScope.isAdmin = false;
+        $cookieStore.remove('access_token');
+        $state.go('admin');
+      };
 
       $rootScope.$on('event:auth-loginConfirmed', function (scope, data) {
+        $rootScope.isAdmin = true;
         $cookieStore.put('access_token', data.token);
         $state.go('home');
       });
 
-      $rootScope.$on('event:auth-loginCancelled', function () {
-        $cookieStore.remove('access_token');
-        $state.go('admin');
-      });
+      $rootScope.$on('event:auth-loginCancelled', loginFailed);
+      $rootScope.$on('event:auth-loginRequired', loginFailed);
 
       // public API exposed here
       return {
@@ -41,11 +41,23 @@ angular.module('aws.photo.client')
          * @param credentials Object {email: [string], password: [string]}
          */
         login: function (credentials) {
-           return $http.post(config.apiEndpoint + '/authenticate', credentials, {ignoreAuthModule: true})
-            .success(function(response) {
-               //credentials
-               authService.loginConfirmed({token: 'sup'});
-             });
+          var b64 = new Hashes.Base64(),
+            token = 'Basic ' + b64.encode([credentials.email, credentials.password].join(':'));
+
+          return $http({
+            method: 'GET',
+            url: config.apiEndpoint + '/auth/check',
+            headers: {
+              'Authorization': token,
+              'Content-Type': 'application/json; charset=utf-8'
+            },
+            ignoreAuthModule: true
+          })
+            .success(function (response) {
+              response.logged_in
+                ? authService.loginConfirmed({token: token})
+                : authService.loginCancelled();
+            });
         },
 
         /**
@@ -56,4 +68,4 @@ angular.module('aws.photo.client')
         }
       };
     }]
-);
+  );

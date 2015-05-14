@@ -16,9 +16,6 @@ angular.module('aws.photo.client')
       me.login = function () {
         authService
           .login(me.credentials)
-          .error(function () {
-              debugger;
-          });
       };
     }
   ]);

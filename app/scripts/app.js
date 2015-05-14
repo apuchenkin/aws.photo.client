@@ -43,7 +43,7 @@ angular
 
   .config(['$urlRouterProvider', function ($urlRouterProvider) {
     $urlRouterProvider.when('', '/');
-    //$urlRouterProvider.otherwise('/404');
+    $urlRouterProvider.otherwise('/404');
   }])
 
   .config(['$stateProvider', 'CONFIG', function ($stateProvider, config) {
@@ -213,8 +213,23 @@ angular
     restmodProvider.rebase('restmodConfig');
   }])
 
+  .factory('requestInterceptor', ['$q', '$cookieStore', function ($q, $cookieStore) {
+    return {
+      // setup authorisation header pre-request
+      'request': function (config) {
+        config.headers = config.headers || {};
+        if ($cookieStore.get('access_token')) {
+          config.headers.Authorization = $cookieStore.get('access_token');
+        }
+
+        return config;
+      }
+    };
+  }])
+
   .config(['$locationProvider', '$httpProvider', 'CONFIG', function ($locationProvider, $httpProvider, config) {
     $httpProvider.defaults.useXDomain = config.useXDomain;
+    $httpProvider.interceptors.push('requestInterceptor');
     $locationProvider.html5Mode(config.html5);
   }])
 
