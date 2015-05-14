@@ -8,12 +8,8 @@
  * Controller of the photoawesomestuffinApp
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.about', ['$scope', 'category', '$translate',
-    function ($scope, category, $translate) {
+  .controller('aws.controller.about', ['$scope', 'category',
+    function ($scope, category) {
       $scope.category = category;
-      //$translate(['category', category.$pk, 'about'].join('.')).then(function (translation) {
-      //  debugger;
-      //  $scope.html = translation;
-      //});
     }
   ]);

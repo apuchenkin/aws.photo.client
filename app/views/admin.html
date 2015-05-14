@@ -1,0 +1,30 @@
+<div class="admin">
+  <form role="form" name="loginForm" novalidate ng-submit="admin.login()">
+    <div class="form-group">
+      <input
+        type="email"
+        class="form-control"
+        name="email"
+        placeholder="Email Address"
+        required
+        ng-model="admin.credentials.username">
+    </div>
+
+    <div class="form-group">
+      <input
+        type="password"
+        class="form-control"
+        name="password"
+        placeholder="Password"
+        required
+        ng-model="admin.credentials.password">
+    </div>
+
+    <div class="form-group top-margin-10">
+      <button type="submit" class="btn btn-primary btn-block"
+              value="Login" title="Login" ng-disabled="!loginForm.$valid">
+        <span>LOG IN</span>
+      </button>
+    </div>
+  </form>
+</div>

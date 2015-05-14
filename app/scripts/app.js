@@ -12,9 +12,11 @@ angular
   .module('aws.photo.client', [
     'aws.config',
     'ngAnimate',
+    'ngCookies',
     'ui.router',
     'pascalprecht.translate',
-    'restmod'
+    'restmod',
+    'http-auth-interceptor'
   ])
 
   .factory('customLoader', ['aws.model.translation', '$q', function (Translation, $q) {
@@ -70,6 +72,15 @@ angular
         templateUrl: 'views/static' + url + '.html'
       });
     });
+
+    //main routes
+    $stateProvider
+      .state('admin', {
+        url: '/admin',
+        controller: 'aws.controller.admin',
+        controllerAs: 'admin',
+        templateUrl: 'views/admin.html'
+      });
 
     //main routes
     $stateProvider

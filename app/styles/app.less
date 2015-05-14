@@ -66,6 +66,36 @@ footer {
   color: @light-grey;
 }
 
+.admin {
+  width: 400px;
+  height: auto;
+  margin: 20% auto;
+  position: relative;
+  background: @grey-light;
+  padding: @divisor;
+  overflow: hidden;
+
+  form {
+    box-sizing: content-box;
+    width: 100%;
+    overflow: hidden;
+
+    input, button {
+      box-sizing: content-box;
+      padding: 4px;
+      margin-bottom: @divisor / 2;
+    }
+
+    input {
+      width: 100%;
+
+      &.ng-invalid {
+        border: 1px solid red;
+      }
+    }
+  }
+}
+
 @import "error";
 @import "navigation";
 @import "responsive";
