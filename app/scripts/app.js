@@ -112,7 +112,10 @@ angular
             controller: 'aws.controller.navigation',
             controllerAs: 'navigation'
           },
-          content: { }
+          content: { },
+          footer: {
+            templateUrl: 'views/footer.html'
+          }
         }
       })
 
