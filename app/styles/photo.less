@@ -37,20 +37,22 @@
     text-align: right;
     width: 100%;
 
-    i.fa {
-      font-size: 18px;
-      color: @light-grey;
-      position: relative;
-      width: auto;
-      &:hover {
-        color: @white;
-      }
-      &.fa-times {
-        font-size: 21px;
-      }
-    }
+    //i.fa {
+    //  font-size: 18px;
+    //  color: @light-grey;
+    //  position: relative;
+    //  width: auto;
+    //  &:hover {
+    //    color: @white;
+    //  }
+    //  &.fa-times {
+    //    font-size: 21px;
+    //  }
+    //}
 
     button.mfp-btn {
+      color: @light-grey;
+      font-size: 14px;
       display: inline-block;
       position: relative;
       width: auto;
@@ -66,6 +68,15 @@
       z-index: 1046;
       box-shadow: none;
       margin-left: @divisor / 2;
+
+      i {
+        padding: 2px;
+        margin-left: @divisor / 4;
+      }
+
+      &:hover {
+        color: @white;
+      }
     }
   }
 }

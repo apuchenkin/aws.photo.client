@@ -14,8 +14,8 @@
     "masonry": "*",
     "magnific-popup": "~1.0.0",
     "mathjs": "~1.5.1",
-    "fontawesome": "~4.3.0",
-    "jshashes": "~1.0.5"
+    "jshashes": "~1.0.5",
+    "icomoon": "~0.0.3"
   },
   "devDependencies": {
     "less": "~2.5.0",

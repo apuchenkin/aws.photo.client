@@ -36,17 +36,447 @@ angular
       parentId: null,
       author: 'LKjgsdg Kjhsdg',
       views: 0
-    }, {
-      id: 2,
-      width: 1365,
-      height: 2048,
-      src: '/static/gallery/DSCF2152.jpg',
-      thumb: '/static/thumb/DSCF2152.jpg',
-      name: 'test',
-      parentId: null,
-      author: 'Lskdgh Vfkjsdhg',
-      views: 0
-    }];
+    },
+      {
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },
+      {
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },
+      {
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },
+      {
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },
+      {
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },
+      {
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },
+      {
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },
+      {
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      }, {
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },{
+        id: 2,
+        width: 1365,
+        height: 2048,
+        src: '/static/gallery/DSCF2152.jpg',
+        thumb: '/static/thumb/DSCF2152.jpg',
+        name: 'test',
+        parentId: null,
+        author: 'Lskdgh Vfkjsdhg',
+        views: 0
+      },
+
+    ];
 
     var translation = [
       {

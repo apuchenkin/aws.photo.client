@@ -10,8 +10,8 @@ angular.module('aws.photo.client')
       '<div class="mfp-img"></div>' +
       '</div>' +
       '<div class="mfp-tools">' +
-      '<button title="Zoom" class="mfp-btn" ng-click="me.toggleZoom();"><i class="fa fa-arrows-alt"></i></button>' +
-      '<button title="Close (Esc)" class="mfp-btn" ng-click="me.close();"><i class="mfp-close-icn fa fa-times"></i></button>' +
+      '<button title="Zoom" class="mfp-btn" ng-click="me.toggleZoom();">Full screen<i class="icon-expand"></i></button>' +
+      '<button title="Close (Esc)" class="mfp-btn" ng-click="me.close();">Close<i class="mfp-close-icn icon-close"></i></button>' +
       '</div>' +
       '<div class="mfp-bottom-bar">' +
       '<div class="mfp-title"></div>' +

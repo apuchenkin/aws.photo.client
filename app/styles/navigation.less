@@ -1,27 +1,31 @@
 nav.top {
   color: @light-grey;
-  padding: @divisor/2 @divisor;
-}
+  padding: @divisor / 4 @divisor;
+  .gradient();
 
-nav.top ul{
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+  ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
 
-nav.top ul li{
-  margin: 0;
-  margin-right: @divisor;
-  display: inline-block;
-  cursor: pointer;
-}
+    li{
+      margin: 0;
+      margin-right: @divisor / 4;
+      display: inline-block;
+      cursor: pointer;
+      padding: @divisor / 2 @divisor;
+      transition: all 0.2s ease-out;
+      background: @grey;
+      .box-shadow(0, 0, 4px, 0.5);
 
-nav.top ul li{
-  transition: color 0.2s ease-out;
-  &:hover{
-    color: @accent;
-  }
-  &.active{
-    color: @white;
+      &:hover{
+        color: @accent;
+        background-color: @grey-light;
+      }
+      &.active{
+        color: @white;
+        background-color: @grey-light;
+      }
+    }
   }
 }

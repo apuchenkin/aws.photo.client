@@ -44,18 +44,18 @@ angular.module('aws.photo.client')
         //},
 
         callbacks: {
-          resize: function() {
-            this.items.map(function (item) {
-              var
-                id = item.data ? item.data.id : item.id,
-                w = (Math.floor (window.innerWidth / config.wstep)) * config.wstep,
-                h = (Math.floor (window.innerHeight / config.hstep)) * config.hstep,
-                sign = sha.hex_hmac(config.secret, id + "-" + w + 'x' + h);
-
-              item.src = [config.apiEndpoint, 'hs/photo', id, w, h, sign].join('/');
-             });
-            this.updateItemHTML();
-          },
+          //resize: function() {
+          //  this.items.map(function (item) {
+          //    var
+          //      id = item.data ? item.data.id : item.id,
+          //      w = (Math.floor (window.innerWidth / config.wstep)) * config.wstep,
+          //      h = (Math.floor (window.innerHeight / config.hstep)) * config.hstep,
+          //      sign = sha.hex_hmac(config.secret, id + "-" + w + 'x' + h);
+          //
+          //    item.src = [config.apiEndpoint, 'hs/photo', id, w, h, sign].join('/');
+          //   });
+          //  this.updateItemHTML();
+          //},
           imageLoadComplete: function() {
             var self = this;
             $timeout(function() {
@@ -76,7 +76,8 @@ angular.module('aws.photo.client')
 
           scope.data = item;
           return {
-            src: [config.apiEndpoint, 'hs/photo', item.id, w, h, sign].join('/'),
+            //src: [config.apiEndpoint, 'hs/photo', item.id, w, h, sign].join('/'),
+            src: config.staticEndpoint + item.src,
             dataSrc: config.staticEndpoint + item.src,
             title: $compile('<div class="aws-photo-title"></div>')(scope),
             id: item.id

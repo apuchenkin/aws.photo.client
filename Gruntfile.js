@@ -325,10 +325,10 @@ module.exports = function (grunt) {
           dest: '<%= yeoman.dist %>/images',
           src: ['generated/*']
         }, {
-          //for font-awesome
+          //for icomoon
           expand: true,
           dot: true,
-          cwd: 'bower_components/fontawesome',
+          cwd: 'bower_components/icomoon/dist',
           src: ['fonts/*.*'],
           dest: '<%= yeoman.dist %>'
         }]
