@@ -2,12 +2,16 @@
   "useXDomain": true,
   "html5": false,
   "language": "en",
-  "test": false,
+  "test": true,
   "apiEndpoint": "http://localhost:3000",
-  "staticEndpoint": "http://localhost:3000/",
+  "staticEndpoint": "",
   "gutter": 10,
   "galleryColumnWidth": 100,
   "secret": "secret",
   "hstep": 100,
-  "wstep": 100
+  "wstep": 100,
+  "static": {
+    "home.static.about": "about",
+    "home.static.contacts": "contact"
+  }
 }

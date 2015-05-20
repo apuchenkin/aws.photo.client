@@ -61,9 +61,24 @@ img, figure {
   margin: 0;
 }
 
+.static {
+  color: @grey-light;
+}
+
 footer {
   text-align: center;
   color: @light-grey;
+
+  a {
+    color: @white;
+    &:visited {
+      color: @white;
+    }
+
+    &:hover {
+      color: @accent;
+    }
+  }
 }
 
 .admin {

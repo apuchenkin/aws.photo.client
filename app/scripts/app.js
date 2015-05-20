@@ -61,15 +61,27 @@ angular
 
     // Public routes
     $stateProvider
-      .state('static', {
+      .state('home.static', {
         abstract: true,
-        template: '<div class="static"><ui-view></ui-view></div>'
+        views: {
+          title: {
+            template: '<h1 class="title"><a>About</a></h1>'
+          },
+          content: { },
+          footer: {
+            templateUrl: 'views/footer.html'
+          }
+        }
       });
 
     _.each(config.static, function(url, key) {
       $stateProvider.state(key, {
         url: url,
-        templateUrl: 'views/static' + url + '.html'
+        views: {
+          'content@home': {
+            templateUrl: 'views/static/' + url + '.html'
+          }
+        }
       });
     });
 
@@ -86,7 +98,7 @@ angular
     $stateProvider
       .state('home', {
         abstract: true,
-        url: '',
+        url: '/',
         controller: 'aws.controller.main',
         controllerAs: 'main',
         templateUrl: 'views/main.html',
@@ -100,7 +112,7 @@ angular
 
       .state('home.category', {
         abstract: true,
-        url: '/:category',
+        url: ':category',
         resolve: {
           category: ['$rootScope', '$stateParams', '$state', 'categories', function ($rootScope, $stateParams, $state, categories) {
             var category = $rootScope.category = categories.$findByName($stateParams.category);
