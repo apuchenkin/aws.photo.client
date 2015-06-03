@@ -87,11 +87,25 @@ angular
 
     //main routes
     $stateProvider
+      .state('login', {
+        url: '/login',
+        controller: 'aws.controller.login',
+        controllerAs: 'login',
+        templateUrl: 'views/login.html'
+      })
+      .state('logout', {
+        url: '/logout',
+        controller: ['aws.service.auth', function(auth) {
+          auth.logout();
+        }]
+      });
+
+    $stateProvider
       .state('admin', {
         url: '/admin',
-        controller: 'aws.controller.admin',
+        controller: 'aws.controller.admin.gallery',
         controllerAs: 'admin',
-        templateUrl: 'views/admin.html'
+        templateUrl: 'views/admin/gallery.html'
       });
 
     //main routes
@@ -161,9 +175,9 @@ angular
         title: 'Home',
         views: {
           'content@home': {
-            templateUrl: 'views/gallery.html',
-            controller: 'aws.controller.gallery',
-            controllerAs: 'gallery'
+              templateUrl: 'views/gallery.html',
+              controller: 'aws.controller.gallery',
+              controllerAs: 'gallery'
           }
         },
         resolve: {
@@ -245,7 +259,11 @@ angular
     $locationProvider.html5Mode(config.html5);
   }])
 
-  .run(['$rootScope', function($rootScope) {
+  .run(['$rootScope', '$cookieStore', 'aws.service.auth', function($rootScope, $cookieStore, auth) {
+    if ($cookieStore.get('access_token')) {
+      auth.checkCredentials($cookieStore.get('access_token'));
+    }
+
     $rootScope.$on('$stateChangeStart',
       function(){
         $rootScope.loading = true;

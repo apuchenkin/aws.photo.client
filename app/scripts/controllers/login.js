@@ -8,14 +8,14 @@
  * Controller of the photoawesomestuffinApp
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.admin', ['$scope', 'aws.service.auth',
+  .controller('aws.controller.login', ['$scope', 'aws.service.auth',
     function ($scope, authService) {
       var me = this;
       me.credentials = {};
 
       me.login = function () {
         authService
-          .login(me.credentials)
+          .login(me.credentials);
       };
     }
   ]);

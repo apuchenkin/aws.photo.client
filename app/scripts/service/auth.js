@@ -4,22 +4,17 @@ angular.module('aws.photo.client')
   .service('aws.service.auth',
   ['$rootScope', '$http', '$cookieStore', '$state', 'CONFIG', 'authService',
     function ($rootScope, $http, $cookieStore, $state, config, authService) {
-      /**
-       * @private
-       * @type {*}
-       */
-      var user = null;
 
-      loginFailed = function () {
+      var loginFailed = function () {
         $rootScope.isAdmin = false;
         $cookieStore.remove('access_token');
-        $state.go('admin');
+        $state.go('login');
       };
 
       $rootScope.$on('event:auth-loginConfirmed', function (scope, data) {
         $rootScope.isAdmin = true;
         $cookieStore.put('access_token', data.token);
-        $state.go('home');
+        $state.go('admin');
       });
 
       $rootScope.$on('event:auth-loginCancelled', loginFailed);
@@ -27,13 +22,24 @@ angular.module('aws.photo.client')
 
       // public API exposed here
       return {
-
-        /**
-         * Returns current user details
-         * @returns {*}
-         */
-        getUser: function () {
-          return user ? user : initUser();
+        checkCredentials: function(token) {
+          $http({
+            method: 'GET',
+            url: config.apiEndpoint + '/auth/check',
+            headers: {
+              'Authorization': token,
+              'Content-Type': 'application/json; charset=utf-8'
+            },
+            ignoreAuthModule: true
+          })
+          .success(function (response) {
+            response.logged_in
+              ? authService.loginConfirmed({token: token})
+              : authService.loginCancelled();
+          })
+          .error(function () {
+              authService.loginCancelled();
+          });
         },
 
         /**
@@ -44,20 +50,7 @@ angular.module('aws.photo.client')
           var b64 = new Hashes.Base64(),
             token = 'Basic ' + b64.encode([credentials.email, credentials.password].join(':'));
 
-          return $http({
-            method: 'GET',
-            url: config.apiEndpoint + '/auth/check',
-            headers: {
-              'Authorization': token,
-              'Content-Type': 'application/json; charset=utf-8'
-            },
-            ignoreAuthModule: true
-          })
-            .success(function (response) {
-              response.logged_in
-                ? authService.loginConfirmed({token: token})
-                : authService.loginCancelled();
-            });
+          this.checkCredentials(token);
         },
 
         /**
