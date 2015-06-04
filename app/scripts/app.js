@@ -105,7 +105,10 @@ angular
         url: '/admin',
         controller: 'aws.controller.admin.gallery',
         controllerAs: 'admin',
-        templateUrl: 'views/admin/gallery.html'
+        templateUrl: 'views/admin/gallery.html',
+        data: {
+          admin: true
+        }
       });
 
     //main routes
@@ -259,17 +262,26 @@ angular
     $locationProvider.html5Mode(config.html5);
   }])
 
-  .run(['$rootScope', '$cookieStore', 'aws.service.auth', function($rootScope, $cookieStore, auth) {
+  .run(['$rootScope', '$cookieStore', 'aws.service.auth', '$state', function ($rootScope, $cookieStore, auth, $state) {
     if ($cookieStore.get('access_token')) {
       auth.checkCredentials($cookieStore.get('access_token'));
     }
 
     $rootScope.$on('$stateChangeStart',
-      function(){
+      function (event, toState) {
+        if (toState.data !== undefined) {
+          if (toState.data.admin !== undefined && toState.data.admin) {
+            if (!$rootScope.isAdmin) {
+              event.preventDefault();
+              $state.go('login');
+            }
+          }
+        }
+
         $rootScope.loading = true;
       });
     $rootScope.$on('$stateChangeSuccess',
-      function(){
+      function () {
         $rootScope.loading = false;
       });
   }]);
