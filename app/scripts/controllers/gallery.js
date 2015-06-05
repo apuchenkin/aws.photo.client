@@ -56,21 +56,8 @@ angular.module('aws.photo.client')
         };
       };
 
-      var doGroups = function(photos) {
-        var groups = _.groupBy(photos, 'group');
-        photos = _.reduce(_.keys(groups), function(acc, i) {
-          if (+i > 0) {
-            var photo = _.sample(_.flatten(_.map(groups[i], function(p){return _.fill(Array(p.views + 1), p)})));
-            photo.views = _.sum(groups[i], 'views');
-            acc.push(photo);
-          }
-          return acc;
-        }, groups.null);
 
-        return _.sortBy(photos, 'order');
-      };
-
-      angular.extend(me.bricks, doGroups(photos).map(getBrick));
+      angular.extend(me.bricks, photos.map(getBrick));
 
       $timeout(function () {
         new Masonry(angular.element('#masonry')[0], {

@@ -187,9 +187,31 @@ angular
           subcategory: ['$stateParams', '$state', 'categories', function ($stateParams, $state, categories) {
             return categories.$findByName($stateParams.subcategory);
           }],
-          photos: ['aws.model.photo', 'category', 'subcategory', function (Photo, category, subcategory) {
+          photos: ['aws.model.photo', 'category', 'subcategory', '$q', function (Photo, category, subcategory, $q) {
             var photos = Photo.$collection({category: (subcategory || category).name});
-            return photos.$refresh().$asPromise();
+            var deferred = $q.defer();
+
+            var doGroups = function(photos) {
+              var groups = _.groupBy(photos, 'group');
+              photos = _.reduce(_.keys(groups), function(acc, i) {
+                if (+i > 0) {
+                  var photo = _.sample(_.flatten(_.map(groups[i], function(p){return _.fill(Array(p.views + 1), p)})));
+                  photo.views = _.sum(groups[i], 'views');
+                  acc.push(photo);
+                }
+                return acc;
+              }, groups.null);
+
+              return _.sortBy(photos, 'order');
+            };
+
+            photos.$refresh().$then(function(items) {
+              var groups = doGroups(items);
+              deferred.resolve(groups);
+              return groups;
+            });
+
+            return deferred.promise;
           }]
         }
       })

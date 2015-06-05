@@ -32,7 +32,7 @@ angular.module('aws.photo.client')
 
       me.group = function () {
         Photo.$collection().$group(me.selected);
-        refresh();
+        $state.reload();
       };
 
       me.setCategory = function (category) {
@@ -48,14 +48,6 @@ angular.module('aws.photo.client')
         return color;
       };
 
-      var refresh = function() {
-        me.photos.$refresh().$then(function(items){
-          _.map(_.keys(_.groupBy(items, 'group')), function(groupId) {
-            me.groupStyle[groupId] = {background: getRandomColor()}
-          })
-        });
-      };
-
       me.select = function(item) {
         item.selected = !item.selected;
         item.selected
@@ -65,6 +57,10 @@ angular.module('aws.photo.client')
 
       $rootScope.config = config;
 
-      refresh();
+      me.photos.$refresh().$then(function(items){
+        _.map(_.keys(_.groupBy(items, 'group')), function(groupId) {
+          me.groupStyle[groupId] = {background: getRandomColor()}
+        })
+      });
     }
   ]);
