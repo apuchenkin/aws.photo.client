@@ -1,7 +1,10 @@
 <header class="main">
   <h1 class="title">
-    <select ng-model="category">
-      <option ng-repeat="category in admin.categories" value="{{category.name}}">{{category.name}}</option>
+    <select ng-cloak
+      ng-model="admin.category"
+      ng-change="admin.setCategory(admin.category);"
+      ng-options="item.name for item in admin.categories track by item.name"
+    >
     </select>
 
   <span>
@@ -11,7 +14,7 @@
     <div ng-cloak class="tools">
       <button ng-disabled="admin.selected.length !== 1" ng-click="1">Edit</button>
       <button ng-disabled="admin.selected.length !== 1" ng-click="admin.toggleVisibility(admin.selected[0]);">Show/Hide</button>
-      <button ng-disabled="admin.selected.length <= 1"  ng-click="2">Group/Ungroup</button>
+      <button ng-disabled="admin.selected.length <= 1"  ng-click="admin.group();">Group/Ungroup</button>
       <button ui-sref="logout">Logout</button>
     </div>
   </h1>
@@ -27,6 +30,7 @@
          ng-click="admin.select(item)"
          ng-repeat="item in admin.photos">
 
+      <div ng-cloak class="group" ng-style="admin.groupStyle[item.group]" ng-if="item.group" ng-click="admin.unGroup(item);"></div>
       <img src="{{$root.config.staticEndpoint + item.thumb}}" />
     </div>
   </div>

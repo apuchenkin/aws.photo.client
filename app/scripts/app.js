@@ -102,7 +102,7 @@ angular
 
     $stateProvider
       .state('admin', {
-        url: '/admin',
+        url: '/admin?{category:string}',
         controller: 'aws.controller.admin.gallery',
         controllerAs: 'admin',
         templateUrl: 'views/admin/gallery.html',
@@ -271,7 +271,7 @@ angular
       function (event, toState) {
         if (toState.data !== undefined) {
           if (toState.data.admin !== undefined && toState.data.admin) {
-            if (!$rootScope.isAdmin) {
+            if (!$cookieStore.get('access_token')) {
               event.preventDefault();
               $state.go('login');
             }
@@ -280,6 +280,7 @@ angular
 
         $rootScope.loading = true;
       });
+
     $rootScope.$on('$stateChangeSuccess',
       function () {
         $rootScope.loading = false;

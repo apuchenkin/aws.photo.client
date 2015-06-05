@@ -8,6 +8,7 @@ h1.title {
   .masonry-brick {
     float: left;
     margin: 0 @divisor @divisor 0;
+    position: relative;
 
     &.selected {
       outline: 2px solid rgba(255,255,255,1);
@@ -15,6 +16,19 @@ h1.title {
 
     &.hidden {
       img { opacity: 0.3; }
+    }
+
+    .group {
+      position: absolute;
+      top: @divisor / 2;
+      left: @divisor / 2;
+      width: @divisor;
+      height: @divisor;
+      outline: 1px solid rgba(255,255,255,1);
+
+      &:hover {
+        outline: 2px solid rgba(255,255,255,1);
+      }
     }
   }
 }

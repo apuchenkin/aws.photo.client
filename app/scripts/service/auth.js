@@ -14,7 +14,6 @@ angular.module('aws.photo.client')
       $rootScope.$on('event:auth-loginConfirmed', function (scope, data) {
         $rootScope.isAdmin = true;
         $cookieStore.put('access_token', data.token);
-        $state.go('admin');
       });
 
       $rootScope.$on('event:auth-loginCancelled', loginFailed);
@@ -22,7 +21,7 @@ angular.module('aws.photo.client')
 
       // public API exposed here
       return {
-        checkCredentials: function(token) {
+        checkCredentials: function(token, callback) {
           $http({
             method: 'GET',
             url: config.apiEndpoint + '/auth/check',
@@ -36,6 +35,7 @@ angular.module('aws.photo.client')
             response.logged_in
               ? authService.loginConfirmed({token: token})
               : authService.loginCancelled();
+              callback ? callback() : null;
           })
           .error(function () {
               authService.loginCancelled();
@@ -50,7 +50,9 @@ angular.module('aws.photo.client')
           var b64 = new Hashes.Base64(),
             token = 'Basic ' + b64.encode([credentials.email, credentials.password].join(':'));
 
-          this.checkCredentials(token);
+          this.checkCredentials(token, function() {
+            $state.go('admin');
+          });
         },
 
         /**
