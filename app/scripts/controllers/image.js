@@ -8,10 +8,15 @@
  * Controller of the photoawesomestuffinApp
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.image', ['$state', '$compile', '$scope', 'photos', 'photo', 'CONFIG', '$timeout',
-    function ($state, $compile, $scope, photos, photo, config, $timeout) {
+  .controller('aws.controller.image', ['$state', '$compile', '$scope', 'photos', 'photo', 'CONFIG', '$timeout', 'resolutions',
+    function ($state, $compile, $scope, photos, photo, config, $timeout, resolutions) {
       var index = _.findIndex(photos, {id: photo.$pk}),
           sha = new Hashes.SHA1();
+
+      var getSize = function() {
+        var minv = resolutions.data.map(function(item){return Math.pow(item[0] - window.innerWidth, 2) + Math.pow(item[1] - window.innerHeight, 2)});
+        return resolutions.data[minv.indexOf(_.min(minv))];
+      };
 
       var updatePage = function(magnific) {
         var current = magnific.items[magnific.index];
@@ -48,11 +53,10 @@ angular.module('aws.photo.client')
             this.items.map(function (item) {
               var
                 id = item.data ? item.data.id : item.id,
-                w = (Math.floor (window.innerWidth / config.wstep)) * config.wstep,
-                h = (Math.floor (window.innerHeight / config.hstep)) * config.hstep,
-                sign = sha.hex_hmac(config.secret, id + "-" + w + 'x' + h);
+                size = getSize(),
+                sign = sha.hex_hmac(config.secret, id + "-" + size[0] + 'x' + size[1]);
 
-              item.src = [config.apiEndpoint, 'hs/photo', id, w, h, sign].join('/');
+              item.src = [config.apiEndpoint, 'hs/photo', id, size[0], size[1], sign].join('/');
              });
             this.updateItemHTML();
           },
@@ -70,13 +74,12 @@ angular.module('aws.photo.client')
 
         items: photos.map(function (item) {
           var scope = $scope.$new(),
-              w = (Math.floor (window.innerWidth / config.wstep)) * config.wstep,
-              h = (Math.floor (window.innerHeight / config.hstep)) * config.hstep,
-              sign = sha.hex_hmac(config.secret, item.id + "-" + w + 'x' + h);
+              size = getSize(),
+              sign = sha.hex_hmac(config.secret, item.id + "-" + size[0] + 'x' + size[1]);
 
           scope.data = item;
           return {
-            src: [config.apiEndpoint, 'hs/photo', item.id, w, h, sign].join('/'),
+            src: [config.apiEndpoint, 'hs/photo', item.id, size[0], size[1], sign].join('/'),
             //src: config.staticEndpoint + item.src,
             dataSrc: config.staticEndpoint + item.src,
             title: $compile('<div class="aws-photo-title"></div>')(scope),

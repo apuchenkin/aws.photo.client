@@ -223,6 +223,9 @@ angular
         resolve: {
           photo: ['$stateParams', 'aws.model.photo', function ($stateParams, Photo) {
             return Photo.$find($stateParams.id).$asPromise();
+          }],
+          resolutions: ['$http', function($http) {
+            return $http.get('/resolution.json');
           }]
         }
       })
