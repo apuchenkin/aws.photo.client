@@ -202,7 +202,7 @@ angular
                 return acc;
               }, groups.null);
 
-              return _.sortBy(photos, 'order');
+              return _.sortBy(photos, 'datetime');
             };
 
             photos.$refresh().$then(function(items) {
