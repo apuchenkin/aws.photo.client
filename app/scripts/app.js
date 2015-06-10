@@ -287,7 +287,9 @@ angular
     $locationProvider.html5Mode(config.html5);
   }])
 
-  .run(['$rootScope', '$cookieStore', 'aws.service.auth', '$state', function ($rootScope, $cookieStore, auth, $state) {
+  .run(['$rootScope', '$cookieStore', 'aws.service.auth', '$state', 'CONFIG', function ($rootScope, $cookieStore, auth, $state, config) {
+    $rootScope.config = config;
+
     if ($cookieStore.get('access_token')) {
       auth.checkCredentials($cookieStore.get('access_token'));
     }

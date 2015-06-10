@@ -8,6 +8,7 @@
   "gutter": 10,
   "galleryColumnWidth": 100,
   "secret": "secret",
+  "anlytics": "false",
   "static": {
     "home.static.about": "about",
     "home.static.contacts": "contact"
