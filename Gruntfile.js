@@ -332,29 +332,29 @@ module.exports = function (grunt) {
           src: ['fonts/*.*'],
           dest: '<%= yeoman.dist %>'
         }]
-      },
-      styles: {
-        expand: true,
-        cwd: '<%= yeoman.app %>/styles',
-        dest: '.tmp/styles/',
-        src: '{,*/}*.css'
       }
+      //styles: {
+      //  expand: true,
+      //  cwd: '<%= yeoman.app %>/styles',
+      //  dest: '.tmp/styles/',
+      //  src: '{,*/}*.css'
+      //}
     },
 
-    // Run some tasks in parallel to speed up the build process
-    concurrent: {
-      server: [
-        'copy:styles'
-      ],
-      test: [
-        'copy:styles'
-      ],
-      dist: [
-        'copy:styles'
-        //'imagemin',
-        //'svgmin'
-      ]
-    },
+    //// Run some tasks in parallel to speed up the build process
+    //concurrent: {
+    //  server: [
+    //    'copy:styles'
+    //  ],
+    //  test: [
+    //    'copy:styles'
+    //  ],
+    //  dist: [
+    //    'copy:styles'
+    //    //'imagemin',
+    //    //'svgmin'
+    //  ]
+    //},
 
     // Test settings
     karma: {
@@ -404,7 +404,6 @@ module.exports = function (grunt) {
     'less',
     'useminPrepare',
     'ngTemplateCache',
-    'concurrent:dist',
     'autoprefixer',
     'concat',
     'copy:dist',
