@@ -9,7 +9,7 @@
 
 .gradient (@color: @grey) {
   background-color: @color;
-  background: linear-gradient(to top, color-stop(0, fade(@color, 0%)), color-stop(0.9, @color));
+  background: linear-gradient(to top, fade(@color, 0%), @color 90%);
   background: -webkit-gradient(linear, left bottom, left top, color-stop(0, fade(@color, 0%)), color-stop(0.9, @color));
   background: -webkit-linear-gradient(bottom, color-stop(0, fade(@color, 0%)), color-stop(0.9, @color));
   background: -moz-linear-gradient(bottom, fade(@color, 0%), @color);
