@@ -1,33 +1,72 @@
-h1.title {
-  .tools {
-    float: right;
+.admin {
+  h1.title {
+    .tools {
+      float: right;
+    }
   }
-}
 
-#masonry.admin {
-  .masonry-brick {
+  .content {
+    padding-top: 80px;
+  }
+
+  nav.aside {
     float: left;
-    margin: 0 @divisor @divisor 0;
-    position: relative;
+    padding: @divisor 0;
+    background: @grey-light;
+    color: @light-grey;
+    height: 100%;
+    position: fixed;
+    width: 160px;
 
-    &.selected {
-      outline: 2px solid rgba(255,255,255,1);
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        padding: 0.2em @divisor;
+        cursor: pointer;
+
+        &:hover {
+          background: lighten(@grey-light, 10%);
+        }
+
+        &.active {
+          color: black;
+          background: @light-grey;
+        }
+      }
     }
+  }
 
-    &.hidden {
-      img { opacity: 0.3; }
-    }
+  #masonry {
+    margin-left: 160px;
+    padding: 10px;
 
-    .group {
-      position: absolute;
-      top: @divisor / 2;
-      left: @divisor / 2;
-      width: @divisor;
-      height: @divisor;
-      outline: 1px solid rgba(255,255,255,1);
+    .masonry-brick {
+      float: left;
+      margin: 0 @divisor @divisor 0;
+      position: relative;
 
-      &:hover {
+      &.selected {
         outline: 2px solid rgba(255,255,255,1);
+      }
+
+      &.hidden {
+        img { opacity: 0.3; }
+      }
+
+      .group {
+        position: absolute;
+        top: @divisor / 2;
+        left: @divisor / 2;
+        width: @divisor;
+        height: @divisor;
+        outline: 1px solid rgba(255,255,255,1);
+
+        &:hover {
+          outline: 2px solid rgba(255,255,255,1);
+        }
       }
     }
   }

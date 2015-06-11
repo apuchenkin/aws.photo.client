@@ -1,37 +1,47 @@
-<header class="main">
-  <h1 class="title">
-    <select ng-cloak
-      ng-model="admin.category"
-      ng-change="admin.setCategory(admin.category);"
-      ng-options="item.name for item in admin.categories track by item.name"
-    >
-    </select>
-
+<div class="admin">
+  <header class="main">
+    <h1 class="title">
   <span>
     {{admin.selected.length}} selected
   </span>
 
-    <div ng-cloak class="tools">
-      <button ng-disabled="admin.selected.length !== 1" ng-click="1">Edit</button>
-      <button ng-disabled="admin.selected.length !== 1" ng-click="admin.toggleVisibility(admin.selected[0]);">Show/Hide</button>
-      <button ng-disabled="admin.selected.length <= 1"  ng-click="admin.group();">Group/Ungroup</button>
-      <button ui-sref="logout">Logout</button>
-    </div>
-  </h1>
-</header>
+      <div ng-cloak class="tools">
+        <button ng-disabled="admin.selected.length !== 1" ng-click="1">Edit</button>
+        <button ng-disabled="admin.selected.length !== 1" ng-click="admin.toggleVisibility(admin.selected[0]);">
+          Show/Hide
+        </button>
+        <button ng-disabled="admin.selected.length <= 1" ng-click="admin.group();">Group/Ungroup</button>
+        <button ui-sref="logout">Logout</button>
+      </div>
+    </h1>
+  </header>
 
-<div class="content" ui-view="content">
-  <div id="masonry" class="admin">
-    <div ng-cloak class="masonry-brick photo-{{item.id}}"
-         ng-class="{
-          selected: item.selected,
+  <div class="content" ui-view="content">
+
+    <nav ng-cloak ng-if="admin.categories" class="aside">
+      <ul>
+        <li class="item"
+            ng-class="{active: c.name == admin.category}"
+            ng-click="admin.setCategory(c);"
+            ng-repeat="c in admin.categories">{{c.name}}
+        </li>
+      </ul>
+    </nav>
+
+    <div id="masonry" class="admin">
+      <div
+        ng-cloak class="masonry-brick photo-{{item.id}}"
+        ng-class="{
+          selected: admin.isSelected(item),
           hidden: item.hidden
-         }"
-         ng-click="admin.select(item)"
-         ng-repeat="item in admin.photos">
+        }"
+        ng-click="admin.select(item, $event)"
+        ng-repeat="item in admin.photos">
 
-      <div ng-cloak class="group" ng-style="admin.groupStyle[item.group]" ng-if="item.group" ng-click="admin.unGroup(item);"></div>
-      <img src="{{$root.config.staticEndpoint + item.thumb}}" />
+        <div ng-cloak class="group" ng-style="admin.groupStyle[item.group]" ng-if="item.group"
+             ng-click="admin.unGroup(item);"></div>
+        <img src="{{$root.config.staticEndpoint + item.thumb}}"/>
+      </div>
     </div>
   </div>
 </div>

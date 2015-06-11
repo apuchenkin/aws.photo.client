@@ -48,11 +48,18 @@ angular.module('aws.photo.client')
         return color;
       };
 
-      me.select = function(item) {
-        item.selected = !item.selected;
-        item.selected
-          ? me.selected.push(item)
-          : _.remove(me.selected, item);
+      me.select = function(item, e) {
+        if (e.ctrlKey) {
+          me.isSelected(item)
+            ? _.remove(me.selected, item)
+            : me.selected.push(item);
+        } else {
+          me.selected = [item];
+        }
+      };
+
+      me.isSelected = function(item) {
+        return me.selected.indexOf(item) >= 0;
       };
 
       $rootScope.config = config;
