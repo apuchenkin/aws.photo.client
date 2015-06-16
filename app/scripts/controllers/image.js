@@ -8,8 +8,8 @@
  * Controller of the photoawesomestuffinApp
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.image', ['$state', '$compile', '$scope', 'photos', 'photo', 'CONFIG', '$timeout', 'resolutions',
-    function ($state, $compile, $scope, photos, photo, config, $timeout, resolutions) {
+  .controller('aws.controller.image', ['$rootScope', '$state', '$compile', '$scope', 'photos', 'photo', 'CONFIG', '$timeout', 'resolutions',
+    function ($rootScope, $state, $compile, $scope, photos, photo, config, $timeout, resolutions) {
       var index = _.findIndex(photos, {id: photo.$pk}),
           sha = new Hashes.SHA1();
 
@@ -18,9 +18,15 @@ angular.module('aws.photo.client')
         return resolutions.data[minv.indexOf(_.min(minv))];
       };
 
+      var afterStateUpdate = function() {
+        var photo = $state.$current.locals.globals.photo;
+        $scope.magnific.currItem.data.title = $compile('<div class="aws-photo-title"></div>')(angular.extend($scope.$new(), {data: photo}));
+        $scope.magnific.updateItemHTML();
+      };
+
       var updatePage = function(magnific) {
         var current = magnific.items[magnific.index];
-        $state.go('home.category.gallery.image', {id: current.data.id}, {notify: false}).then(magnific.updateItemHTML);
+        $state.go('home.category.gallery.image', {id: current.data.id}, {notify: false}).then(afterStateUpdate);
       };
 
       photos = _.union(_.slice(photos, index), _.take(photos, index));
@@ -82,13 +88,13 @@ angular.module('aws.photo.client')
             src: [config.apiEndpoint, 'hs/photo', item.id, size[0], size[1], sign].join('/'),
             //src: config.staticEndpoint + item.src,
             dataSrc: config.staticEndpoint + item.src,
-            title: $compile('<div class="aws-photo-title"></div>')(scope),
             id: item.id
           };
         })
       });
 
       $scope.magnific = $.magnificPopup.instance;
+      afterStateUpdate();
 
       $scope.magnific.next = function() {
         $.magnificPopup.proto.next.call(this);
