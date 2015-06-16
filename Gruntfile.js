@@ -27,6 +27,18 @@ module.exports = function (grunt) {
     // Project settings
     yeoman: appConfig,
 
+    ngconstant: {
+      options: {
+        name: 'aws.config',
+        dest: '.tmp/scripts/config.js',
+        constants: {
+          CONFIG: grunt.file.readJSON('app/config.json')
+        }
+      },
+      build: {
+      }
+    },
+
     // Watches files for changes and runs tasks based on the changed files
     watch: {
       bower: {
@@ -312,7 +324,7 @@ module.exports = function (grunt) {
           dest: '<%= yeoman.dist %>',
           src: [
             '*.{ico,png,txt,gif}',
-            '*.json',
+            'resolution.json',
             '.htaccess',
             '*.html',
             //'views/{,*/}*.html',
@@ -384,6 +396,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'ngconstant',
       'less',
       'autoprefixer',
       'connect:livereload',
@@ -401,6 +414,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'ngconstant',
     'less',
     'useminPrepare',
     'ngTemplateCache',
