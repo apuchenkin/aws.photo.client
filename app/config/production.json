@@ -1,0 +1,15 @@
+{
+  "useXDomain": false,
+  "html5": true,
+  "language": "en",
+  "apiEndpoint": "/api/v1",
+  "staticEndpoint": "/",
+  "gutter": 10,
+  "secret": "secret",
+  "galleryColumnWidth": 100,
+  "anlytics": "false",
+  "static": {
+    "home.static.about": "about",
+    "home.static.contacts": "contact"
+  }
+}

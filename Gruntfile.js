@@ -30,12 +30,17 @@ module.exports = function (grunt) {
     ngconstant: {
       options: {
         name: 'aws.config',
-        dest: '.tmp/scripts/config.js',
+        dest: '.tmp/scripts/config.js'
+      },
+      dev: {
         constants: {
-          CONFIG: grunt.file.readJSON('app/config.json')
+          CONFIG: grunt.file.readJSON('app/config/default.json')
         }
       },
-      build: {
+      prod: {
+        constants: {
+          CONFIG: grunt.file.readJSON('app/config/production.json')
+        }
       }
     },
 
@@ -396,7 +401,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
-      'ngconstant',
+      'ngconstant:dev',
       'less',
       'autoprefixer',
       'connect:livereload',
@@ -414,7 +419,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
-    'ngconstant',
+    'ngconstant:prod',
     'less',
     'useminPrepare',
     'ngTemplateCache',
