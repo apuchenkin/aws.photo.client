@@ -28,6 +28,25 @@ h1.title {
       color: @white;
     }
   }
+
+  .lang {
+    float: right;
+    a {
+      margin: @divisor / 4;
+      font-size: medium;
+      font-weight: normal;
+      color: @light-grey;
+      cursor: pointer;
+      transition: color 0.2s ease-out;
+
+      &.selected {
+        color: white;
+      }
+      &:hover {
+        color: @accent;
+      }
+    }
+  }
 }
 
 header.main {

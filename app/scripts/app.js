@@ -24,6 +24,19 @@ angular
     $urlRouterProvider.otherwise('/404');
   }])
 
+  .config(['$translateProvider', function ($translateProvider) {
+    $translateProvider
+      //.translations('en', { /* ... */ })
+      //.translations('fr', { /* ... */ })
+      .registerAvailableLanguageKeys(['en', 'ru'], {
+        'en_US': 'en',
+        'en_UK': 'en',
+        'ru_RU': 'ru'
+      })
+      .fallbackLanguage('en')
+      .determinePreferredLanguage();
+  }])
+
   .config(['$stateProvider', 'CONFIG', function ($stateProvider, config) {
 
     // Public routes
@@ -245,7 +258,7 @@ angular
     restmodProvider.rebase('restmodConfig');
   }])
 
-  .factory('requestInterceptor', ['$q', '$cookieStore', function ($q, $cookieStore) {
+  .factory('requestInterceptor', ['$q', '$cookieStore','$translate', function ($q, $cookieStore, $translate) {
     return {
       // setup authorisation header pre-request
       'request': function (config) {
@@ -253,6 +266,7 @@ angular
         if ($cookieStore.get('access_token')) {
           config.headers.Authorization = $cookieStore.get('access_token');
         }
+        config.headers["Accept-Language"] = $translate.use();
 
         return config;
       }
@@ -265,7 +279,7 @@ angular
     $locationProvider.html5Mode(config.html5);
   }])
 
-  .run(['$rootScope', '$cookieStore', 'aws.service.auth', '$state', 'CONFIG', function ($rootScope, $cookieStore, auth, $state, config) {
+  .run(['$rootScope', '$cookieStore', 'aws.service.auth', '$state', 'CONFIG', '$translate', function ($rootScope, $cookieStore, auth, $state, config, $translate) {
     $rootScope.config = config;
 
     if ($cookieStore.get('access_token')) {
@@ -274,6 +288,10 @@ angular
 
     $rootScope.$on('$stateChangeStart',
       function (event, toState) {
+        if ($cookieStore.get('language')) {
+          $translate.use($cookieStore.get('language'));
+        }
+
         if (toState.data !== undefined) {
           if (toState.data.admin !== undefined && toState.data.admin) {
             if (!$cookieStore.get('access_token')) {

@@ -7,11 +7,14 @@
  * # MainCtrl
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.main', ['$translate', 'categories', 'CONFIG',
-    function ($translate, categories, config) {
+  .controller('aws.controller.main', ['$state', '$cookieStore', 'categories', '$translate',
+    function ($state, $cookieStore, categories, $translate) {
       var me = this;
-      me.language = config.language;
       me.categories = categories;
+      me.language = $translate.use();
 
-      $translate.use(me.language);
+      me.setLanguage = function(lang) {
+        $cookieStore.put('language', lang);
+        $state.reload();
+      }
     }]);
