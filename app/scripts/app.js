@@ -214,13 +214,13 @@ angular
 
     return restmod.mixin('DefaultPacker', { // include default packer extension
       $config: {
+        style: 'AMSApi', // By setting the style variable the warning is disabled.
         primaryKey: 'id',
         jsonRoot: '.',
         jsonMeta: 'meta',
         jsonLinks: 'links',
         urlPrefix: config.apiEndpoint
       },
-
       $extend: {
         // special snakecase to camelcase renaming
         Model: {
