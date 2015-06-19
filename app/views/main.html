@@ -2,5 +2,5 @@
   <div ui-view="title"></div>
   <div ui-view="navigation"></div>
 </header>
-<div class="content" ui-view="content"></div>
+<div class="content" ng-class="{nav: $root.hasNavigation}" ui-view="content"></div>
 <footer ui-view="footer"></footer>

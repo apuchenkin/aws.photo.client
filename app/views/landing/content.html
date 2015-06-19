@@ -1,0 +1,18 @@
+<section class="galleries">
+  <h2>Galleries:</h2>
+  <ul>
+    <li class="item" ng-repeat="category in main.groupCategories.null">
+      <div class="gallery">
+        <figure ui-sref="home.category.gallery({category: category.name, subcategory: null})">
+          <img ng-src="{{$root.config.staticEndpoint}}{{category.image}}" alt="{{category.title}}" width="304" height="228" />
+          <figcaption>{{category.title}}</figcaption>
+        </figure>
+        <aside><ul>
+          <li class="subitem" ng-repeat="subcategory in main.groupCategories[category.id]">
+            <a ui-sref="home.category.gallery({category: category.name, subcategory: subcategory.name})">{{subcategory.title}}</a>
+          </li>
+        </ul></aside>
+      </div>
+    </li>
+  </ul>
+</section>

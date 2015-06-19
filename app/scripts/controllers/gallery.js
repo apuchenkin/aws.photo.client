@@ -8,8 +8,8 @@
  * Controller of the aws-photo-client
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.gallery', ['$timeout', 'photos', 'CONFIG',
-    function ($timeout, photos, config) {
+  .controller('aws.controller.gallery', ['$rootScope', '$timeout', 'photos', 'CONFIG',
+    function ($rootScope, $timeout, photos, config) {
       var me = this,
           sha = new Hashes.SHA1(),
           views = _.pluck(photos, 'views'),
@@ -61,7 +61,7 @@ angular.module('aws.photo.client')
       };
 
       angular.extend(me.bricks, photos.map(getBrick));
-
+      $rootScope.title = $rootScope.name + ' - ' + $rootScope.category.title;
       $timeout(function () {
         new Masonry(angular.element('#masonry')[0], {
           columnWidth: me.size,

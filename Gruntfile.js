@@ -30,7 +30,13 @@ module.exports = function (grunt) {
     ngconstant: {
       options: {
         name: 'aws.config',
-        dest: '.tmp/scripts/config.js'
+        dest: '.tmp/scripts/config.js',
+        constants: {
+          "TRANSLATION": {
+            "EN": grunt.file.readJSON('app/translation/en.json'),
+            "RU": grunt.file.readJSON('app/translation/ru.json')
+          }
+        }
       },
       dev: {
         constants: {

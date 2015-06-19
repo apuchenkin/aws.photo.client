@@ -8,8 +8,9 @@
  * Controller of the photoawesomestuffinApp
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.navigation', ['category',
-    function (category) {
+  .controller('aws.controller.navigation', ['$rootScope', 'category',
+    function ($rootScope, category) {
       this.category = category;
+      $rootScope.hasNavigation = category.childs && category.childs.length;
     }
   ]);

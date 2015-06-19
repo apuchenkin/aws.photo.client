@@ -1,0 +1,10 @@
+<h1><a ui-sref-active="active" ui-sref="home.landing">HOME</a> > <a
+  ng-cloak
+  ui-sref-active="active"
+  ui-sref="home.category.gallery({category: category.name, subcategory: null})">
+  {{$root.category.title}}
+</a></h1>
+<span class="lang">
+  <a ng-class="{selected: main.language ==='ru'}" ng-click="main.setLanguage('ru')">Ru</a>
+  <a ng-class="{selected: main.language ==='en'}" ng-click="main.setLanguage('en')">En</a>
+</span>

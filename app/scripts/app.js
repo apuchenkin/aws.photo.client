@@ -24,10 +24,10 @@ angular
     $urlRouterProvider.otherwise('/404');
   }])
 
-  .config(['$translateProvider', function ($translateProvider) {
+  .config(['$translateProvider', 'TRANSLATION', function ($translateProvider, TRANSLATION) {
     $translateProvider
-      //.translations('en', { /* ... */ })
-      //.translations('fr', { /* ... */ })
+      .translations('en', TRANSLATION.EN)
+      .translations('ru', TRANSLATION.RU)
       .registerAvailableLanguageKeys(['en', 'ru'], {
         'en_US': 'en',
         'en_UK': 'en',
@@ -118,6 +118,21 @@ angular
         }
       })
 
+      .state('home.landing', {
+        url: '',
+        views: {
+          title: {
+            templateUrl: 'views/landing/title.html'
+          },
+          content: {
+            templateUrl: 'views/landing/content.html'
+          },
+          footer: {
+            templateUrl: 'views/footer.html'
+          }
+        }
+      })
+
       .state('home.category', {
         abstract: true,
         url: ':category',
@@ -136,7 +151,7 @@ angular
         },
         views: {
           title: {
-            templateUrl: 'views/title.html'
+            templateUrl: 'views/gallery/title.html'
           },
           navigation: {
             templateUrl: 'views/navigation.html',
@@ -166,7 +181,6 @@ angular
         params: {
           subcategory: {value: null, squash: true}
         },
-        title: 'Home',
         views: {
           'content@home': {
               templateUrl: 'views/gallery.html',

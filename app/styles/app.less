@@ -15,14 +15,30 @@ html, body {
   font-family: @font-default;
 }
 
-h1.title {
-  margin: 0;
+header.main {
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+
   padding: @divisor;
   background: @grey-light;
   border-bottom: solid 1px lighten(@grey-light, 10%);
+  box-sizing: border-box;
+
+  h1, h2 {
+    margin: 0;
+    color: @accent;
+    font-weight: 300;
+
+    .version {
+      color: @light;
+      font-size: small;
+    }
+  }
 
   a {
     text-decoration: none;
+    font-weight: 300;
     color: @light;
     &:hover{
       color: @white;
@@ -30,7 +46,10 @@ h1.title {
   }
 
   .lang {
-    float: right;
+    position: absolute;
+    right: @divisor;
+    top: @divisor;
+
     a {
       margin: @divisor / 4;
       font-size: medium;
@@ -49,14 +68,13 @@ h1.title {
   }
 }
 
-header.main {
-  position: fixed;
-  width: 100%;
-  z-index: 10;
-  //margin-top: -100px;
-}
 .content {
-  padding-top: @divisor * 6;
+  padding: @divisor;
+  padding-top: @divisor + (@divisor * 4);
+
+  &.nav {
+    padding-top: @divisor + (@divisor * 6);
+  }
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -96,6 +114,60 @@ footer {
 
     &:hover {
       color: @accent;
+    }
+  }
+}
+
+section.galleries {
+  h2 {
+    color: @light;
+    font-weight: 400;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0; padding: 0;
+
+    li {
+      padding: @divisor / 4;
+
+      figure {
+        float: left;
+        display: block;
+        outline: 2px solid rgba(0, 0, 0, 0);
+        cursor: pointer;
+        transition: outline-color 0.2s ease-out;
+        position: relative;
+
+        figcaption {
+          width: 100%;
+          color: @light;
+          padding: @divisor / 4;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          background: fade(@grey, 50%);
+          box-sizing: border-box;
+        }
+        &:hover {
+          outline-color: @accent;
+        }
+      }
+      aside {
+        margin-left: 300px;
+        padding: 0 @divisor / 2;
+        color: @light-grey;
+
+        a {
+          color: @light-grey;
+          text-decoration: none;
+          transition: color 0.2s ease-out;
+
+          &:hover {
+            color: @accent;
+          }
+        }
+      }
     }
   }
 }

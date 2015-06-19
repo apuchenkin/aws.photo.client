@@ -1,14 +1,12 @@
-
 #masonry {
-  padding: @divisor/2 @divisor;
-}
-.masonry-brick {
-  display: block;
-  outline: 2px solid rgba(0,0,0,0);
-  cursor: pointer;
-  transition: outline-color 0.2s ease-out;
-}
+  .masonry-brick {
+    display: block;
+    outline: 2px solid rgba(0, 0, 0, 0);
+    cursor: pointer;
+    transition: outline-color 0.2s ease-out;
 
-.masonry-brick:hover {
-  outline-color: @accent;
+    &:hover {
+      outline-color: @accent;
+    }
+  }
 }
