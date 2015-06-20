@@ -14,7 +14,7 @@ angular.module('aws.photo.client')
           sha = new Hashes.SHA1();
 
       var getSize = function() {
-        var minv = resolutions.data.map(function(item){return Math.pow(item[0] - window.innerWidth, 2) + Math.pow(item[1] - window.innerHeight, 2)});
+        var minv = resolutions.data.map(function(item){return Math.pow(item[0] - window.innerWidth, 2) + Math.pow(item[1] - window.innerHeight, 2);});
         return resolutions.data[minv.indexOf(_.min(minv))];
       };
 
@@ -60,7 +60,7 @@ angular.module('aws.photo.client')
               var
                 id = item.data ? item.data.id : item.id,
                 size = getSize(),
-                sign = sha.hex_hmac(config.secret, id + "-" + size[0] + 'x' + size[1]);
+                sign = sha.hex_hmac(config.secret, id + '-' + size[0] + 'x' + size[1]);
 
               item.src = [config.apiEndpoint, 'hs/photo', id, size[0], size[1], sign].join('/');
              });

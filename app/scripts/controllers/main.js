@@ -21,5 +21,5 @@ angular.module('aws.photo.client')
       me.setLanguage = function(lang) {
         $cookieStore.put('language', lang);
         $state.reload();
-      }
+      };
     }]);

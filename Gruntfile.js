@@ -32,9 +32,9 @@ module.exports = function (grunt) {
         name: 'aws.config',
         dest: '.tmp/scripts/config.js',
         constants: {
-          "TRANSLATION": {
-            "EN": grunt.file.readJSON('app/translation/en.json'),
-            "RU": grunt.file.readJSON('app/translation/ru.json')
+          'TRANSLATION': {
+            'EN': grunt.file.readJSON('app/translation/en.json'),
+            'RU': grunt.file.readJSON('app/translation/ru.json')
           }
         }
       },

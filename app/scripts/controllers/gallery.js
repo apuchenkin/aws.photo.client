@@ -50,7 +50,7 @@ angular.module('aws.photo.client')
 
         dims = dsmap[mode];
         msize =  Math.round(_.min([dims[0], dims[1]]) * inc);
-        sign = sha.hex_hmac(config.secret, photo.id + "-" + msize + 'x' + msize);
+        sign = sha.hex_hmac(config.secret, photo.id + '-' + msize + 'x' + msize);
 
         return {
           id: photo.id,
@@ -63,7 +63,8 @@ angular.module('aws.photo.client')
       angular.extend(me.bricks, photos.map(getBrick));
       $rootScope.title = $rootScope.name + ' - ' + $rootScope.category.title;
       $timeout(function () {
-        new Masonry(angular.element('#masonry')[0], {
+        var container = angular.element('#masonry')[0];
+        new Masonry(container, {
           columnWidth: me.size,
           itemSelector: '.masonry-brick',
           gutter: me.gutter

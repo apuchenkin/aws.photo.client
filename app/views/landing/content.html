@@ -4,7 +4,7 @@
     <li class="item" ng-repeat="category in main.groupCategories.null">
       <div class="gallery">
         <figure ui-sref="home.category.gallery({category: category.name, subcategory: null})">
-          <img ng-src="{{$root.config.staticEndpoint}}{{category.image}}" alt="{{category.title}}" width="304" height="228" />
+          <img ng-src="{{$root.config.staticEndpoint}}{{category.image}}" alt="{{category.title}}" width="350" />
           <figcaption>{{category.title}}</figcaption>
         </figure>
         <aside><ul>

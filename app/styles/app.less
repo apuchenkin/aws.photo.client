@@ -4,11 +4,31 @@
 @font-default: 'Roboto Condensed', sans-serif;
 
 html, body {
-  margin: 0;
-  padding: 0;
+  margin: 0;  padding: 0;
   background: @grey;
-  width: 100%;
+  width: 100%; height:100%;
   font-family: @font-default;
+}
+
+.container {
+  height:100%;
+  position:relative;
+
+  &.default {
+    footer {
+      position: absolute;
+      bottom: 0;
+      left: 0; right: 0;
+    }
+  }
+  &.flexed {
+    .content {
+      position:absolute;
+      bottom:0;
+      top: @divisor * 4; /*must match the height of #header*/
+      overflow:auto;
+    }
+  }
 }
 
 *, a, h1 {
@@ -16,7 +36,7 @@ html, body {
 }
 
 header.main {
-  position: fixed;
+  position: relative;
   width: 100%;
   z-index: 10;
 
@@ -69,11 +89,17 @@ header.main {
 }
 
 .content {
-  padding: @divisor;
-  padding-top: @divisor + (@divisor * 4);
-
+  padding: @divisor / 2 @divisor;
+  color: @light-grey;
+  width:100%;
+  box-sizing: border-box;
   &.nav {
-    padding-top: @divisor + (@divisor * 6);
+    padding-top: (@divisor * 2) + (@divisor / 2);
+  }
+  section {
+    h2 {
+      margin: 0 0 @divisor / 2 0;
+    }
   }
 }
 
@@ -83,11 +109,6 @@ header.main {
 .footer {
   padding-left: 15px;
   padding-right: 15px;
-}
-
-.about {
-  padding: 0 @divisor;
-  color: @light-grey;
 }
 
 img, figure {
@@ -103,6 +124,9 @@ img, figure {
 }
 
 footer {
+  //position: absolute;
+  //bottom: 0;
+  //height: 100px;
   text-align: center;
   color: @light-grey;
 
@@ -154,7 +178,7 @@ section.galleries {
         }
       }
       aside {
-        margin-left: 300px;
+        margin-left: 350px;
         padding: 0 @divisor / 2;
         color: @light-grey;
 

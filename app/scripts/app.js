@@ -130,7 +130,11 @@ angular
           footer: {
             templateUrl: 'views/footer.html'
           }
-        }
+        },
+        onEnter: ['$rootScope', function($rootScope) {
+          $rootScope.title = $rootScope.name + ' - ' + $rootScope.description;
+          $rootScope.hasNavigation = false;
+        }]
       })
 
       .state('home.category', {
@@ -200,7 +204,7 @@ angular
               var groups = _.groupBy(photos, 'group');
               photos = _.reduce(_.keys(groups), function(acc, i) {
                 if (+i > 0) {
-                  var photo = _.sample(_.flatten(_.map(groups[i], function(p){return _.fill(Array(p.views + 1), p)})));
+                  var photo = _.sample(_.flatten(_.map(groups[i], function(p){return _.fill(new Array(p.views + 1), p);})));
                   photo.views = _.sum(groups[i], 'views');
                   acc.push(photo);
                 }
@@ -218,6 +222,9 @@ angular
 
             return deferred.promise;
           }]
+        },
+        data: {
+          layout: 'flexed'
         }
       })
 
@@ -280,7 +287,7 @@ angular
         if ($cookieStore.get('access_token')) {
           config.headers.Authorization = $cookieStore.get('access_token');
         }
-        config.headers["Accept-Language"] = $translate.use();
+        config.headers['Accept-Language'] = $translate.use();
 
         return config;
       }
@@ -300,6 +307,7 @@ angular
       auth.checkCredentials($cookieStore.get('access_token'));
     }
 
+    $rootScope.layout = 'default';
     $rootScope.$on('$stateChangeStart',
       function (event, toState) {
         if ($cookieStore.get('language')) {
@@ -319,7 +327,8 @@ angular
       });
 
     $rootScope.$on('$stateChangeSuccess',
-      function () {
+      function (a, state) {
         $rootScope.loading = false;
+        $rootScope.layout  = state.data && state.data.layout || 'default';
       });
   }]);

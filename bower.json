@@ -5,7 +5,6 @@
     "json3": "^3.3.0",
     "es5-shim": "^4.0.0",
     "lodash": "~3.8.0",
-
     "angular": "^1.4.0",
     "angular-animate": "^1.4.0",
     "angular-cookies": "^1.4.0",
