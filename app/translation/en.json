@@ -1,4 +1,10 @@
 {
   "ALPHA": "alpha",
-  "DESCRIPTION": "Travel in photography"
+  "DESCRIPTION": "Travel in photography",
+  "HOME": "Home",
+  "GALLERIES": "Galleries",
+  "COPY": "2015, Artem Puchenkin",
+  "FOOTER": "{{home}}, alpha",
+  "ABOUT": "about",
+  "CONTACTS": "contacts"
 }

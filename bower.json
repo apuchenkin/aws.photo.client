@@ -17,7 +17,8 @@
     "magnific-popup": "~1.0.0",
     "mathjs": "~1.5.1",
     "jshashes": "~1.0.5",
-    "icomoon": "~0.0.3"
+    "icomoon": "~0.0.3",
+    "perfect-scrollbar": "~0.6.2"
   },
   "devDependencies": {
     "less": "~2.5.0",

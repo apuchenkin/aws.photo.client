@@ -69,6 +69,8 @@ angular.module('aws.photo.client')
           itemSelector: '.masonry-brick',
           gutter: me.gutter
         });
+
+        Ps.initialize(angular.element('.content')[0]);
       });
     }
   ]);

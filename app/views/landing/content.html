@@ -1,18 +1,30 @@
 <section class="galleries">
-  <h2>Galleries:</h2>
+  <h2 ng-cloak>{{'GALLERIES' | translate}}</h2>
   <ul>
     <li class="item" ng-repeat="category in main.groupCategories.null">
       <div class="gallery">
         <figure ui-sref="home.category.gallery({category: category.name, subcategory: null})">
-          <img ng-src="{{$root.config.staticEndpoint}}{{category.image}}" alt="{{category.title}}" width="350" />
+          <img ng-src="{{$root.config.staticEndpoint}}{{category.image}}" alt="{{category.title}}" width="350"/>
           <figcaption>{{category.title}}</figcaption>
         </figure>
-        <aside><ul>
-          <li class="subitem" ng-repeat="subcategory in main.groupCategories[category.id]">
-            <a ui-sref="home.category.gallery({category: category.name, subcategory: subcategory.name})">{{subcategory.title}}</a>
-          </li>
-        </ul></aside>
+        <aside>
+          <h3><a ui-sref="home.category.gallery({category: category.name, subcategory: null})">Featured of {{category.title}}</a></h3>
+          <p ng-if="category.description">{{category.description}}</p>
+          <ul>
+            <li class="subitem" ng-repeat="subcategory in main.groupCategories[category.id]">
+              <a ui-sref="home.category.gallery({category: category.name, subcategory: subcategory.name})">{{subcategory.title}}</a>
+            </li>
+          </ul>
+        </aside>
       </div>
     </li>
   </ul>
 </section>
+<!--<section class="featured">-->
+  <!--<h2>Featured</h2>-->
+  <!--<ul>-->
+    <!--<li class="item" ng-repeat="category in main.groupCategories.null">-->
+      <!--<img ng-src="{{$root.config.staticEndpoint}}{{category.image}}" alt="{{category.title}}" width="150"/>-->
+    <!--</li>-->
+  <!--</ul>-->
+<!--</section>-->
