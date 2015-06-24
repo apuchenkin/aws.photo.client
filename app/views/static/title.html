@@ -1,0 +1,9 @@
+<h1><a ng-cloak ui-sref-active="active" title="{{$root.name}}" ui-sref="home.landing">{{'HOME' | translate}}</a> / <a
+  ng-cloak
+  class="active" >
+  {{$root.pageTitle}}
+</a></h1>
+<span class="lang">
+  <a ng-class="{active: main.language ==='ru'}" ng-click="main.setLanguage('ru')">Ru</a>
+  <a ng-class="{active: main.language ==='en'}" ng-click="main.setLanguage('en')">En</a>
+</span>

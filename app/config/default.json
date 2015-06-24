@@ -11,6 +11,6 @@
   "anlytics": "false",
   "static": {
     "home.static.about": "about",
-    "home.static.contacts": "contact"
+    "home.static.contacts": "contacts"
   }
 }

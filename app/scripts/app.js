@@ -24,18 +24,19 @@ angular
     $urlRouterProvider.otherwise('/404');
   }])
 
-  .config(['$translateProvider', 'TRANSLATION', function ($translateProvider, TRANSLATION) {
-    $translateProvider
-      .translations('en', TRANSLATION.EN)
-      .translations('ru', TRANSLATION.RU)
-      .registerAvailableLanguageKeys(['en', 'ru'], {
-        'en_US': 'en',
-        'en_UK': 'en',
-        'ru_RU': 'ru'
-      })
-      .fallbackLanguage('en')
-      .determinePreferredLanguage();
-  }])
+  .config(['$translateProvider', 'TRANSLATION',
+    function ($translateProvider, TRANSLATION) {
+      $translateProvider
+        .translations('en', TRANSLATION.EN)
+        .translations('ru', TRANSLATION.RU)
+        .registerAvailableLanguageKeys(['en', 'ru'], {
+          'en_US': 'en',
+          'en_UK': 'en',
+          'ru_RU': 'ru'
+        })
+        .fallbackLanguage('en')
+        .determinePreferredLanguage();
+    }])
 
   .config(['$stateProvider', 'CONFIG', function ($stateProvider, config) {
 
@@ -56,7 +57,7 @@ angular
         abstract: true,
         views: {
           title: {
-            template: '<h1 class="title"><a>About</a></h1>'
+            templateUrl: 'views/static/title.html'
           },
           content: { },
           footer: {
@@ -65,12 +66,23 @@ angular
         }
       });
 
-    _.each(config.static, function(url, key) {
+    _.each(config.static, function (url, key) {
       $stateProvider.state(key, {
         url: url,
         views: {
           'content@home': {
-            templateUrl: 'views/static/' + url + '.html'
+            template: '<div class="static" ng-bind-html="content"></div>',
+            controller: ['$scope', '$state', '$translate', '$rootScope', '$http', '$sce',
+              function ($scope, $state, $translate, $rootScope, $http, $sce) {
+                $rootScope.pageTitle = $translate.instant(url.toUpperCase());
+                $http.get(['views/static', $translate.use(), url + '.html'].join('/'))
+                  .success(function (content) {
+                    $scope.content = $sce.trustAsHtml(content);
+                  })
+                  .error(function () {
+                    $state.go('error.404');
+                  });
+              }]
           }
         }
       });
