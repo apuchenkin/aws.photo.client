@@ -125,7 +125,9 @@ angular
             templateUrl: 'views/landing/title.html'
           },
           content: {
-            templateUrl: 'views/landing/content.html'
+            templateUrl: 'views/landing/content.html',
+            controller: 'aws.controller.landing',
+            controllerAs: 'landing'
           },
           footer: {
             templateUrl: 'views/footer.html'
