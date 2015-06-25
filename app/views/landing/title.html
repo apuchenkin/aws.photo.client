@@ -5,7 +5,4 @@
   {{$root.name}}
 </a><span class="version">{{'ALPHA' | translate}}</span></h1>
 <h2 ng-cloak>{{$root.description}}</h2>
-<span class="lang">
-  <a ng-class="{active: main.language === 'ru'}" ng-click="main.setLanguage('ru')">Ru</a>
-  <a ng-class="{active: main.language === 'en'}" ng-click="main.setLanguage('en')">En</a>
-</span>
+<aws-language-selector></aws-language-selector>

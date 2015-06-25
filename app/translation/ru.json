@@ -6,5 +6,7 @@
   "COPY": "2015, Пученкин Артём",
   "FOOTER": "{{home}}, alpha",
   "ABOUT": "О сайте",
-  "CONTACTS": "Контакты"
+  "CONTACTS": "Контакты",
+  "RU": "Ru",
+  "EN": "En"
 }

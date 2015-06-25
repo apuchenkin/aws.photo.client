@@ -6,5 +6,7 @@
   "COPY": "2015, Artem Puchenkin",
   "FOOTER": "{{home}}, alpha",
   "ABOUT": "About",
-  "CONTACTS": "Contacts"
+  "CONTACTS": "Contacts",
+  "RU": "Ru",
+  "EN": "En"
 }

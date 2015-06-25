@@ -12,5 +12,6 @@
   "static": {
     "home.static.about": "about",
     "home.static.contacts": "contacts"
-  }
+  },
+  "languages": ["ru", "en"]
 }
