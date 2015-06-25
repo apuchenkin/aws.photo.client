@@ -8,8 +8,8 @@
  * Controller of the photoawesomestuffinApp
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.image', ['$rootScope', '$state', '$compile', '$scope', 'photos', 'photo', 'CONFIG', '$timeout', 'resolutions',
-    function ($rootScope, $state, $compile, $scope, photos, photo, config, $timeout, resolutions) {
+  .controller('aws.controller.image', ['$state', '$compile', '$scope', 'photos', 'photo', 'CONFIG', '$timeout', 'resolutions', '$translate',
+    function ($state, $compile, $scope, photos, photo, config, $timeout, resolutions, $translate) {
       var index = _.findIndex(photos, {id: photo.$pk}),
           sha = new Hashes.SHA1();
 
@@ -43,7 +43,10 @@ angular.module('aws.photo.client')
           cursor: null
         },
         gallery: {
-          enabled: true
+          enabled: true,
+          tPrev: $translate.instant('PHOTO.PREV'), // Alt text on left arrow
+          tNext: $translate.instant('PHOTO.NEXT'), // Alt text on right arrow
+          tCounter: $translate.instant('PHOTO.PAGES') // Markup for "1 of 7" counter
         },
         //zoom: {
         //  enabled: true, // By default it's false, so don't forget to enable it

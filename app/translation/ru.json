@@ -16,5 +16,15 @@
     "REASON2": "Страница была удалена",
     "CONSEQUENCE": "Если эта страница необходима, пожалйста, напишите на: info 'at' photo.awesomestuff.in",
     "RETURN": "вернуться домой"
+  },
+  "TOOLS": {
+    "FULLSCREEN" : "Увеличить",
+    "CLOSE": "Закрыть"
+  },
+  "PHOTO": {
+    "BY": "автор ",
+    "PAGES": "%curr% из %total%",
+    "PREV": "Предыдущая (Left arrow key)",
+    "NEXT": "Следующая (Right arrow key)"
   }
 }

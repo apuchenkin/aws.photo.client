@@ -16,5 +16,15 @@
     "REASON2": "It have been deleted for some reason",
     "CONSEQUENCE": "If you want to help this page to be alive, please, send your ideas to: info 'at' photo.awesomestuff.in",
     "RETURN": "return home"
+  },
+  "TOOLS": {
+    "FULLSCREEN" : "Full screen",
+    "CLOSE": "Close"
+  },
+  "PHOTO": {
+    "BY": "by ",
+    "PAGES": "%curr% of %total%",
+    "PREV": "Previous (Left arrow key)",
+    "NEXT": "Next (Right arrow key)"
   }
 }
