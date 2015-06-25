@@ -8,5 +8,13 @@
   "ABOUT": "About",
   "CONTACTS": "Contacts",
   "RU": "Ru",
-  "EN": "En"
+  "EN": "En",
+  "ERROR": {
+    "NOT_EXISTS": "This page does not exists",
+    "THIS_MIGHT_BE": "This might be because of:",
+    "REASON1": "It have not been created yet",
+    "REASON2": "It have been deleted for some reason",
+    "CONSEQUENCE": "If you want to help this page to be alive, please, send your ideas to: info 'at' photo.awesomestuff.in",
+    "RETURN": "return home"
+  }
 }

@@ -1,8 +1,10 @@
-<div class="error-404">
-<p>This page does not exists. This might be because of:</p>
-<ol>
-  <li>It's have not been created yet</li>
-  <li>It's have been deleted for some reason</li>
-</ol>
-<p>If you want to help this page to be alive, please, send your ideas to: info 'at' photo.awesomestuff.in</p>
+<div class="error-404" ng-cloak="">
+  <h1><b>{{'404' | translate}}</b> - {{'ERROR.NOT_EXISTS' | translate}}</h1>
+  <p>{{'ERROR.THIS_MIGHT_BE' | translate}}</p>
+  <ol>
+    <li>{{'ERROR.REASON1' | translate}}</li>
+    <li>{{'ERROR.REASON2' | translate}}</li>
+  </ol>
+  <p>{{'ERROR.CONSEQUENCE' | translate}}</p>
+  <a ui-sref="home.landing">{{'ERROR.RETURN' | translate}}</a>
 </div>
