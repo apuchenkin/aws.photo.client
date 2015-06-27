@@ -94,7 +94,7 @@ angular
         url: '/login',
         controller: 'aws.controller.login',
         controllerAs: 'login',
-        templateUrl: 'views/login.html'
+        templateUrl: 'views/admin/login.html'
       })
       .state('logout', {
         url: '/logout',
@@ -179,17 +179,6 @@ angular
           content: { },
           footer: {
             templateUrl: 'views/footer.html'
-          }
-        }
-      })
-
-      .state('home.category.about', {
-        url: '/about',
-        views: {
-          'content@home': {
-            templateUrl: 'views/about.html',
-            controller: 'aws.controller.about',
-            controllerAs: 'about'
           }
         }
       })

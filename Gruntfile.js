@@ -394,7 +394,11 @@ module.exports = function (grunt) {
     ngTemplateCache: {
       views: {
         files: {
-          '.tmp/scripts/views.js': '<%= yeoman.app %>/views/**/*.html'
+          '.tmp/scripts/views.js': [
+            '<%= yeoman.app %>/views/*.html',
+            '<%= yeoman.app %>/views/landing/*.html',
+            '<%= yeoman.app %>/views/gallery/*.html'
+          ]
         },
         options: {
           module: 'aws.photo.client',
