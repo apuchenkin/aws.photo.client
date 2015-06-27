@@ -237,6 +237,9 @@ angular
             return deferred.promise;
           }]
         },
+        onExit: function() {
+          Ps.destroy(angular.element('.content')[0]);
+        },
         data: {
           layout: 'flexed'
         }
