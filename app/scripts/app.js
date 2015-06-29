@@ -16,7 +16,8 @@ angular
     'ui.router',
     'pascalprecht.translate',
     'restmod',
-    'http-auth-interceptor'
+    'http-auth-interceptor',
+    'ang-drag-drop'
   ])
 
   .config(['$urlRouterProvider', function ($urlRouterProvider) {

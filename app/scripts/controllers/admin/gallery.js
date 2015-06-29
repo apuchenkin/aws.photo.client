@@ -65,6 +65,17 @@ angular.module('aws.photo.client')
         return me.selected.indexOf(item) >= 0;
       };
 
+      me.drop = function() {
+        var category = _.find(me.categories, {name: me.category});
+        category.$dropPhotos(_.pluck(me.selected, 'id'));
+        $state.reload();
+      };
+
+      me.onDrop = function(item, category) {
+        var pack = me.selected.length ? _.pluck(me.selected, 'id') : [item];
+        category.$appendPhotos(pack);
+      };
+
       $rootScope.config = config;
 
       var mapPhoto = function (p) {

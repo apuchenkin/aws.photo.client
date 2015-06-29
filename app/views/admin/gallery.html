@@ -6,12 +6,13 @@
   </span>
 
       <div ng-cloak class="tools">
-        <button ng-disabled="admin.selected.length !== 1" ng-click="1">Edit</button>
+        <!--<button ng-disabled="admin.selected.length !== 1" ng-click="1">Edit</button>-->
         <button ng-disabled="admin.selected.length !== 1" ng-click="admin.toggleVisibility(admin.selected[0]);">
           Show/Hide
         </button>
-        <button ng-disabled="admin.selected.length <= 1" ng-click="admin.group();">Group/Ungroup</button>
-        <button ui-sref="logout">Logout</button>
+        <button ng-disabled="admin.selected.length <= 1" ng-click="admin.group();">Group</button>
+        <button ng-disabled="!admin.selected.length" ng-click="admin.drop();">Drop</button>
+        <button style="background: red" ui-sref="logout">Logout</button>
       </div>
     </h1>
   </header>
@@ -21,6 +22,8 @@
     <nav ng-cloak ng-if="admin.categories" class="aside">
       <ul>
         <li class="item"
+            ng-cloak
+            ui-on-drop="admin.onDrop($data, c);"
             ng-class="{active: c.name == admin.category}"
             ng-click="admin.setCategory(c);"
             ng-repeat="c in admin.categories">{{c.name}}
@@ -40,7 +43,7 @@
 
         <div ng-cloak class="group" ng-style="admin.groupStyle[item.group]" ng-if="item.group"
              ng-click="admin.unGroup(item);"></div>
-        <img src="{{item.thumb}}" height="160"/>
+        <img src="{{item.thumb}}" ui-draggable="true" drag="item.id" height="160"/>
       </div>
     </div>
   </div>
