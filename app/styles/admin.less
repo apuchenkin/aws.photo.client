@@ -1,4 +1,8 @@
 .admin {
+  height:100%;
+  margin:auto;
+  position:relative;
+
   h1.title {
     .tools {
       float: right;
@@ -6,7 +10,11 @@
   }
 
   .content {
-    padding-top: 80px;
+    padding: 0;
+    overflow: auto;
+    position:absolute;
+    bottom:0;
+    top: 80px; /*must match the height of #header*/
   }
 
   nav.aside {
@@ -45,7 +53,7 @@
 
     .masonry-brick {
       float: left;
-      margin: 0 @divisor @divisor 0;
+      margin: 0 @divisor / 2 @divisor / 2 0;
       position: relative;
 
       &.selected {

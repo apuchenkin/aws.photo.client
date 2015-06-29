@@ -10,12 +10,15 @@
 angular.module('aws.photo.client')
   .controller('aws.controller.admin.gallery', ['$rootScope', '$state', '$stateParams', '$scope', 'aws.model.photo', 'aws.model.category', 'CONFIG',
     function ($rootScope, $state, $stateParams, $scope, Photo, Category, config) {
-      var me = this;
+      var me = this,
+          sha = new Hashes.SHA1(),
+          size = '240';
 
       me.category = $stateParams.category;
       me.categories = Category.$collection();
-      me.photos = Photo.$collection({category: me.category});
+      var photos = Photo.$collection({category: me.category});
       me.groupStyle = {};
+      me.photos = [];
       me.selected = [];
 
       me.categories.$refresh();
@@ -64,7 +67,16 @@ angular.module('aws.photo.client')
 
       $rootScope.config = config;
 
-      me.photos.$refresh().$then(function(items){
+      var mapPhoto = function (p) {
+        var sign = sha.hex_hmac(config.secret, p.id + '-' + size + 'x' + size);
+
+        return angular.extend(p, {
+          thumb: [config.apiEndpoint, 'hs/photo', p.id, size, size, sign].join('/')
+        });
+      };
+
+      photos.$refresh().$then(function(items){
+        angular.extend(me.photos, items.map(mapPhoto));
         _.map(_.keys(_.groupBy(items, 'group')), function(groupId) {
           me.groupStyle[groupId] = {background: getRandomColor()}
         })
