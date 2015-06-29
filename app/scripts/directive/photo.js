@@ -6,7 +6,7 @@ angular.module('aws.photo.client')
     return {
       template:
       '<figure>' +
-        '<div class="mfp-zoom" ng-click="me.toggleZoom()" ng-mousemove="me.move($event)" ng-style="me.style" ng-show="me.visible"></div>' +
+        '<div class="mfp-zoom" ng-click="me.toggleZoom()" ng-right-click="me.toggleZoom()" ng-mousemove="me.move($event)" ng-style="me.style" ng-show="me.visible"></div>' +
         '<div class="mfp-figure" ng-show="!me.visible">' +
         '<div class="mfp-img"></div>' +
         '</div>' +
