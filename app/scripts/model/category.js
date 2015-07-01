@@ -5,18 +5,18 @@ angular.module('aws.photo.client')
     return restmod.model('/category').mix({
       $extend: {
         Record: {
-          $appendPhotos: function (items) {
+          $appendPhotos: function (ids) {
             return $http({
               method: 'link',
               url: this.$url() + '/photo',
-              data: items
+              data: ids
             });
           },
-          $dropPhotos: function (items) {
+          $dropPhotos: function (ids) {
             return $http({
               method: 'unlink',
               url: this.$url() + '/photo',
-              data: items
+              data: ids
             });
           }
         },

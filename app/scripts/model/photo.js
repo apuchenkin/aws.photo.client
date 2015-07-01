@@ -8,12 +8,27 @@ angular.module('aws.photo.client')
           /**
            * Performs photo grouping
            *
-           * @param [Photo]
+           * @param [Int]
            * @returns {HttpPromise}
            */
-          $group: function (items) {
-            var data = _.map(items, 'id');
-            return $http.post(this.$url() + '/group', data);
+          $group: function (ids) {
+            return $http.post(this.$url() + '/group', ids);
+          },
+
+          $groupAdd: function (groupId, ids) {
+            return $http({
+              method: 'link',
+              url: this.$url() + '/group/' + groupId,
+              data: ids
+            });
+          },
+
+          $groupRemove: function (groupId, ids) {
+            return $http({
+              method: 'unlink',
+              url: this.$url() + '/group/' + groupId,
+              data: ids
+            });
           }
         }
       }

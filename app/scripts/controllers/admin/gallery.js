@@ -17,7 +17,6 @@ angular.module('aws.photo.client')
       me.category = $stateParams.category;
       me.categories = Category.$collection();
       var photos = Photo.$collection({category: me.category});
-      me.groupStyle = {};
       me.photos = [];
       me.selected = [];
 
@@ -28,14 +27,11 @@ angular.module('aws.photo.client')
         item.$save(['hidden']);
       };
 
-      me.unGroup = function (item) {
-        item.group = null;
-        item.$save(['group']);
-      };
-
-      me.group = function () {
-        Photo.$collection().$group(me.selected);
-        $state.reload();
+      me.unGroup = function (photo) {
+        //item.group = null;
+        //item.$save(['group']);
+        Photo.$collection().$groupRemove(photo.group, [photo.id]);
+        updatePhotoData();
       };
 
       me.setCategory = function (category) {
@@ -61,6 +57,18 @@ angular.module('aws.photo.client')
         }
       };
 
+      me.groupPhoto = function(item, photo) {
+        var pack = me.selected.length ? _.pluck(me.selected, 'id') : [item];
+
+        if (photo.group) { // append to photo group
+          Photo.$collection().$groupAdd(photo.group, pack);
+        } else { //make grouping
+          pack.push(photo.id);
+          Photo.$collection().$group(pack);
+        }
+        updatePhotoData();
+      };
+
       me.isSelected = function(item) {
         return me.selected.indexOf(item) >= 0;
       };
@@ -68,7 +76,7 @@ angular.module('aws.photo.client')
       me.drop = function() {
         var category = _.find(me.categories, {name: me.category});
         category.$dropPhotos(_.pluck(me.selected, 'id'));
-        $state.reload();
+        updatePhotoData();
       };
 
       me.onDrop = function(item, category) {
@@ -86,11 +94,15 @@ angular.module('aws.photo.client')
         });
       };
 
-      photos.$refresh().$then(function(items){
-        angular.extend(me.photos, items.map(mapPhoto));
-        _.map(_.keys(_.groupBy(items, 'group')), function(groupId) {
-          me.groupStyle[groupId] = {background: getRandomColor()}
-        })
-      });
+      var updatePhotoData = function() {
+        me.groupStyle = {};
+        photos.$refresh().$then(function(items){
+          angular.extend(me.photos, items.map(mapPhoto));
+          _.map(_.keys(_.groupBy(items, 'group')), function(groupId) {
+            me.groupStyle[groupId] = {background: getRandomColor()}
+          })
+        });
+      };
+      updatePhotoData();
     }
   ]);
