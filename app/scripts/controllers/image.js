@@ -8,13 +8,15 @@
  * Controller of the photoawesomestuffinApp
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.image', ['$state', '$compile', '$scope', 'photos', 'photo', 'CONFIG', '$timeout', 'resolutions', '$translate',
-    function ($state, $compile, $scope, photos, photo, config, $timeout, resolutions, $translate) {
+  .controller('aws.controller.image', ['$state', '$compile', '$scope', 'photos', 'photo', 'CONFIG', '$timeout', 'resolutions', '$translate', '$window',
+    function ($state, $compile, $scope, photos, photo, config, $timeout, resolutions, $translate, $window) {
       var index = _.findIndex(photos, {id: photo.$pk}),
           sha = new Hashes.SHA1();
 
       var getSize = function() {
-        var minv = resolutions.data.map(function(item){return Math.pow(item[0] - window.innerWidth, 2) + Math.pow(item[1] - window.innerHeight, 2);});
+        var minv = resolutions.data.map(function(item){
+          return Math.pow(item[0] - $window.innerWidth, 2) + Math.pow(item[1] - $window.innerHeight, 2);
+        });
         return resolutions.data[minv.indexOf(_.min(minv))];
       };
 
