@@ -12,13 +12,13 @@ angular.module('aws.photo.client')
       scope: {
         ngModel: '='
       },
-      controller: ['$cookieStore', '$state', function($cookieStore, $state) {
+      controller: ['$cookieStore', '$window', function($cookieStore, $window) {
         var me = this;
 
         me.languages = config.languages;
         me.setLanguage = function(lang) {
           $cookieStore.put('language', lang);
-          $state.reload();
+          $window.location.reload();
         };
       }],
       controllerAs: 'me'

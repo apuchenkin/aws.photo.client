@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('aws.photo.client')
+angular.module('aws.photo.admin')
   .service('aws.service.auth',
   ['$rootScope', '$http', '$cookieStore', '$state', 'CONFIG', 'authService',
     function ($rootScope, $http, $cookieStore, $state, config, authService) {
@@ -51,7 +51,7 @@ angular.module('aws.photo.client')
             token = 'Basic ' + b64.encode([credentials.email, credentials.password].join(':'));
 
           this.checkCredentials(token, function() {
-            $state.go('admin');
+            $state.go('home');
           });
         },
 

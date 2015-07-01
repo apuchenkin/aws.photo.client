@@ -52,16 +52,23 @@ module.exports = function (grunt) {
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
-      json: {
-        files: ['<%= yeoman.app %>/{,*/}*.json'],
-        tasks: ['ngconstant:dev']
+      gruntfile: {
+        files: ['Gruntfile.js']
       },
       bower: {
         files: ['bower.json'],
         tasks: ['wiredep']
       },
+
+      json: {
+        files: ['<%= yeoman.app %>/{,*/}*.json'],
+        tasks: ['ngconstant:dev']
+      },
       js: {
-        files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+        files: [
+          '<%= yeoman.app %>/scripts/{,*/}*.js',
+          '<%= yeoman.app %>/module/admin/scripts/{,*/}*.js'
+        ],
         tasks: ['newer:jshint:all'],
         options: {
           livereload: '<%= connect.options.livereload %>'
@@ -72,14 +79,14 @@ module.exports = function (grunt) {
         tasks: ['newer:jshint:test', 'karma']
       },
       less: {
-        files: ['<%= yeoman.app %>/styles/{,*/}*.less'],
+        files: [
+          '<%= yeoman.app %>/styles/{,*/}*.less',
+          '<%= yeoman.app %>/module/admin/styles/{,*/}*.less'
+        ],
         tasks: ['less'],
         options: {
           livereload: '<%= connect.options.livereload %>'
         }
-      },
-      gruntfile: {
-        files: ['Gruntfile.js']
       },
       livereload: {
         options: {
@@ -117,31 +124,35 @@ module.exports = function (grunt) {
                 '/static',
                 connect.static('./static')
               ),
-              connect.static(appConfig.app)
-            ];
-          }
-        }
-      },
-      test: {
-        options: {
-          port: 9001,
-          middleware: function (connect) {
-            return [
-              connect.static('.tmp'),
-              connect.static('test'),
               connect().use(
-                '/bower_components',
-                connect.static('./bower_components')
-              ),
-              connect().use(
-                '/test',
-                connect.static('./test')
+                '/admin',
+                connect.static(appConfig.app + '/module/admin/')
               ),
               connect.static(appConfig.app)
             ];
           }
         }
       },
+      //test: {
+      //  options: {
+      //    port: 9001,
+      //    middleware: function (connect) {
+      //      return [
+      //        connect.static('.tmp'),
+      //        connect.static('test'),
+      //        connect().use(
+      //          '/bower_components',
+      //          connect.static('./bower_components')
+      //        ),
+      //        connect().use(
+      //          '/test',
+      //          connect.static('./test')
+      //        ),
+      //        connect.static(appConfig.app)
+      //      ];
+      //    }
+      //  }
+      //},
       dist: {
         options: {
           open: true,
@@ -159,7 +170,8 @@ module.exports = function (grunt) {
       all: {
         src: [
           'Gruntfile.js',
-          '<%= yeoman.app %>/scripts/{,*/}*.js'
+          '<%= yeoman.app %>/scripts/{,*/}*.js',
+          '<%= yeoman.app %>/module/admin/scripts/{,*/}*.js'
         ]
       },
       test: {
@@ -203,7 +215,10 @@ module.exports = function (grunt) {
     // Automatically inject Bower components into the app
     wiredep: {
       app: {
-        src: ['<%= yeoman.app %>/index.html'],
+        src: [
+          '<%= yeoman.app %>/index.html',
+          '<%= yeoman.app %>modules/admin/index.html'
+        ],
         ignorePath:  /\.\.\//
       }
     },
@@ -223,7 +238,8 @@ module.exports = function (grunt) {
     less: {
       css: {
         files: {
-          '.tmp/styles/app.css': '<%= yeoman.app %>/styles/app.less'
+          '.tmp/styles/client.css': '<%= yeoman.app %>/styles/app.less',
+          '.tmp/styles/admin.css': '<%= yeoman.app %>/module/admin/styles/admin.less'
         }
       }
     },
@@ -232,8 +248,21 @@ module.exports = function (grunt) {
     // concat, minify and revision files. Creates configurations in memory so
     // additional tasks can operate on them
     useminPrepare: {
-      html: '<%= yeoman.app %>/index.html',
-      options: {
+      client: {
+        src: ['<%= yeoman.app %>/index.html'],
+        dest: '<%= yeoman.dist %>',
+        flow: {
+          html: {
+            steps: {
+              js: ['concat', 'uglifyjs'],
+              css: ['cssmin']
+            },
+            post: {}
+          }
+        }
+      },
+      admin: {
+        src: ['<%= yeoman.app %>/module/admin/index.html'],
         dest: '<%= yeoman.dist %>',
         flow: {
           html: {
@@ -249,10 +278,16 @@ module.exports = function (grunt) {
 
     // Performs rewrites based on filerev and the useminPrepare configuration
     usemin: {
-      html: ['<%= yeoman.dist %>/{,*/}*.html'],
+      html: [
+        '<%= yeoman.dist %>/{,*/}*.html',
+        '<%= yeoman.dist %>/module/admin/{,*/}*.html'
+      ],
       css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
       options: {
-        assetsDirs: ['<%= yeoman.dist %>','<%= yeoman.dist %>/images']
+        assetsDirs: [
+          '<%= yeoman.dist %>',
+          '<%= yeoman.dist %>/images'
+        ]
       }
     },
 
@@ -316,7 +351,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.dist %>',
-          src: ['*.html', 'views/{,*/}*.html'],
+          src: ['*.html', 'views/{,*/}*.html', 'module/admin/*.html'],
           dest: '<%= yeoman.dist %>'
         }]
       }
@@ -325,7 +360,10 @@ module.exports = function (grunt) {
     // Replace Google CDN references
     cdnify: {
       dist: {
-        html: ['<%= yeoman.dist %>/*.html']
+        html: [
+          '<%= yeoman.dist %>/*.html',
+          '<%= yeoman.dist %>/module/admin/*.html'
+        ]
       }
     },
 
@@ -342,7 +380,10 @@ module.exports = function (grunt) {
             'resolution.json',
             '.htaccess',
             '*.html',
-            //'views/{,*/}*.html',
+            'views/{,*/}*.html',
+            'module/admin/*.html',
+            'module/admin/views/{,*/}*.html',
+            'module/core/views/{,*/}*.html',
             'images/{,*/}*.{webp}',
             'fonts/{,*/}*.*'
           ]
@@ -384,17 +425,28 @@ module.exports = function (grunt) {
     //},
 
     // Test settings
-    karma: {
-      unit: {
-        configFile: 'test/karma.conf.js',
-        singleRun: true
-      }
-    },
+    //karma: {
+    //  unit: {
+    //    configFile: 'test/karma.conf.js',
+    //    singleRun: true
+    //  }
+    //},
 
     ngTemplateCache: {
-      views: {
+      core: {
         files: {
-          '.tmp/scripts/views.js': [
+          '.tmp/scripts/views-core.js': [
+            '<%= yeoman.app %>/module/core/views/{,*/}*.html'
+          ]
+        },
+        options: {
+          module: 'aws.photo.core',
+          trim: 'app/'
+        }
+      },
+      client: {
+        files: {
+          '.tmp/scripts/views-client.js': [
             '<%= yeoman.app %>/views/*.html',
             '<%= yeoman.app %>/views/landing/*.html',
             '<%= yeoman.app %>/views/gallery/*.html'
@@ -402,6 +454,17 @@ module.exports = function (grunt) {
         },
         options: {
           module: 'aws.photo.client',
+          trim: 'app/'
+        }
+      },
+      admin: {
+        files: {
+          '.tmp/scripts/views-admin.js': [
+            '<%= yeoman.app %>/module/admin/views/*.html'
+          ]
+        },
+        options: {
+          module: 'aws.photo.admin',
           trim: 'app/'
         }
       }
@@ -423,13 +486,13 @@ module.exports = function (grunt) {
     ]);
   });
 
-  grunt.registerTask('test', [
-    'clean:server',
-    'concurrent:test',
-    'autoprefixer',
-    'connect:test',
-    'karma'
-  ]);
+  //grunt.registerTask('test', [
+  //  'clean:server',
+  //  'concurrent:test',
+  //  'autoprefixer',
+  //  'connect:test',
+  //  'karma'
+  //]);
 
   grunt.registerTask('build', [
     'clean:dist',

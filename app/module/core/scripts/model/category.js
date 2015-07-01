@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('aws.photo.client')
+angular.module('aws.photo.core')
   .factory('aws.model.category', ['restmod', '$http', function (restmod, $http) {
     return restmod.model('/category').mix({
       $extend: {

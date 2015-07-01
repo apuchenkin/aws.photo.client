@@ -11,71 +11,41 @@
 angular
   .module('aws.photo.client', [
     'aws.config',
+    'aws.photo.core',
     'ngAnimate',
     'ngCookies',
     'ui.router',
-    'pascalprecht.translate',
-    'restmod',
-    'http-auth-interceptor',
-    'ang-drag-drop'
+    'pascalprecht.translate'
   ])
 
-  .config(['$urlRouterProvider', function ($urlRouterProvider) {
-    $urlRouterProvider.when('', '/');
-    $urlRouterProvider.otherwise('/404');
-  }])
-
-  .config(['$translateProvider', 'TRANSLATION',
-    function ($translateProvider, TRANSLATION) {
-      $translateProvider
-        .translations('en', TRANSLATION.EN)
-        .translations('ru', TRANSLATION.RU)
-        .registerAvailableLanguageKeys(['en', 'ru'], {
-          'en_US': 'en',
-          'en_UK': 'en',
-          'ru_RU': 'ru'
-        })
-        .fallbackLanguage('en')
-        .determinePreferredLanguage();
-    }])
-
   .config(['$stateProvider', 'CONFIG', function ($stateProvider, config) {
-
-    // Public routes
-    $stateProvider
-      .state('error', {
-        abstract: true,
-        template: '<ui-view></ui-view>'
-      })
-      .state('error.404', {
-        url: '/404',
-        templateUrl: 'views/error/404.html'
-      });
 
     // Public routes
     $stateProvider
       .state('home.static', {
         abstract: true,
         views: {
-          title: {
+          'title@': {
             templateUrl: 'views/static/title.html'
           },
           content: { },
-          footer: {
-            templateUrl: 'views/footer.html'
-          }
+          footer: { }
         }
       });
 
     _.each(config.static, function (url, key) {
       $stateProvider.state(key, {
         url: url,
+        data: {},
+        onEnter: ['$rootScope', '$translate', function($rootScope, $translate) {
+          this.data.title = $rootScope.pageTitle = $translate.instant(url.toUpperCase());
+        }],
         views: {
-          'content@home': {
+          'content@': {
             template: '<div class="static" ng-bind-html="content"></div>',
             controller: ['$scope', '$state', '$translate', '$rootScope', '$http', '$sce',
               function ($scope, $state, $translate, $rootScope, $http, $sce) {
-                $rootScope.pageTitle = $translate.instant(url.toUpperCase());
+
                 $http.get(['views/static', $translate.use(), url + '.html'].join('/'))
                   .success(function (content) {
                     $scope.content = $sce.trustAsHtml(content);
@@ -89,50 +59,9 @@ angular
       });
     });
 
-    //main routes
-    $stateProvider
-      .state('login', {
-        url: '/login',
-        controller: 'aws.controller.login',
-        controllerAs: 'login',
-        templateUrl: 'views/admin/login.html'
-      })
-      .state('logout', {
-        url: '/logout',
-        controller: ['aws.service.auth', function(auth) {
-          auth.logout();
-        }]
-      });
-
-    $stateProvider
-      .state('admin', {
-        url: '/admin?{category:string}',
-        controller: 'aws.controller.admin.gallery',
-        controllerAs: 'admin',
-        templateUrl: 'views/admin/gallery.html',
-        data: {
-          admin: true
-        }
-      });
-
-    //main routes
     $stateProvider
       .state('home', {
-        abstract: true,
         url: '/',
-        controller: 'aws.controller.main',
-        controllerAs: 'main',
-        templateUrl: 'views/main.html',
-        resolve: {
-          categories: ['aws.model.category', function(Category) {
-            var categories =  Category.$collection();
-            return categories.$refresh().$asPromise();
-          }]
-        }
-      })
-
-      .state('home.landing', {
-        url: '',
         views: {
           title: {
             templateUrl: 'views/landing/title.html'
@@ -146,8 +75,14 @@ angular
             templateUrl: 'views/footer.html'
           }
         },
+        resolve: {
+          categories: ['aws.model.category', function(Category) {
+            var categories =  Category.$collection();
+            return categories.$refresh().$asPromise();
+          }]
+        },
+        data: {},
         onEnter: ['$rootScope', function($rootScope) {
-          $rootScope.title = $rootScope.name + ' - ' + $rootScope.description;
           $rootScope.hasNavigation = false;
         }]
       })
@@ -169,18 +104,16 @@ angular
           }]
         },
         views: {
-          title: {
+          'title@': {
             templateUrl: 'views/gallery/title.html'
           },
-          navigation: {
+          'navigation@': {
             templateUrl: 'views/navigation.html',
             controller: 'aws.controller.navigation',
             controllerAs: 'navigation'
           },
           content: { },
-          footer: {
-            templateUrl: 'views/footer.html'
-          }
+          footer: { }
         }
       })
 
@@ -190,7 +123,7 @@ angular
           subcategory: {value: null, squash: true}
         },
         views: {
-          'content@home': {
+          'content@': {
               templateUrl: 'views/gallery.html',
               controller: 'aws.controller.gallery',
               controllerAs: 'gallery'
@@ -227,6 +160,9 @@ angular
             return deferred.promise;
           }]
         },
+        onEnter: ['$rootScope', '$translate', function($rootScope, $translate) {
+          this.data.title = $rootScope.category.title;
+        }],
         onExit: function() {
           Ps.destroy(angular.element('.content')[0]);
         },
@@ -251,49 +187,11 @@ angular
     ;
   }])
 
-  .factory('restmodConfig', ['restmod', 'CONFIG', function (restmod, config) {
-
-    return restmod.mixin('DefaultPacker', { // include default packer extension
-      $config: {
-        style: 'AMSApi', // By setting the style variable the warning is disabled.
-        primaryKey: 'id',
-        jsonRoot: '.',
-        jsonMeta: 'meta',
-        jsonLinks: 'links',
-        urlPrefix: config.apiEndpoint
-      },
-      $extend: {
-        // special snakecase to camelcase renaming
-        Model: {
-          unpack: function (_resource, _raw) {
-            var name = null;
-            var data = this.$super.apply(this, arguments);
-
-            if (_resource.$isCollection) {
-              name = this.getProperty('jsonRootMany') || this.getProperty('jsonRoot') || this.getProperty('plural');
-            } else {
-              name = this.getProperty('jsonRootSingle') || this.getProperty('jsonRoot') || this.getProperty('name');
-            }
-
-            return name === '.' ? _raw : data;
-          }
-        }
-      }
-    });
-  }])
-
-  .config(['restmodProvider', function (restmodProvider) {
-    restmodProvider.rebase('restmodConfig');
-  }])
-
-  .factory('requestInterceptor', ['$q', '$cookieStore','$translate', function ($q, $cookieStore, $translate) {
+  .factory('requestInterceptor', ['$q', '$translate', function ($q, $translate) {
     return {
       // setup authorisation header pre-request
       'request': function (config) {
         config.headers = config.headers || {};
-        if ($cookieStore.get('access_token')) {
-          config.headers.Authorization = $cookieStore.get('access_token');
-        }
         config.headers['Accept-Language'] = $translate.use();
 
         return config;
@@ -307,29 +205,19 @@ angular
     $locationProvider.html5Mode(config.html5);
   }])
 
-  .run(['$rootScope', '$cookieStore', 'aws.service.auth', '$state', 'CONFIG', '$translate', function ($rootScope, $cookieStore, auth, $state, config, $translate) {
-    $rootScope.config = config;
-
-    if ($cookieStore.get('access_token')) {
-      auth.checkCredentials($cookieStore.get('access_token'));
+  .run(['$rootScope', '$cookieStore', '$state', 'CONFIG', '$translate', function ($rootScope, $cookieStore, $state, config, $translate) {
+    if ($cookieStore.get('language')) {
+      $translate.use($cookieStore.get('language'));
     }
 
+    $rootScope.config = config;
+    $rootScope.language = $translate.use();
+    $rootScope.name = 'PHOTO.AWESOMESTUFF.IN';
+    $rootScope.description = $translate.instant('DESCRIPTION');
     $rootScope.layout = 'default';
+
     $rootScope.$on('$stateChangeStart',
-      function (event, toState) {
-        if ($cookieStore.get('language')) {
-          $translate.use($cookieStore.get('language'));
-        }
-
-        if (toState.data !== undefined) {
-          if (toState.data.admin !== undefined && toState.data.admin) {
-            if (!$cookieStore.get('access_token')) {
-              event.preventDefault();
-              $state.go('login');
-            }
-          }
-        }
-
+      function () {
         $rootScope.loading = true;
       });
 
@@ -337,5 +225,9 @@ angular
       function (a, state) {
         $rootScope.loading = false;
         $rootScope.layout  = state.data && state.data.layout || 'default';
+        $rootScope.title = state.data && state.data.title
+          ? $rootScope.name + ' - ' + state.data.title
+          : $rootScope.name + ' - ' + $rootScope.description
+        ;
       });
   }]);

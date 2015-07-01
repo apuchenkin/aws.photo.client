@@ -61,7 +61,6 @@ angular.module('aws.photo.client')
       };
 
       angular.extend(me.bricks, photos.map(getBrick));
-      $rootScope.title = $rootScope.name + ' - ' + $rootScope.category.title;
 
       var container = angular.element('.content')[0];
       container.scrollTop = 0;

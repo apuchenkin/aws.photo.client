@@ -1,21 +1,22 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" ng-app="aws.photo.admin" ng-strict-di>
   <head>
     <meta charset="utf-8">
-    <title ng-bind="$root.title">PHOTO.AWESOMESTUFF.IN</title>
+    <title>PHOTO.AWESOMESTUFF.IN</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) /styles/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/magnific-popup/dist/magnific-popup.css" />
-    <link rel="stylesheet" href="bower_components/icomoon/dist/css/style.css" />
-    <link rel="stylesheet" href="bower_components/perfect-scrollbar/css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="/bower_components/icomoon/dist/css/style.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:700,300,400' rel='stylesheet' type='text/css'>
     <!-- build:css(.tmp) /styles/client.css -->
-    <link rel="stylesheet" href="styles/client.css">
+    <link rel="stylesheet" href="/styles/client.css">
+    <!-- endbuild -->
+    <!-- build:css(.tmp) /styles/admin.css -->
+    <link rel="stylesheet" href="/styles/admin.css">
     <!-- endbuild -->
     <base href="/">
   </head>
@@ -27,14 +28,6 @@
     <div class="container" ng-class="$root.layout">
       <div ng-show="loading" class="mfp-bg"><div class="mfp-preloader"></div></div>
       <ui-view></ui-view>
-      <header class="main">
-        <div ui-view="title"></div>
-        <div ui-view="navigation"></div>
-      </header>
-      <div class="content" ng-class="{nav: $root.hasNavigation}" >
-        <div ui-view="content"></div>
-        <footer ui-view="footer"></footer>
-      </div>
     </div>
 
     <script ng-cloak ng-if="$root.config.analytics" >
@@ -47,18 +40,9 @@
       ga('send', 'pageview');
     </script>
 
-    <!-- build:js(.) /scripts/oldieshim.js -->
-    <!--[if lt IE 9]>
-    <script src="/bower_components/es5-shim/es5-shim.js"></script>
-    <script src="/bower_components/json3/lib/json3.js"></script>
-    <![endif]-->
-    <!-- endbuild -->
-
-    <!-- build:js(.) /scripts/vendor-client.js -->
+    <!-- build:js(.) /scripts/vendor-admin.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/es5-shim/es5-shim.js"></script>
-    <script src="bower_components/json3/lib/json3.js"></script>
     <script src="bower_components/lodash/lodash.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
@@ -76,6 +60,7 @@
     <script src="bower_components/eventEmitter/EventEmitter.js"></script>
     <script src="bower_components/matches-selector/matches-selector.js"></script>
     <script src="bower_components/fizzy-ui-utils/utils.js"></script>
+    <script src="bower_components/outlayer/item.js"></script>
     <script src="bower_components/outlayer/outlayer.js"></script>
     <script src="bower_components/masonry/masonry.js"></script>
     <script src="bower_components/magnific-popup/dist/jquery.magnific-popup.js"></script>
@@ -86,37 +71,23 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-    <!-- build:false -->
-    <script src="bower_components/angular-mocks/angular-mocks.js"></script>
-    <script src="test/api/backend.js"></script>
-    <!-- endbuild -->
-
     <!-- build:js({.tmp,app}) /scripts/core.js -->
     <script src="module/core/scripts/app.js"></script>
     <script src="module/core/scripts/model/category.js"></script>
     <script src="module/core/scripts/model/photo.js"></script>
     <!-- endbuild -->
 
-    <!-- build:js({.tmp,app}) /scripts/client.js -->
-    <script src="scripts/bootstrap.js"></script>
+    <!-- build:js({.tmp,app}) /scripts/admin.js -->
     <script src="scripts/config.js"></script>
-    <script src="scripts/app.js"></script>
-
-    <script src="scripts/controllers/landing.js"></script>
-    <script src="scripts/controllers/navigation.js"></script>
-    <script src="scripts/controllers/gallery.js"></script>
-    <script src="scripts/controllers/image.js"></script>
-
-    <script src="scripts/directive/brick.js"></script>
-    <script src="scripts/directive/photo.js"></script>
-    <script src="scripts/directive/photoTitle.js"></script>
-    <script src="scripts/directive/languageSelector.js"></script>
-    <script src="scripts/directive/rightClick.js"></script>
+    <script src="module/admin/scripts/app.js"></script>
+    <script src="module/admin/scripts/controllers/gallery.js"></script>
+    <script src="module/admin/scripts/controllers/login.js"></script>
+    <script src="module/admin/scripts/service/auth.js"></script>
     <!-- endbuild -->
 
-    <!-- build:js({.tmp,app}) /scripts/views-client.js -->
+    <!-- build:js({.tmp,app}) /scripts/views-admin.js -->
     <script src="scripts/views-core.js"></script>
-    <script src="scripts/views-client.js"></script>
+    <script src="scripts/views-admin.js"></script>
     <!-- endbuild -->
 </body>
 </html>
