@@ -3,7 +3,7 @@
   "browser": true,
   "esnext": true,
   "bitwise": true,
-  "camelcase": true,
+  "camelcase": false,
   "curly": true,
   "eqeqeq": true,
   "immed": true,
@@ -17,12 +17,14 @@
   "strict": true,
   "trailing": true,
   "smarttabs": true,
+  "laxbreak": true,
   "globals": {
     "angular": false,
     "_": false,
     "$": false,
     "math": false,
     "Masonry": false,
-    "Hashes": false
+    "Hashes": false,
+    "Ps": false
   }
 }

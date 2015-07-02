@@ -38,7 +38,7 @@ angular
     $locationProvider.html5Mode(config.html5);
   }])
 
-  .config(['$stateProvider', 'CONFIG', function ($stateProvider, config) {
+  .config(['$stateProvider', function ($stateProvider) {
 
     //main routes
     $stateProvider

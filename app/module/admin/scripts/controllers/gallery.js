@@ -93,8 +93,8 @@ angular.module('aws.photo.admin')
         photos.$refresh().$then(function(items){
           angular.extend(me.photos, items.map(mapPhoto));
           _.map(_.keys(_.groupBy(items, 'group')), function(groupId) {
-            me.groupStyle[groupId] = {background: getRandomColor()}
-          })
+            me.groupStyle[groupId] = {background: getRandomColor()};
+          });
         });
       };
       updatePhotoData();

@@ -56,10 +56,8 @@ module.exports = function (grunt) {
         files: ['Gruntfile.js']
       },
       bower: {
-        files: ['bower.json'],
-        tasks: ['wiredep']
+        files: ['bower.json']
       },
-
       json: {
         files: ['<%= yeoman.app %>/{,*/}*.json'],
         tasks: ['ngconstant:dev']

@@ -8,10 +8,9 @@
  * Controller of the aws-photo-client
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.gallery', ['$rootScope', '$timeout', 'photos', 'CONFIG',
-    function ($rootScope, $timeout, photos, config) {
+  .controller('aws.controller.gallery', ['$rootScope', '$timeout', 'photos', 'CONFIG', 'aws.service.photo',
+    function ($rootScope, $timeout, photos, config, photoService) {
       var me = this,
-          sha = new Hashes.SHA1(),
           views = _.pluck(photos, 'views'),
           std = math.std(views),
           max = math.max(views),
@@ -25,38 +24,31 @@ angular.module('aws.photo.client')
       me.bricks = [];
 
       var getBrick = function (photo) {
-        var div = Math.floor(photo.views / (std + 1)) + 1,
-            agg = Math.floor(max / ((photo.views * std) + 1)) + 1,
-            probs, mode, isHorisontal, ratio, dims, dsmap, sign, msize, inc;
-
-        probs = _.flatten([
-          _.fill(new Array((agg * agg * 8) + (div * div * 1)), 1),
-          _.fill(new Array((agg * agg * 4) + (div * div * 2)), 2),
-          _.fill(new Array((agg * agg * 2) + (div * div * 3)), 3),
-          _.fill(new Array((agg * agg * 1) + (div * div * 4)), 4)
-        ]);
-
-        mode = _.sample(probs);
-        isHorisontal = (photo.width > photo.height);
-        ratio = photo.width / photo.height;
-        inc = (ratio >= 1) ? ratio : 1 / ratio;
-
-        dsmap = {
-          1: [ratio >= 2 ? s2 : s, s],
-          2: isHorisontal ? [ratio >= 3 ? s3 : s2, s] : [s, s2],
-          3: ratio >= 4 ? [s4, s] : [ratio >= 2 ? s3 : s2, s2],
-          4: isHorisontal ? [ratio >= 2 ? s4 : s3, s2] : [s2, s3]
-        };
-
-        dims = dsmap[mode];
-        msize =  _.max([Math.ceil(_.min([dims[0], dims[1]]) * inc), _.max([dims[0], dims[1]])]);
-        sign = sha.hex_hmac(config.secret, photo.id + '-' + msize + 'x' + msize);
+        var
+          div = Math.floor(photo.views / (std + 1)) + 1,
+          agg = Math.floor(max / ((photo.views * std) + 1)) + 1,
+          mdiv  = _.map([1,2,3,4], function(x){ return x * Math.pow(div,2);}),
+          magg  = _.map([8,4,2,1], function(x){ return x * Math.pow(agg,2);}),
+          probs = _.map(_.zip(mdiv, magg),_.sum),
+          mode  = photoService.weightedRandom(probs),
+          isHorisontal = (photo.width > photo.height),
+          ratio = photo.width / photo.height,
+          inc = (ratio >= 1) ? ratio : 1 / ratio,
+          dsmap = [
+            [ratio >= 2 ? s2 : s, s],
+            isHorisontal ? [ratio >= 3 ? s3 : s2, s] : [s, s2],
+            ratio >= 4 ? [s4, s] : [ratio >= 2 ? s3 : s2, s2],
+            isHorisontal ? [ratio >= 2 ? s4 : s3, s2] : [s2, s3]
+          ],
+          dims = dsmap[mode],
+          msize =  _.max([Math.ceil(_.min([dims[0], dims[1]]) * inc), _.max([dims[0], dims[1]])])
+        ;
 
         return {
           id: photo.id,
           width: dims[0],
           height: dims[1],
-          src: [config.apiEndpoint, 'hs/photo', photo.id, msize, msize, sign].join('/')
+          src: photoService.remapPhoto(photo.id, msize, msize)
         };
       };
 

@@ -1,3 +1,5 @@
+'use strict';
+
 angular
   .module('aws.photo.client')
   .directive('ngRightClick', ['$parse', function($parse) {

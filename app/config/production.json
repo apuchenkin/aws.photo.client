@@ -15,5 +15,9 @@
   "languages": ["ru", "en"],
   "admin": {
     "base": "/admin"
+  },
+  "gallery": {
+    "width": 320,
+    "height": 240
   }
 }
