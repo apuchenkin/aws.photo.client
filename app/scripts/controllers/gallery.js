@@ -27,7 +27,7 @@ angular.module('aws.photo.client')
       var getBrick = function (photo) {
         var div = Math.floor(photo.views / (std + 1)) + 1,
             agg = Math.floor(max / ((photo.views * std) + 1)) + 1,
-            probs, mode, isHorisontal, ratio, dims, dsmap, sign, msize;
+            probs, mode, isHorisontal, ratio, dims, dsmap, sign, msize, inc;
 
         probs = _.flatten([
           _.fill(new Array((agg * agg * 8) + (div * div * 1)), 1),
@@ -39,6 +39,7 @@ angular.module('aws.photo.client')
         mode = _.sample(probs);
         isHorisontal = (photo.width > photo.height);
         ratio = photo.width / photo.height;
+        inc = (ratio >= 1) ? ratio : 1 / ratio;
 
         dsmap = {
           1: [ratio >= 2 ? s2 : s, s],
@@ -48,7 +49,7 @@ angular.module('aws.photo.client')
         };
 
         dims = dsmap[mode];
-        msize =  Math.round(_.max([dims[0], dims[1]]));
+        msize =  _.max([Math.ceil(_.min([dims[0], dims[1]]) * inc), _.max([dims[0], dims[1]])]);
         sign = sha.hex_hmac(config.secret, photo.id + '-' + msize + 'x' + msize);
 
         return {
