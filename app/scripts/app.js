@@ -139,7 +139,7 @@ angular
 
             var doGroups = function(photos) {
               var groups = _.groupBy(photos, 'group');
-              photos = _.reduce(_.keys(groups), function(acc, i) {
+              var data = _.reduce(_.keys(groups), function(acc, i) {
                 if (+i > 0) {
                   var photo = _.sample(_.flatten(_.map(groups[i], function(p){return _.fill(new Array(p.views + 1), p);})));
                   photo.views = _.sum(groups[i], 'views');
@@ -147,8 +147,9 @@ angular
                 }
                 return acc;
               }, groups.null);
-
-              return _.sortBy(photos, 'datetime');
+              data = _.sortBy(data, 'datetime');
+              data.raw = photos;
+              return data;
             };
 
             photos.$refresh().$then(function(items) {
@@ -176,8 +177,19 @@ angular
         controller: 'aws.controller.image',
         controllerAs: 'imageCtrl',
         resolve: {
-          photo: ['$stateParams', 'aws.model.photo', function ($stateParams, Photo) {
-            return Photo.$find($stateParams.id).$asPromise();
+          photo: ['$stateParams', 'aws.model.photo', 'photos', '$state', 'category', 'subcategory', '$rootScope',
+            function ($stateParams, Photo, photos, $state, category, subcategory, $rootScope) {
+            var photo = Photo.$find($stateParams.id).$asPromise();
+            photo.then(function(p){
+              if (_.findIndex(photos.raw, 'id', p.id) < 0) {
+                $state.go('home.category.gallery', {category: category.name, subcategory: subcategory ? subcategory.name : null});
+                $rootScope.loading = false;
+              }
+              if (_.findIndex(photos, 'id', p.id) < 0) {
+                photos.push(p);
+              }
+            });
+            return photo;
           }],
           resolutions: ['$http', function($http) {
             return $http.get('/resolution.json');

@@ -10,7 +10,7 @@
 angular.module('aws.photo.client')
   .controller('aws.controller.image', ['$state', '$compile', '$scope', 'photos', 'photo', 'CONFIG', '$timeout', 'resolutions', '$translate', '$window',
     function ($state, $compile, $scope, photos, photo, config, $timeout, resolutions, $translate, $window) {
-      var index = _.findIndex(photos, {id: photo.$pk}),
+      var index = _.findIndex(photos, {id: photo.id}),
           sha = new Hashes.SHA1();
 
       var getSize = function() {
