@@ -12,14 +12,13 @@
     "angular-translate": "~2.6.1",
     "angular-http-auth": "~1.2.2",
     "angular-ui-router": "~0.2.14",
-    "photoset-grid": "~1.0.1",
-    "masonry": "~3.3.0",
     "magnific-popup": "~1.0.0",
     "mathjs": "~1.5.1",
     "jshashes": "~1.0.5",
     "icomoon": "~0.0.3",
     "perfect-scrollbar": "~0.6.2",
-    "angular-native-dragdrop": "~1.1.0"
+    "angular-native-dragdrop": "~1.1.0",
+    "packery": "~1.4.2"
   },
   "devDependencies": {
     "less": "~2.5.0",

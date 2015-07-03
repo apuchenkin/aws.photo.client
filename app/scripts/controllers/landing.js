@@ -24,7 +24,7 @@ angular.module('aws.photo.client')
       me.categories = _.groupBy(_.map(categories, mapCategory), 'parent');
 
       $timeout(function () {
-        new Masonry('.content .galleries ul', {
+        new Packery('.content .galleries ul', {
           isFitWidth: true,
           columnWidth: 200,
           itemSelector: 'li.item'

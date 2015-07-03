@@ -17,8 +17,7 @@ angular.module('aws.photo.client')
           height: brick.height,
           'background-image': 'url(' + brick.src + ')',
           'background-position': 'center',
-          'background-size': 'cover',
-          'margin-bottom': config.gutter
+          'background-size': 'cover'
         };
       }]
     };

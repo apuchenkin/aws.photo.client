@@ -59,7 +59,7 @@ angular.module('aws.photo.client')
       Ps.initialize(container);
 
       $timeout(function () {
-        new Masonry('#masonry', {
+        new Packery('#masonry', {
           columnWidth: me.size,
           itemSelector: '.masonry-brick',
           gutter: me.gutter
