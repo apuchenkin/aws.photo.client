@@ -6,7 +6,7 @@ angular.module('aws.photo.client')
     return {
       template:
       '<figure>' +
-        '<div class="mfp-zoom" ng-click="me.toggleZoom()" ng-right-click="me.toggleZoom()" ng-mousemove="me.move($event)" ng-style="me.style" ng-show="me.visible"></div>' +
+        '<div class="mfp-zoom" ng-click="me.toggleZoom()" ng-right-click="me.toggleZoom()" ng-mousemove="me.move($event)" ng-style="me.zoomStyle" ng-show="me.visible"></div>' +
         '<div class="mfp-figure" ng-show="!me.visible">' +
         '<div class="mfp-img"></div>' +
         '</div>' +
@@ -24,7 +24,7 @@ angular.module('aws.photo.client')
       controllerAs: 'me',
       controller: ['$scope', '$rootScope', function ($scope, $rootScope) {
         var me = this;
-        me.style = {};
+        me.zoomStyle = {};
         me.visible = false;
 
         me.close = function () {
@@ -32,13 +32,13 @@ angular.module('aws.photo.client')
         };
 
         me.move = function (e) {
-          angular.extend(me.style, {
+          angular.extend(me.zoomStyle, {
             'background-position': e.clientX / e.target.clientWidth * 100 + '% ' + e.clientY / e.target.clientHeight * 100 + '%'
           });
         };
 
         me.toggleZoom = function () {
-          me.style = {};
+          me.zoomStyle = {};
           var m = $scope.magnific;
           m.updateStatus('loading');
           $rootScope.loading = true;
@@ -47,7 +47,7 @@ angular.module('aws.photo.client')
           img.onload = function () {
             $rootScope.loading = false;
             m.updateStatus('ready');
-            me.style = {
+            me.zoomStyle = {
               'background-image': 'url("' + img.src + '")',
               'background-position': 'center center',
               'background-repeat': 'no-repeat'

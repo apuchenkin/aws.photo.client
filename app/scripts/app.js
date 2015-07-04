@@ -81,10 +81,7 @@ angular
             return categories.$refresh().$asPromise();
           }]
         },
-        data: {},
-        onEnter: ['$rootScope', function($rootScope) {
-          $rootScope.hasNavigation = false;
-        }]
+        data: {}
       })
 
       .state('home.category', {
@@ -154,6 +151,7 @@ angular
           Ps.destroy(angular.element('.content')[0]);
         },
         data: {
+          navigation: true,
           layout: 'flexed'
         }
       })
@@ -220,6 +218,7 @@ angular
 
     $rootScope.$on('$stateChangeSuccess',
       function (a, state) {
+        $rootScope.hasNavigation = state && state.data.navigation && $rootScope.category.childs && $rootScope.category.childs.length;
         $rootScope.loading = false;
         $rootScope.layout  = state.data && state.data.layout || 'default';
         $rootScope.title = state.data && state.data.title

@@ -17,6 +17,7 @@ angular
           'ru_RU': 'ru'
         })
         .fallbackLanguage('en')
+        .useSanitizeValueStrategy('sanitize')
         .determinePreferredLanguage();
     }])
 
