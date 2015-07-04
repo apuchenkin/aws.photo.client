@@ -8,8 +8,8 @@
  * Controller of the photoawesomestuffinApp
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.image', ['$state', '$compile', '$scope', 'photos', 'photo', 'CONFIG', '$timeout', 'resolutions', '$translate', '$window', 'aws.service.photo',
-    function ($state, $compile, $scope, photos, photo, config, $timeout, resolutions, $translate, $window, photoService) {
+  .controller('aws.controller.image', ['$rootScope', '$state', '$compile', '$scope', 'photos', 'photo', 'CONFIG', '$timeout', 'resolutions', '$translate', '$window', 'aws.service.photo',
+    function ($rootScope, $state, $compile, $scope, photos, photo, config, $timeout, resolutions, $translate, $window, photoService) {
       var index = _.findIndex(photos, {id: photo.id}),
 
           getSize = function() {
@@ -21,6 +21,7 @@ angular.module('aws.photo.client')
 
           afterStateUpdate = function() {
             var photo = $state.$current.locals.globals.photo;
+            $rootScope.title = photo.caption + ' - ' + $rootScope.name;
             $scope.magnific.currItem.data.title = $compile('<div class="aws-photo-title"></div>')(angular.extend($scope.$new(), {data: photo}));
             $scope.magnific.updateItemHTML();
           },

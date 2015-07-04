@@ -144,8 +144,8 @@ angular
             return deferred.promise;
           }]
         },
-        onEnter: ['$rootScope', function($rootScope) {
-          this.data.title = $rootScope.category.title;
+        onEnter: ['category', 'subcategory', function(category, subcategory) {
+          this.data.title = (subcategory || category).title;
         }],
         onExit: function() {
           Ps.destroy(angular.element('.content')[0]);
@@ -178,7 +178,11 @@ angular
           resolutions: ['$http', function($http) {
             return $http.get('/resolution.json');
           }]
-        }
+        },
+        onEnter: ['photo', function(photo) {
+          this.data.title = photo.caption;
+        }],
+        data: {}
       })
     ;
   }])
@@ -222,7 +226,7 @@ angular
         $rootScope.loading = false;
         $rootScope.layout  = state.data && state.data.layout || 'default';
         $rootScope.title = state.data && state.data.title
-          ? $rootScope.name + ' - ' + state.data.title
+          ? state.data.title + ' - ' + $rootScope.name
           : $rootScope.name + ' - ' + $rootScope.description
         ;
       });
