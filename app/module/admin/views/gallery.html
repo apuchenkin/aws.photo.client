@@ -38,11 +38,13 @@
         drop-validate="$data !== item.id"
         ng-class="{
           selected: admin.isSelected(item),
+          hasParent: item.hasParent,
           hidden: item.hidden
         }"
         ng-click="admin.select(item, $event)"
         ng-repeat="item in admin.photos">
 
+        <div ng-cloak ng-if="item.hasParent" class="parent"></div>
         <div ng-cloak class="group" ng-style="admin.groupStyle[item.group]" ng-if="item.group"
              ng-click="admin.unGroup(item);"></div>
         <img src="{{item.thumb}}" ui-draggable="true" drag="item.id" height="160"/>

@@ -2,8 +2,8 @@
 
 angular.module('aws.photo.admin')
   .controller('aws.controller.gallery',
-  ['$rootScope', '$scope', '$state', '$stateParams', 'aws.model.photo', 'aws.model.category', 'CONFIG',
-    function ($rootScope, $scope, $state, $stateParams, Photo, Category, config) {
+  ['$rootScope', '$scope', '$state', '$stateParams', 'aws.model.photo', 'aws.model.category', 'CONFIG', '$q',
+    function ($rootScope, $scope, $state, $stateParams, Photo, Category, config, $q) {
       var me = this,
           sha = new Hashes.SHA1(),
           size = '240',
@@ -14,7 +14,21 @@ angular.module('aws.photo.admin')
       me.categories = Category.$collection();
       me.photos = [];
       me.selected = [];
-      me.categories.$refresh();
+      me.parentPhotos = [];
+
+      me.categories.$refresh().$then(function (categories) {
+        var category = categories.$findByName(me.category);
+        if (category.parent) {
+          var parent = categories.$findById(category.parent);
+          me.parentPhotos = Photo.$collection({category: parent.name});
+          me.parentPhotos.$refresh();
+          $q.all([me.parentPhotos.$promise, me.photos.$promise]).then(function () {
+            me.photos = me.photos.map(function(p){
+              p.hasParent = !!_.find(me.parentPhotos, {id: p.id});
+            });
+          });
+        }
+      });
 
       me.toggleVisibility = function (item) {
         item.hidden = !item.hidden;

@@ -73,7 +73,15 @@
       &.hidden {
         img { opacity: 0.3; }
       }
-
+      .parent {
+        position: absolute;
+        top: @divisor / 2;
+        right: @divisor / 2;
+        width: @divisor / 2;
+        height: @divisor / 2;
+        outline: 1px solid @accent;
+        background: yellow;
+      }
       .group {
         position: absolute;
         top: @divisor / 2;
