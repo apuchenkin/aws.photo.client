@@ -22,9 +22,10 @@ angular.module('aws.photo.admin')
           var parent = categories.$findById(category.parent);
           me.parentPhotos = Photo.$collection({category: parent.name});
           me.parentPhotos.$refresh();
-          $q.all([me.parentPhotos.$promise, me.photos.$promise]).then(function () {
-            me.photos = me.photos.map(function(p){
-              p.hasParent = !!_.find(me.parentPhotos, {id: p.id});
+          $q.all([me.parentPhotos.$promise, photos.$promise]).then(function () {
+            var ids = _.intersection(_.map(photos, 'id'), _.map(me.parentPhotos,'id'));
+            ids.map(function(i){
+              _.find(photos, {id: i}).hasParent = true;
             });
           });
         }

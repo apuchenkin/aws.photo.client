@@ -3,7 +3,8 @@ angular
     'aws.config',
     'restmod',
     'ui.router',
-    'pascalprecht.translate'
+    'pascalprecht.translate',
+    'ngSanitize'
   ])
 
   .config(['$translateProvider', 'TRANSLATION',
