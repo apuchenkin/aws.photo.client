@@ -172,7 +172,14 @@ angular
               if (_.findIndex(photos, 'id', p.id) < 0) {
                 photos.push(p);
               }
+            })
+            .catch(function () {
+              $state.go('home.category.gallery', {
+                category: category.name,
+                subcategory: subcategory ? subcategory.name : null
+              });
             });
+
             return photo;
           }],
           resolutions: ['$http', function($http) {
@@ -222,7 +229,7 @@ angular
 
     $rootScope.$on('$stateChangeSuccess',
       function (a, state) {
-        $rootScope.hasNavigation = state && state.data.navigation && $rootScope.category.childs && $rootScope.category.childs.length;
+        $rootScope.hasNavigation = state.data && state.data.navigation && $rootScope.category.childs && $rootScope.category.childs.length;
         $rootScope.loading = false;
         $rootScope.layout  = state.data && state.data.layout || 'default';
         $rootScope.title = state.data && state.data.title
