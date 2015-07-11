@@ -111,6 +111,10 @@ module.exports = function (grunt) {
             return [
               connect.static('.tmp'),
               connect().use(
+                '/',
+                connect.static('.tmp/app')
+              ),
+              connect().use(
                 '/bower_components',
                 connect.static('./bower_components')
               ),
@@ -124,7 +128,11 @@ module.exports = function (grunt) {
               ),
               connect().use(
                 '/admin',
-                connect.static(appConfig.app + '/module/admin/')
+                connect.static('.tmp/module/admin')
+              ),
+              connect().use(
+                '/admin',
+                connect.static(appConfig.app + '/module/admin')
               ),
               connect.static(appConfig.app)
             ];
@@ -215,7 +223,7 @@ module.exports = function (grunt) {
       app: {
         src: [
           '<%= yeoman.app %>/index.html',
-          '<%= yeoman.app %>modules/admin/index.html'
+          '<%= yeoman.app %>/modules/admin/index.html'
         ],
         ignorePath:  /\.\.\//
       }
@@ -247,7 +255,7 @@ module.exports = function (grunt) {
     // additional tasks can operate on them
     useminPrepare: {
       client: {
-        src: ['<%= yeoman.app %>/index.html'],
+        src: ['.tmp/app/index.html'],
         dest: '<%= yeoman.dist %>',
         flow: {
           html: {
@@ -260,7 +268,7 @@ module.exports = function (grunt) {
         }
       },
       admin: {
-        src: ['<%= yeoman.app %>/module/admin/index.html'],
+        src: ['.tmp/app/module/admin/index.html'],
         dest: '<%= yeoman.dist %>',
         flow: {
           html: {
@@ -371,15 +379,22 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           dot: true,
+          cwd: '.tmp/app',
+          dest: '<%= yeoman.dist %>',
+          src: [
+            'index.html',
+            'module/admin/index.html'
+          ]
+        }, {
+          expand: true,
+          dot: true,
           cwd: '<%= yeoman.app %>',
           dest: '<%= yeoman.dist %>',
           src: [
             '*.{ico,png,txt,gif}',
             'resolution.json',
             '.htaccess',
-            '*.html',
             'views/{,*/}*.html',
-            'module/admin/*.html',
             'module/admin/views/{,*/}*.html',
             'module/core/views/{,*/}*.html',
             'images/{,*/}*.{webp}',
@@ -399,12 +414,6 @@ module.exports = function (grunt) {
           dest: '<%= yeoman.dist %>'
         }]
       }
-      //styles: {
-      //  expand: true,
-      //  cwd: '<%= yeoman.app %>/styles',
-      //  dest: '.tmp/styles/',
-      //  src: '{,*/}*.css'
-      //}
     },
 
     //// Run some tasks in parallel to speed up the build process
@@ -466,8 +475,54 @@ module.exports = function (grunt) {
           trim: 'app/'
         }
       }
+    },
+
+    replace: {
+      dev: {
+        options: {
+          patterns: [
+            {
+              json: grunt.file.readJSON('grunt/dev.json')
+            }
+          ]
+        },
+        files: [
+          {
+            expand: true,
+            flatten: false,
+            src: [
+              '<%= yeoman.app %>/index.html',
+              '<%= yeoman.app %>/module/admin/index.html'
+            ],
+            dest: '.tmp/'
+          }
+        ]
+      },
+      dist: {
+        options: {
+          patterns: [
+            {
+              json: grunt.file.readJSON('grunt/dist.json')
+            }
+          ]
+        },
+        files: [
+          {
+            expand: true,
+            flatten: false,
+            src: [
+              '<%= yeoman.app %>/index.html',
+              '<%= yeoman.app %>/module/admin/index.html'
+            ],
+            dest: '.tmp/'
+          }
+        ]
+      }
     }
+
   });
+
+
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {
@@ -476,9 +531,10 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
-      'ngconstant:dev',
       'less',
       'autoprefixer',
+      'ngconstant:dev',
+      'replace:dev',
       'connect:livereload',
       'watch'
     ]);
@@ -496,6 +552,7 @@ module.exports = function (grunt) {
     'clean:dist',
     'ngconstant:prod',
     'less',
+    'replace:dist',
     'useminPrepare',
     'ngTemplateCache',
     'autoprefixer',

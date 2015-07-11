@@ -60,7 +60,7 @@ angular
         url: '/?{category:string}',
         controller: 'aws.controller.gallery',
         controllerAs: 'admin',
-        templateUrl: 'module/admin/views/gallery.html',
+        templateUrl: '/module/admin/views/gallery.html',
         data: {
           admin: true
         }

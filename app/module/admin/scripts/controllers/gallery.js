@@ -18,7 +18,7 @@ angular.module('aws.photo.admin')
 
       me.categories.$refresh().$then(function (categories) {
         var category = categories.$findByName(me.category);
-        if (category.parent) {
+        if (category && category.parent) {
           var parent = categories.$findById(category.parent);
           me.parentPhotos = Photo.$collection({category: parent.name});
           me.parentPhotos.$refresh();

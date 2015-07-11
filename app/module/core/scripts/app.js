@@ -1,3 +1,5 @@
+'use strict';
+
 angular
   .module('aws.photo.core', [
     'aws.config',
@@ -71,7 +73,7 @@ angular
       })
       .state('error.404', {
         url: '/404',
-        templateUrl: 'module/core/views/error/404.html'
+        templateUrl: '/module/core/views/error/404.html'
       });
   }])
 ;
