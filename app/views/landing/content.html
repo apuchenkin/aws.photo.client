@@ -3,10 +3,12 @@
   <ul>
     <li ng-cloak class="item" ng-repeat="category in landing.categories.null">
       <div class="gallery">
-        <figure ui-sref="home.category.gallery({category: category.name, subcategory: null})">
-          <img ng-src="{{category.thumb}}" alt="{{category.title}}" width="350" height="230"/>
-          <figcaption>{{category.title}}</figcaption>
-        </figure>
+        <a ui-sref="home.category.gallery({category: category.name, subcategory: null})">
+          <figure>
+            <img ng-src="{{category.thumb}}" alt="{{category.title}}" width="350" height="230"/>
+            <figcaption>{{category.title}}</figcaption>
+          </figure>
+        </a>
         <aside>
           <h3><a ui-sref="home.category.gallery({category: category.name, subcategory: null})">{{category.title}}</a></h3>
           <p ng-if="category.description">{{category.description}}</p>

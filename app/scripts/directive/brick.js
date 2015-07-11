@@ -1,10 +1,14 @@
 'use strict';
 
 angular.module('aws.photo.client')
-  .directive('awsBrick', ['CONFIG', function (config) {
+  .directive('awsBrick', [function () {
 
     return {
-      template: '<div ng-cloak class="masonry-brick photo-{{ngModel.id}}" ng-style="{{style}}"></div>',
+      template: '' +
+        '<a ng-cloak ui-sref="home.category.gallery.image({id: ngModel.id})">' +
+          '<div ng-cloak class="masonry-brick photo-{{ngModel.id}}" ng-style="{{style}}"></div>' +
+        '</a>',
+
       restrict: 'E',
       scope: {
         ngModel: '='
@@ -15,9 +19,7 @@ angular.module('aws.photo.client')
         $scope.style = {
           width: brick.width,
           height: brick.height,
-          'background-image': 'url(' + brick.src + ')',
-          'background-position': 'center',
-          'background-size': 'cover'
+          'background-image': 'url(' + brick.src + ')'
         };
       }]
     };
