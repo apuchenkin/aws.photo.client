@@ -91,13 +91,15 @@ angular
           category: ['$rootScope', '$stateParams', '$state', 'categories', function ($rootScope, $stateParams, $state, categories) {
             var category = $rootScope.category = categories.$findByName($stateParams.category);
             if (!category) {
-              $state.go('error.404');
-            }
-            if (category.parent) {
+              $state.go('error.404', {}, {reload: true});
+            } else if (category.parent) {
               $state.go('home.category.gallery', {category: categories.$findById(category.parent).name, subcategory: category.name});
+            } else {
+              category.childs = categories.$getChilds(category);
+              return category;
             }
-            category.childs = categories.$getChilds(category);
-            return category;
+
+            return false;
           }]
         },
         views: {
@@ -127,8 +129,16 @@ angular
           }
         },
         resolve: {
-          subcategory: ['$stateParams', '$state', 'categories', function ($stateParams, $state, categories) {
-            return categories.$findByName($stateParams.subcategory);
+          subcategory: ['$stateParams', '$state', 'categories', 'category', function ($stateParams, $state, categories, category) {
+            if ($stateParams.subcategory) {
+              var sub = categories.$findByName($stateParams.subcategory);
+              if (!sub) {
+                $state.go('home.category.gallery', {category: category.name, subcategory: null});
+              }
+
+              return sub;
+            }
+            return false;
           }],
           photos: ['aws.model.photo', 'category', 'subcategory', '$q', 'aws.service.photo', function (Photo, category, subcategory, $q, photoService) {
             var deferred = $q.defer(),
