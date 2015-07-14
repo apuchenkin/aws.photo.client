@@ -22,7 +22,7 @@ angular.module('aws.photo.client')
        // Popup HTML markup. `.mfp-img` div will be replaced with img tag, `.mfp-close` by close button
       restrict: 'C',
       controllerAs: 'me',
-      controller: ['$scope', '$rootScope', function ($scope, $rootScope) {
+      controller: ['$scope', '$rootScope', '$window', function ($scope, $rootScope, $window) {
         var me = this;
         me.zoomStyle = {};
         me.visible = false;
@@ -38,6 +38,8 @@ angular.module('aws.photo.client')
         };
 
         me.toggleZoom = function () {
+          ga('send', 'event', 'fullscreen');
+
           me.zoomStyle = {};
           var m = $scope.magnific;
           m.updateStatus('loading');

@@ -25,6 +25,7 @@
     "math": false,
     "Packery": false,
     "Hashes": false,
-    "Ps": false
+    "Ps": false,
+    "ga": false
   }
 }

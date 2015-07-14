@@ -13,7 +13,7 @@ angular.module('aws.photo.client')
 
       var mapCategory = function(category) {
         if (!category.image) {
-          return category
+          return category;
         } else {
           return angular.merge(category, {
             thumb: photoService.remapImage(category.image, config.gallery.width,config.gallery.height)
