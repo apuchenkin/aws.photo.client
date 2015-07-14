@@ -7,7 +7,7 @@ angular.module('aws.photo.admin')
       var me = this,
           sha = new Hashes.SHA1(),
           size = '240',
-          photos = Photo.$collection({category: $stateParams.category})
+          photos = Photo.$collection()
       ;
 
       me.category = $stateParams.category;
@@ -15,6 +15,7 @@ angular.module('aws.photo.admin')
       me.photos = [];
       me.selected = [];
       me.parentPhotos = [];
+      me.isShowHidden = false;
 
       me.categories.$refresh().$then(function (categories) {
         var category = categories.$findByName(me.category);
@@ -30,6 +31,11 @@ angular.module('aws.photo.admin')
           });
         }
       });
+
+      me.toggleHidden = function () {
+        me.isShowHidden = !me.hidden;
+        updatePhotoData();
+      };
 
       me.toggleVisibility = function (item) {
         item.hidden = !item.hidden;
@@ -105,7 +111,8 @@ angular.module('aws.photo.admin')
 
       var updatePhotoData = function() {
         me.groupStyle = {};
-        photos.$refresh().$then(function(items){
+        me.photos = [];
+        photos.$refresh({category: $stateParams.category, hidden: me.isShowHidden}).$then(function(items){
           angular.extend(me.photos, items.map(mapPhoto));
           _.map(_.keys(_.groupBy(items, 'group')), function(groupId) {
             me.groupStyle[groupId] = {background: getRandomColor()};
