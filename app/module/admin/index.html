@@ -27,7 +27,7 @@
     <![endif]-->
 
     <div class="container" ng-class="$root.layout">
-      <div ng-show="loading" class="mfp-bg"><div class="mfp-preloader"></div></div>
+      <!--<div ng-show="loading" class="mfp-bg"><div class="mfp-preloader"></div></div>-->
       <ui-view></ui-view>
     </div>
 
@@ -64,6 +64,8 @@
     <script src="/module/core/scripts/app.js"></script>
     <script src="/module/core/scripts/model/category.js"></script>
     <script src="/module/core/scripts/model/photo.js"></script>
+
+    <script src="/module/core/scripts/service/photo.js"></script>
 
     <script src="/scripts/config.js"></script>
     <script src="/module/admin/scripts/app.js"></script>

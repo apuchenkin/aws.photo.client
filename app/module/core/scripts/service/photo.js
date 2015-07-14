@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('aws.photo.client')
+angular.module('aws.photo.core')
   .service('aws.service.photo', ['CONFIG', function (config) {
     var
       sha = new Hashes.SHA1(),

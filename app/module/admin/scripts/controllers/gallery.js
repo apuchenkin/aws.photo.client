@@ -2,38 +2,20 @@
 
 angular.module('aws.photo.admin')
   .controller('aws.controller.gallery',
-  ['$rootScope', '$scope', '$state', '$stateParams', 'aws.model.photo', 'aws.model.category', 'CONFIG', '$q',
-    function ($rootScope, $scope, $state, $stateParams, Photo, Category, config, $q) {
-      var me = this,
-          sha = new Hashes.SHA1(),
-          size = '240',
-          photos = Photo.$collection()
-      ;
+  ['$rootScope', '$scope', '$state', '$stateParams', 'aws.model.photo', 'aws.model.category', '$q', 'categories', 'photos',
+    function ($rootScope, $scope, $state, $stateParams, Photo, Category, $q, categories, photos) {
+      var me = this;
 
       me.category = $stateParams.category;
-      me.categories = Category.$collection();
-      me.photos = [];
+      me.categories = categories;
+      me.photos = photos;
       me.selected = [];
       me.parentPhotos = [];
+      me.groupStyle = {};
       me.isShowHidden = false;
 
-      me.categories.$refresh().$then(function (categories) {
-        var category = categories.$findByName(me.category);
-        if (category && category.parent) {
-          var parent = categories.$findById(category.parent);
-          me.parentPhotos = Photo.$collection({category: parent.name});
-          me.parentPhotos.$refresh();
-          $q.all([me.parentPhotos.$promise, photos.$promise]).then(function () {
-            var ids = _.intersection(_.map(photos, 'id'), _.map(me.parentPhotos,'id'));
-            ids.map(function(i){
-              _.find(photos, {id: i}).hasParent = true;
-            });
-          });
-        }
-      });
-
       me.toggleHidden = function () {
-        me.isShowHidden = !me.hidden;
+        me.isShowHidden = !me.isShowHidden;
         updatePhotoData();
       };
 
@@ -99,26 +81,36 @@ angular.module('aws.photo.admin')
         category.$appendPhotos(pack);
       };
 
-      $rootScope.config = config;
-
-      var mapPhoto = function (p) {
-        var sign = sha.hex_hmac(config.secret, p.id + '-' + size + 'x' + size);
-
-        return angular.extend(p, {
-          thumb: [config.apiEndpoint, 'hs/photo', p.id, size, size, sign].join('/')
-        });
-      };
-
       var updatePhotoData = function() {
         me.groupStyle = {};
-        me.photos = [];
-        photos.$refresh({category: $stateParams.category, hidden: me.isShowHidden}).$then(function(items){
-          angular.extend(me.photos, items.map(mapPhoto));
-          _.map(_.keys(_.groupBy(items, 'group')), function(groupId) {
-            me.groupStyle[groupId] = {background: getRandomColor()};
-          });
+        me.photos.$refresh({hidden: me.isShowHidden}).$then(function(){
+          updateGroups();
+          updateParents();
+          me.selected = [];
         });
       };
-      updatePhotoData();
+
+      var updateGroups = function() {
+        _.map(_.keys(_.groupBy(me.photos, 'group')), function(groupId) {
+          me.groupStyle[groupId] = {background: getRandomColor()};
+        });
+      };
+
+      var updateParents = function() {
+        var category = categories.$findByName(me.category);
+        if (category && category.parent) {
+          var parent = categories.$findById(category.parent);
+          me.parentPhotos = parent.photo.$fetch();
+          me.parentPhotos.$then(function () {
+            var ids = _.intersection(_.map(photos, 'id'), _.map(me.parentPhotos,'id'));
+            ids.map(function(i){
+              _.find(photos, {id: i}).hasParent = true;
+            });
+          });
+        }
+      };
+
+      updateGroups();
+      updateParents();
     }
   ]);

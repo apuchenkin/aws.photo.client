@@ -46,7 +46,7 @@ angular
         url: '/login',
         controller: 'aws.controller.login',
         controllerAs: 'login',
-        templateUrl: 'module/admin/views/login.html'
+        templateUrl: '/module/admin/views/login.html'
       })
       .state('logout', {
         url: '/logout',
@@ -61,6 +61,27 @@ angular
         controller: 'aws.controller.gallery',
         controllerAs: 'admin',
         templateUrl: '/module/admin/views/gallery.html',
+        resolve: {
+          categories: ['aws.model.category', function(Category) {
+            var categories =  Category.$collection();
+            return categories.$refresh().$asPromise();
+          }],
+          photos: ['categories', '$stateParams', '$state', 'aws.service.photo', 'CONFIG', function (categories, $stateParams, $state, photoService, config) {
+            if ($stateParams.category) {
+              var category = categories.$findByName($stateParams.category);
+              if (!category) {
+                $state.go('home', {category: null});
+              }
+              category.photo.$on('after-feed', function() {
+                this.thumb = photoService.remapPhoto(this.id, config.admin.size, config.admin.size);
+              });
+
+              return category.photo.$fetch().$asPromise();
+            }
+
+            return false
+          }]
+        },
         data: {
           admin: true
         }

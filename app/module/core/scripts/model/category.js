@@ -3,6 +3,10 @@
 angular.module('aws.photo.core')
   .factory('aws.model.category', ['restmod', '$http', function (restmod, $http) {
     return restmod.model('/category').mix({
+      photo: {
+        hasMany: 'aws.model.photo'
+      },
+
       $extend: {
         Record: {
           $appendPhotos: function (ids) {

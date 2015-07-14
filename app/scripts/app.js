@@ -140,9 +140,9 @@ angular
             }
             return false;
           }],
-          photos: ['aws.model.photo', 'category', 'subcategory', '$q', 'aws.service.photo', function (Photo, category, subcategory, $q, photoService) {
+          photos: ['category', 'subcategory', '$q', 'aws.service.photo', function (category, subcategory, $q, photoService) {
             var deferred = $q.defer(),
-              photos = Photo.$collection({category: (subcategory || category).name}),
+              photos = (subcategory || category).photo.$fetch(),
               groups;
 
             photos.$refresh().$then(function(items) {

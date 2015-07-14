@@ -14,7 +14,8 @@
   },
   "languages": ["ru", "en"],
   "admin": {
-    "base": "/admin"
+    "base": "/admin",
+    "size": 200
   },
   "gallery": {
     "width": 320,
