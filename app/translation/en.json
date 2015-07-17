@@ -15,7 +15,8 @@
     "REASON1": "It have not been created yet",
     "REASON2": "It have been deleted for some reason",
     "CONSEQUENCE": "If you want to help this page to be alive, please, send your ideas to: info 'at' photo.awesomestuff.in",
-    "RETURN": "return home"
+    "BACK": "Go back",
+    "HOME": "Return home"
   },
   "TOOLS": {
     "FULLSCREEN" : "Full screen",

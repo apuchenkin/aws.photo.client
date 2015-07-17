@@ -32,6 +32,10 @@ angular
     };
   }])
 
+  .config(['$urlRouterProvider', function ($urlRouterProvider) {
+    $urlRouterProvider.otherwise('/');
+  }])
+
   .config(['$locationProvider', '$httpProvider', 'CONFIG', function ($locationProvider, $httpProvider, config) {
     $httpProvider.defaults.useXDomain = config.useXDomain;
     $httpProvider.interceptors.push('requestInterceptor');
@@ -79,7 +83,7 @@ angular
               return category.photo.$fetch().$asPromise();
             }
 
-            return false
+            return false;
           }]
         },
         data: {

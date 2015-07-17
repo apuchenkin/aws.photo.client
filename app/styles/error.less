@@ -10,11 +10,17 @@
   background: @grey-light;
   padding: 1em 2em;
 
-  h1,a {
+  a {
     color: @white;
+    margin-right: @divisor / 2;
+
+    &:hover {
+      color: @accent;
+    }
   }
 
   h1 {
+    color: @white;
     margin: 0 0 .5em 0;
     font-weight: 300;
     b {

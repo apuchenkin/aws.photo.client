@@ -396,7 +396,6 @@ module.exports = function (grunt) {
             '.htaccess',
             'views/{,*/}*.html',
             'module/admin/views/{,*/}*.html',
-            'module/core/views/{,*/}*.html',
             'images/{,*/}*.{webp}',
             'fonts/{,*/}*.*'
           ]
@@ -440,17 +439,6 @@ module.exports = function (grunt) {
     //},
 
     ngTemplateCache: {
-      core: {
-        files: {
-          '.tmp/scripts/views-core.js': [
-            '<%= yeoman.app %>/module/core/views/{,*/}*.html'
-          ]
-        },
-        options: {
-          module: 'aws.photo.core',
-          trim: 'app/'
-        }
-      },
       client: {
         files: {
           '.tmp/scripts/views-client.js': [

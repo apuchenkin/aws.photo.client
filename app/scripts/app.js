@@ -15,10 +15,69 @@ angular
     'ngAnimate',
     'ngCookies',
     'ui.router',
-    'pascalprecht.translate'
+    'pascalprecht.translate',
+    'ngSanitize'
   ])
 
+  .config(['$urlRouterProvider', function ($urlRouterProvider) {
+    $urlRouterProvider.when('', '/');
+    $urlRouterProvider.otherwise('/404');
+  }])
+
+  .config(['$translateProvider', 'TRANSLATION',
+    function ($translateProvider, TRANSLATION) {
+      $translateProvider
+        .translations('en', TRANSLATION.EN)
+        .translations('ru', TRANSLATION.RU)
+        .registerAvailableLanguageKeys(['en', 'ru'], {
+          'en_US': 'en',
+          'en_UK': 'en',
+          'ru_RU': 'ru'
+        })
+        .fallbackLanguage('en')
+        .useSanitizeValueStrategy('sanitize')
+        .determinePreferredLanguage();
+    }])
+
   .config(['$stateProvider', 'CONFIG', function ($stateProvider, config) {
+
+    // Public routes
+    $stateProvider
+      .state('error', {
+        abstract: true,
+        template: '<ui-view></ui-view>'
+      })
+      .state('error.404', {
+        url: '/404',
+        resolve: {
+          previousState: [
+            '$state',
+            function ($state) {
+              return {
+                name: $state.current.name,
+                params: $state.params,
+                URL: $state.href($state.current.name, $state.params)
+              };
+            }
+          ]
+        },
+        views: {
+          'title@': {
+            templateUrl: 'views/landing/title.html'
+          },
+          'content@': {
+            templateUrl: 'views/error/404.html',
+            controller: [
+              'previousState', '$scope',
+              function (previousState, $scope) {
+                if (previousState.name !== 'error.404' && previousState.name !== 'home') {
+                  $scope.backUrl = previousState.URL;
+                }
+              }
+            ]
+          }
+        }
+      });
 
     // Public routes
     $stateProvider
@@ -37,7 +96,7 @@ angular
       $stateProvider.state(key, {
         url: url,
         data: {},
-        onEnter: ['$rootScope', '$translate', function($rootScope, $translate) {
+        onEnter: ['$rootScope', '$translate', function ($rootScope, $translate) {
           this.data.title = $rootScope.pageTitle = $translate.instant(url.toUpperCase());
         }],
         views: {
@@ -45,7 +104,6 @@ angular
             template: '<div class="static" ng-bind-html="content"></div>',
             controller: ['$scope', '$state', '$translate', '$rootScope', '$http', '$sce',
               function ($scope, $state, $translate, $rootScope, $http, $sce) {
-
                 $http.get(['views/static', $translate.use(), url + '.html'].join('/'))
                   .success(function (content) {
                     $scope.content = $sce.trustAsHtml(content);
@@ -133,7 +191,8 @@ angular
             if ($stateParams.subcategory) {
               var sub = categories.$findByName($stateParams.subcategory);
               if (!sub) {
-                $state.go('home.category.gallery', {category: category.name, subcategory: null});
+                $state.go('home.category.gallery', {category: category.name, subcategory: null}, {reload: true});
+                return false;
               }
 
               return sub;
@@ -187,7 +246,7 @@ angular
               $state.go('home.category.gallery', {
                 category: category.name,
                 subcategory: subcategory ? subcategory.name : null
-              });
+              }, {reload: true});
             });
 
             return photo;
@@ -238,7 +297,12 @@ angular
     });
 
     $rootScope.$on('$stateChangeSuccess',
-      function (a, state) {
+      function (a, state, params, fromState, fromParams) {
+        //if (state.name === 'error.404') {
+        //  debugger;
+        //  $rootScope.url     = $state.href(state, params);
+        //  $rootScope.backUrl = $state.href(fromState, fromParams);
+        //}
         $rootScope.hasNavigation = state.data && state.data.navigation && $rootScope.category.childs && $rootScope.category.childs.length;
         $rootScope.loading = false;
         $rootScope.layout  = state.data && state.data.layout || 'default';

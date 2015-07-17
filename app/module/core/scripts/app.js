@@ -3,31 +3,8 @@
 angular
   .module('aws.photo.core', [
     'aws.config',
-    'restmod',
-    'ui.router',
-    'pascalprecht.translate',
-    'ngSanitize'
+    'restmod'
   ])
-
-  .config(['$translateProvider', 'TRANSLATION',
-    function ($translateProvider, TRANSLATION) {
-      $translateProvider
-        .translations('en', TRANSLATION.EN)
-        .translations('ru', TRANSLATION.RU)
-        .registerAvailableLanguageKeys(['en', 'ru'], {
-          'en_US': 'en',
-          'en_UK': 'en',
-          'ru_RU': 'ru'
-        })
-        .fallbackLanguage('en')
-        .useSanitizeValueStrategy('sanitize')
-        .determinePreferredLanguage();
-    }])
-
-  .config(['$urlRouterProvider', function ($urlRouterProvider) {
-    $urlRouterProvider.when('', '/');
-    $urlRouterProvider.otherwise('/404');
-  }])
 
   .factory('restmodConfig', ['restmod', 'CONFIG', function (restmod, config) {
 
@@ -62,18 +39,5 @@ angular
 
   .config(['restmodProvider', function (restmodProvider) {
     restmodProvider.rebase('restmodConfig');
-  }])
-
-  .config(['$stateProvider', 'CONFIG', function ($stateProvider, config) {
-    // Public routes
-    $stateProvider
-      .state('error', {
-        abstract: true,
-        template: '<ui-view></ui-view>'
-      })
-      .state('error.404', {
-        url: '/404',
-        templateUrl: '/module/core/views/error/404.html'
-      });
   }])
 ;
