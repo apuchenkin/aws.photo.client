@@ -21,5 +21,8 @@
   "gallery": {
     "width": 320,
     "height": 240
+  },
+  "meta": {
+    "name": "PHOTO.AWESOMESTUFF.IN"
   }
 }

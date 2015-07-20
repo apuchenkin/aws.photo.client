@@ -8,8 +8,8 @@
  * Controller of the aws-photo-client
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.gallery', ['$rootScope', '$timeout', 'photos', 'CONFIG', 'aws.service.photo',
-    function ($rootScope, $timeout, photos, config, photoService) {
+  .controller('aws.controller.gallery', ['$timeout', 'photos', 'CONFIG', 'aws.service.photo',
+    function ($timeout, photos, config, photoService) {
       var me = this,
           views = _.pluck(photos, 'views'),
           std = math.std(views),

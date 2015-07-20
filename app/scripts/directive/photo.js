@@ -22,7 +22,7 @@ angular.module('aws.photo.client')
        // Popup HTML markup. `.mfp-img` div will be replaced with img tag, `.mfp-close` by close button
       restrict: 'C',
       controllerAs: 'me',
-      controller: ['$scope', '$rootScope', '$window', function ($scope, $rootScope, $window) {
+      controller: ['$scope', '$rootScope', function ($scope, $rootScope) {
         var me = this;
         me.zoomStyle = {};
         me.visible = false;

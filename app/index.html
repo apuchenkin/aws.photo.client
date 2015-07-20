@@ -2,8 +2,8 @@
 <html class="no-js">
   <head>
     <meta charset="utf-8">
-    <title ng-bind="$root.title">PHOTO.AWESOMESTUFF.IN</title>
-    <meta name="description" content="{{'META_DESCRIPTION' | translate}}">
+    <title ng-bind="$root.meta.title">PHOTO.AWESOMESTUFF.IN</title>
+    <meta name="description" content="{{$root.meta.description}}">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) /styles/vendor.css -->
@@ -111,7 +111,6 @@
     <script src="scripts/app.js"></script>
 
     <script src="scripts/controllers/landing.js"></script>
-    <script src="scripts/controllers/navigation.js"></script>
     <script src="scripts/controllers/gallery.js"></script>
     <script src="scripts/controllers/image.js"></script>
 
@@ -120,6 +119,8 @@
     <script src="scripts/directive/photoTitle.js"></script>
     <script src="scripts/directive/languageSelector.js"></script>
     <script src="scripts/directive/rightClick.js"></script>
+
+    <script src="scripts/service/meta.js"></script>
 
     <script src="scripts/views-client.js"></script>
     <!-- endbuild -->

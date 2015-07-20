@@ -1,18 +1,18 @@
 <nav ng-cloak ng-if="$root.hasNavigation" class="top">
   <ul>
-    <li ng-cloak class="item" ng-if="navigation.category.about">
+    <li ng-cloak class="item" ng-if="category.about">
       <a ng-cloak
          ui-sref-active="active"
-         ui-sref="home.category.about({category: navigation.category.name})">
+         ui-sref="home.category.about({category: category.name})">
         {{'about' | translate}}
       </a>
     </li>
     <li ng-cloak
         class="item"
-        ng-repeat="child in navigation.category.childs">
+        ng-repeat="child in category.childs">
       <a ng-cloak
          ui-sref-active="active"
-         ui-sref="home.category.gallery({category: navigation.category.name, subcategory: child.name})">
+         ui-sref="home.category.gallery({category: category.name, subcategory: child.name})">
         {{child.title}}
       </a>
     </li>
