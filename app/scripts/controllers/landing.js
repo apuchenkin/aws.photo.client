@@ -7,8 +7,8 @@
  * # MainCtrl
  */
 angular.module('aws.photo.client')
-  .controller('aws.controller.landing', ['$rootScope', '$timeout', 'categories', 'CONFIG', 'aws.service.photo',
-    function ($rootScope, $timeout, categories, config, photoService) {
+  .controller('aws.controller.landing', ['$timeout', 'categories', 'CONFIG', 'aws.service.photo',
+    function ($timeout, categories, config, photoService) {
       var me = this;
 
       var mapCategory = function(category) {

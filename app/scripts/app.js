@@ -15,44 +15,108 @@ angular
     'ngAnimate',
     'ngCookies',
     'ui.router',
-    'pascalprecht.translate'
+    'pascalprecht.translate',
+    'ngSanitize'
   ])
+
+  .config(['$urlRouterProvider', function ($urlRouterProvider) {
+    $urlRouterProvider.when('', '/');
+    $urlRouterProvider.otherwise('/404');
+  }])
+
+  .config(['$translateProvider', 'TRANSLATION',
+    function ($translateProvider, TRANSLATION) {
+      $translateProvider
+        .translations('en', TRANSLATION.EN)
+        .translations('ru', TRANSLATION.RU)
+        .registerAvailableLanguageKeys(['en', 'ru'], {
+          'en_US': 'en',
+          'en_UK': 'en',
+          'ru_RU': 'ru'
+        })
+        .fallbackLanguage('en')
+        .useSanitizeValueStrategy('sanitize')
+        .determinePreferredLanguage();
+    }])
 
   .config(['$stateProvider', 'CONFIG', function ($stateProvider, config) {
 
     // Public routes
     $stateProvider
-      .state('home.static', {
+      .state('error', {
         abstract: true,
         views: {
           'title@': {
-            templateUrl: 'views/static/title.html'
-          },
-          content: { },
-          footer: { }
+            templateUrl: 'views/landing/title.html',
+            controller: ['$scope', 'CONFIG', '$translate', function($scope, config, $translate) {
+              $scope.name = config.meta.name;
+              $scope.description = $translate.instant('DESCRIPTION');
+            }]
+          }
         }
+      })
+      .state('error.404', {
+        url: '/404',
+        resolve: {
+          previousState: [
+            '$state',
+            function ($state) {
+              return {
+                name: $state.current.name,
+                params: $state.params,
+                URL: $state.href($state.current.name, $state.params)
+              };
+            }
+          ]
+        },
+        onEnter: ['aws.service.meta', '$translate',
+          function (metaService, $translate) {
+            metaService.setTitle($translate.instant('ERROR.404'));
+          }],
+        views: {
+          'content@': {
+            templateUrl: 'views/error/404.html',
+            controller: [
+              'previousState', '$scope',
+              function (previousState, $scope) {
+                if (previousState.name !== 'error.404' && previousState.name !== 'home') {
+                  $scope.backUrl = previousState.URL;
+                }
+              }
+            ]
+          }
+        }
+      });
+
+    // Public routes
+    $stateProvider
+      .state('home.static', {
+        abstract: true
       });
 
     _.each(config.static, function (url, key) {
       $stateProvider.state(key, {
         url: url,
-        data: {},
-        onEnter: ['$rootScope', '$translate', function($rootScope, $translate) {
-          this.data.title = $rootScope.pageTitle = $translate.instant(url.toUpperCase());
-        }],
+        resolve: {
+          page: ['$translate', '$http', 'aws.service.meta',
+            function ($translate, $http, metaService) {
+              metaService.setTitle($translate.instant('STATIC.' + url.toUpperCase()));
+              return $http.get(['views/static', $translate.use(), url + '.html'].join('/'));
+            }]
+        },
         views: {
+          'title@': {
+            templateUrl: 'views/static/title.html',
+            controller: ['$scope', 'CONFIG', '$translate', function($scope, config, $translate) {
+              $scope.name = config.meta.name;
+              $scope.title = $translate.instant('STATIC.' + url.toUpperCase());
+            }]
+          },
           'content@': {
             template: '<div class="static" ng-bind-html="content"></div>',
-            controller: ['$scope', '$state', '$translate', '$rootScope', '$http', '$sce',
-              function ($scope, $state, $translate, $rootScope, $http, $sce) {
-
-                $http.get(['views/static', $translate.use(), url + '.html'].join('/'))
-                  .success(function (content) {
-                    $scope.content = $sce.trustAsHtml(content);
-                  })
-                  .error(function () {
-                    $state.go('error.404');
-                  });
+            controller: ['$scope', 'page', '$sce',
+              function ($scope, page, $sce) {
+                $scope.content = $sce.trustAsHtml(page.data);
               }]
           }
         }
@@ -64,7 +128,11 @@ angular
         url: '/',
         views: {
           title: {
-            templateUrl: 'views/landing/title.html'
+            templateUrl: 'views/landing/title.html',
+            controller: ['$scope', 'CONFIG', '$translate', function($scope, config, $translate) {
+              $scope.name = config.meta.name;
+              $scope.description = $translate.instant('DESCRIPTION');
+            }]
           },
           content: {
             templateUrl: 'views/landing/content.html',
@@ -88,8 +156,8 @@ angular
         abstract: true,
         url: ':category',
         resolve: {
-          category: ['$rootScope', '$stateParams', '$state', 'categories', function ($rootScope, $stateParams, $state, categories) {
-            var category = $rootScope.category = categories.$findByName($stateParams.category);
+          category: ['$stateParams', '$state', 'categories', function ($stateParams, $state, categories) {
+            var category = categories.$findByName($stateParams.category);
             if (!category) {
               $state.go('error.404', {}, {reload: true});
             } else if (category.parent) {
@@ -98,21 +166,8 @@ angular
               category.childs = categories.$getChilds(category);
               return category;
             }
-
             return false;
           }]
-        },
-        views: {
-          'title@': {
-            templateUrl: 'views/gallery/title.html'
-          },
-          'navigation@': {
-            templateUrl: 'views/navigation.html',
-            controller: 'aws.controller.navigation',
-            controllerAs: 'navigation'
-          },
-          content: { },
-          footer: { }
         }
       })
 
@@ -122,6 +177,21 @@ angular
           subcategory: {value: null, squash: true}
         },
         views: {
+          'navigation@': {
+            templateUrl: 'views/navigation.html',
+            controller: ['$rootScope', '$scope', 'category', function ($rootScope, $scope, category) {
+              $rootScope.hasNavigation = category.childs && category.childs.length;
+              $scope.category = category;
+            }
+            ]
+          },
+          'title@': {
+            templateUrl: 'views/gallery/title.html',
+            controller: ['$scope', 'category', 'subcategory', function($scope, category, subcategory) {
+              $scope.name = config.meta.name;
+              $scope.category = category;
+            }]
+          },
           'content@': {
               templateUrl: 'views/gallery.html',
               controller: 'aws.controller.gallery',
@@ -133,7 +203,8 @@ angular
             if ($stateParams.subcategory) {
               var sub = categories.$findByName($stateParams.subcategory);
               if (!sub) {
-                $state.go('home.category.gallery', {category: category.name, subcategory: null});
+                $state.go('home.category.gallery', {category: category.name, subcategory: null}, {reload: true});
+                return false;
               }
 
               return sub;
@@ -154,14 +225,13 @@ angular
             return deferred.promise;
           }]
         },
-        onEnter: ['category', 'subcategory', function(category, subcategory) {
-          this.data.title = (subcategory || category).title;
+        onEnter: ['category', 'subcategory', 'aws.service.meta', function(category, subcategory, metaService) {
+          metaService.setTitle((subcategory || category).title);
         }],
         onExit: function() {
           Ps.destroy(angular.element('.content')[0]);
         },
         data: {
-          navigation: true,
           layout: 'flexed'
         }
       })
@@ -171,23 +241,22 @@ angular
         controller: 'aws.controller.image',
         controllerAs: 'imageCtrl',
         resolve: {
-          photo: ['$stateParams', 'aws.model.photo', 'photos', '$state', 'category', 'subcategory', '$rootScope',
-            function ($stateParams, Photo, photos, $state, category, subcategory, $rootScope) {
+          photo: ['$stateParams', 'aws.model.photo', 'photos', '$state', 'category', 'subcategory', 'aws.service.meta',
+            function ($stateParams, Photo, photos, $state, category, subcategory, metaService) {
             var photo = Photo.$find($stateParams.id).$asPromise();
-            photo.then(function(p){
-              if (_.findIndex(photos.raw, 'id', p.id) < 0) {
-                $state.go('home.category.gallery', {category: category.name, subcategory: subcategory ? subcategory.name : null});
-                $rootScope.loading = false;
-              }
-              if (_.findIndex(photos, 'id', p.id) < 0) {
-                photos.push(p);
-              }
+              photo.then(function (p) {
+                if (_.findIndex(photos.raw, 'id', p.id) < 0) {
+                  $state.go('home.category.gallery', {category: category.name, subcategory: subcategory ? subcategory.name : null}, {reload: true});
+                }
+                if (_.findIndex(photos, 'id', p.id) < 0) {
+                  photos.push(p);
+                }
             })
             .catch(function () {
               $state.go('home.category.gallery', {
                 category: category.name,
                 subcategory: subcategory ? subcategory.name : null
-              });
+              }, {reload: true});
             });
 
             return photo;
@@ -196,10 +265,10 @@ angular
             return $http.get('/resolution.json');
           }]
         },
-        onEnter: ['photo', function(photo) {
-          this.data.title = photo.caption;
-        }],
-        data: {}
+        onEnter: ['photo', 'aws.service.meta', function(photo, metaService) {
+          metaService.setTitle(photo.caption);
+          metaService.setKeywords(_.pluck(photo.categories, 'title'));
+        }]
       })
     ;
   }])
@@ -222,29 +291,29 @@ angular
     $locationProvider.html5Mode(config.html5);
   }])
 
-  .run(['$rootScope', '$cookieStore', '$state', 'CONFIG', '$translate', function ($rootScope, $cookieStore, $state, config, $translate) {
+  .run(['$rootScope', '$cookieStore', '$state', 'CONFIG', '$translate', 'aws.service.meta', function ($rootScope, $cookieStore, $state, config, $translate, metaService) {
     if ($cookieStore.get('language')) {
       $translate.use($cookieStore.get('language'));
     }
 
     $rootScope.config = config;
     $rootScope.language = $translate.use();
-    $rootScope.name = 'PHOTO.AWESOMESTUFF.IN';
-    $rootScope.description = $translate.instant('DESCRIPTION');
     $rootScope.layout = 'default';
+    $rootScope.meta = {};
 
     $rootScope.$on('$stateChangeStart', function () {
       $rootScope.loading = true;
+      $rootScope.hasNavigation = false;
+      metaService.clean();
     });
 
     $rootScope.$on('$stateChangeSuccess',
       function (a, state) {
-        $rootScope.hasNavigation = state.data && state.data.navigation && $rootScope.category.childs && $rootScope.category.childs.length;
         $rootScope.loading = false;
+        $rootScope.meta.keywords = metaService.getKeywords();
+        $rootScope.meta.description = metaService.getDescription();
+        $rootScope.meta.title = metaService.getTitle();
         $rootScope.layout  = state.data && state.data.layout || 'default';
-        $rootScope.title = state.data && state.data.title
-          ? state.data.title + ' - ' + $rootScope.name
-          : $rootScope.name + ' - ' + $rootScope.description
-        ;
+        ga('send', 'pageview');
       });
   }]);

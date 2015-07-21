@@ -1,4 +1,4 @@
-<div class="error-404" ng-cloak="">
+<div class="error-404" ng-cloak>
   <h1><b>{{'404' | translate}}</b> - {{'ERROR.NOT_EXISTS' | translate}}</h1>
   <p>{{'ERROR.THIS_MIGHT_BE' | translate}}</p>
   <ol>
@@ -6,5 +6,6 @@
     <li>{{'ERROR.REASON2' | translate}}</li>
   </ol>
   <p>{{'ERROR.CONSEQUENCE' | translate}}</p>
-  <a ui-sref="home">{{'ERROR.RETURN' | translate}}</a>
+  <a ng-if="backUrl" ng-href="{{backUrl}}">{{'ERROR.BACK' | translate}}</a>
+  <a ui-sref="home">{{'ERROR.HOME' | translate}}</a>
 </div>

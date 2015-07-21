@@ -5,17 +5,21 @@
   "GALLERIES": "Galleries",
   "COPY": "2015, Artem Puchenkin",
   "FOOTER": "{{home}}, alpha",
-  "ABOUT": "About",
-  "CONTACTS": "Contacts",
   "RU": "Ru",
   "EN": "En",
   "ERROR": {
+    "404": "Error 404",
     "NOT_EXISTS": "This page does not exists",
     "THIS_MIGHT_BE": "This might be because of:",
     "REASON1": "It have not been created yet",
     "REASON2": "It have been deleted for some reason",
     "CONSEQUENCE": "If you want to help this page to be alive, please, send your ideas to: info 'at' photo.awesomestuff.in",
-    "RETURN": "return home"
+    "BACK": "Go back",
+    "HOME": "Return home"
+  },
+  "STATIC": {
+    "ABOUT": "About",
+    "CONTACTS": "Contacts"
   },
   "TOOLS": {
     "FULLSCREEN" : "Full screen",
