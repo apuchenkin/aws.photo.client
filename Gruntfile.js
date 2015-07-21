@@ -391,6 +391,7 @@ module.exports = function (grunt) {
           cwd: '<%= yeoman.app %>',
           dest: '<%= yeoman.dist %>',
           src: [
+            'sitemap.xml',
             '*.{ico,png,txt,gif}',
             'resolution.json',
             '.htaccess',
@@ -518,6 +519,12 @@ module.exports = function (grunt) {
           }
         ]
       }
+    },
+
+    execute: {
+      target: {
+        src: ['sitemap.js']
+      }
     }
 
   });
@@ -557,6 +564,7 @@ module.exports = function (grunt) {
     'ngTemplateCache',
     'autoprefixer',
     'concat',
+    'execute',
     'copy:dist',
     'cdnify',
     'cssmin',
