@@ -180,14 +180,13 @@ angular
           'navigation@': {
             templateUrl: 'views/navigation.html',
             controller: ['$rootScope', '$scope', 'category', function ($rootScope, $scope, category) {
-              $rootScope.hasNavigation = category.childs && category.childs.length;
               $scope.category = category;
             }
             ]
           },
           'title@': {
             templateUrl: 'views/gallery/title.html',
-            controller: ['$scope', 'category', 'subcategory', function($scope, category, subcategory) {
+            controller: ['$scope', 'category', function($scope, category) {
               $scope.name = config.meta.name;
               $scope.category = category;
             }]
@@ -265,8 +264,9 @@ angular
             return $http.get('/resolution.json');
           }]
         },
-        onEnter: ['photo', 'aws.service.meta', function(photo, metaService) {
+        onEnter: ['$rootScope', 'category', 'photo', 'aws.service.meta', function($rootScope, category, photo, metaService) {
           metaService.setTitle(photo.caption);
+          metaService.setDescription(photo.caption);
           metaService.setKeywords(_.pluck(photo.categories, 'title'));
         }]
       })
@@ -303,7 +303,7 @@ angular
 
     $rootScope.$on('$stateChangeStart', function () {
       $rootScope.loading = true;
-      $rootScope.hasNavigation = false;
+      $.magnificPopup.close();
       metaService.clean();
     });
 

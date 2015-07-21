@@ -22,10 +22,6 @@ angular.module('aws.photo.client')
           afterStateUpdate = function() {
             var photo = $state.$current.locals.globals.photo;
 
-            metaService.setTitle(photo.caption);
-            metaService.setDescription(photo.caption);
-            metaService.setKeywords(_.pluck(photo.categories, 'title'));
-
             $scope.magnific.currItem.data.title = $compile('<div class="aws-photo-title"></div>')(angular.extend($scope.$new(), {data: photo}));
             $scope.magnific.updateItemHTML();
             ga('send', 'pageview');
