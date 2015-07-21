@@ -314,5 +314,6 @@ angular
         $rootScope.meta.description = metaService.getDescription();
         $rootScope.meta.title = metaService.getTitle();
         $rootScope.layout  = state.data && state.data.layout || 'default';
+        ga('send', 'pageview');
       });
   }]);

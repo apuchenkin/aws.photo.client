@@ -1,1 +1,6 @@
-<p><a ui-sref="home">photo.awesomestuff.in</a> | &copy;  {{'COPY' | translate}} | <a ui-sref="home.static.about">{{'ABOUT' | translate}}</a> | <a ui-sref="home.static.contacts">{{'CONTACTS' | translate}}</a></p>
+<p>
+  <a ui-sref="home">{{$root.config.meta.name.toLowerCase()}}</a>&nbsp;|
+  &copy;  {{'COPY' | translate}}&nbsp;|
+  <a ui-sref="home.static.about">{{'STATIC.ABOUT' | translate}}</a>&nbsp;|
+  <a ui-sref="home.static.contacts">{{'STATIC.CONTACTS' | translate}}</a>
+</p>
