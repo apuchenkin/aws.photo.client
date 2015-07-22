@@ -6,8 +6,8 @@ angular.module('aws.photo.client')
     return {
       template:
         '<figcaption ng-cloak>' +
-          '<span class="caption">{{data.caption}}</span>' +
-          '{{"PHOTO.BY" | translate}}' + '<span class="author">{{data.author.name}}</span>' +
+          '<span class="caption" ng-bind="data.caption"></span>' +
+          '{{"PHOTO.BY" | translate}}' + '<span class="author" ng-bind="::data.author.name"></span>' +
         '</figcaption>',
       restrict: 'C'
     };

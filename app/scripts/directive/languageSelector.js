@@ -6,7 +6,7 @@ angular.module('aws.photo.client')
     return {
       template:
         '<span class="lang">' +
-          '<a ng-class="{active: $root.language === lang}" ng-repeat="lang in me.languages" ng-click="me.setLanguage(lang)">{{lang.toUpperCase() | translate}}</a>' +
+          '<a ng-class="{active: $root.language === lang}" ng-repeat="lang in ::me.languages" ng-click="me.setLanguage(lang)" ng-bind="(lang.toUpperCase() | translate)"></a>' +
         '</span>',
       restrict: 'E',
       scope: {

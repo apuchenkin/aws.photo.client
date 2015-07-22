@@ -1,20 +1,20 @@
 <section class="galleries">
-  <h2 ng-cloak>{{'GALLERIES' | translate}}</h2>
+  <h2 ng-bind="('GALLERIES' | translate)"></h2>
   <ul>
-    <li ng-cloak class="item" ng-repeat="category in landing.categories.null">
+    <li ng-cloak class="item" ng-repeat="category in ::landing.categories.null">
       <div class="gallery">
         <a ui-sref="home.category.gallery({category: category.name, subcategory: null})">
           <figure>
-            <img ng-src="{{category.thumb}}" alt="{{category.title}}" width="350" height="230"/>
-            <figcaption ng-if="category.date">{{category.date | date:'MMMM, yyyy'}}</figcaption>
+            <img ng-src="{{::category.thumb}}" alt="{{::category.title}}" width="350" height="230"/>
+            <figcaption ng-if="category.date" ng-bind="(category.date | date:'MMMM, yyyy')"></figcaption>
           </figure>
         </a>
         <aside>
-          <h3><a ui-sref="home.category.gallery({category: category.name, subcategory: null})">{{category.title}}</a></h3>
-          <p ng-if="category.description">{{category.description}}</p>
+          <h3><a ui-sref="home.category.gallery({category: category.name, subcategory: null})" ng-bind="::category.title"></a></h3>
+          <p ng-if="category.description" ng-bind="::category.description"></p>
           <ul>
-            <li class="subitem" ng-repeat="subcategory in landing.categories[category.id]">
-              <a ui-sref="home.category.gallery({category: category.name, subcategory: subcategory.name})">{{subcategory.title}}</a>
+            <li class="subitem" ng-repeat="subcategory in ::landing.categories[category.id]">
+              <a ui-sref="home.category.gallery({category: category.name, subcategory: subcategory.name})" ng-bind="::subcategory.title"></a>
             </li>
           </ul>
         </aside>
@@ -22,11 +22,3 @@
     </li>
   </ul>
 </section>
-<!--<section class="featured">-->
-  <!--<h2>Featured</h2>-->
-  <!--<ul>-->
-    <!--<li class="item" ng-repeat="category in main.groupCategories.null">-->
-      <!--<img ng-src="{{$root.config.staticEndpoint}}{{category.image}}" alt="{{category.title}}" width="150"/>-->
-    <!--</li>-->
-  <!--</ul>-->
-<!--</section>-->

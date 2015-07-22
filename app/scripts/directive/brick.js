@@ -6,7 +6,7 @@ angular.module('aws.photo.client')
     return {
       template: '' +
         '<a ng-cloak ui-sref="home.category.gallery.image({id: ngModel.id})">' +
-          '<div ng-cloak class="masonry-brick photo-{{ngModel.id}}" ng-style="{{style}}"></div>' +
+          '<div ng-cloak class="masonry-brick photo-{{ngModel.id}}" ng-style="{{::style}}"></div>' +
         '</a>',
 
       restrict: 'E',

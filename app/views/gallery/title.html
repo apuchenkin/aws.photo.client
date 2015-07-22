@@ -1,7 +1,7 @@
-<h1><a ng-cloak ui-sref-active="active" title="{{name}}" ui-sref="home">{{'HOME' | translate}}</a> / <a
-  ng-cloak
+<h1><a ui-sref-active="active" title="{{::name}}" ui-sref="home" ng-bind="('HOME' | translate)"></a> / <a
   ui-sref-active="active"
-  ui-sref="home.category.gallery({category: category.name, subcategory: null})">
-  {{category.title}}
-</a></h1>
+  ui-sref="home.category.gallery({category: category.name, subcategory: null})"
+  ng-bind="::category.title"
+  ></a>
+</h1>
 <aws-language-selector></aws-language-selector>

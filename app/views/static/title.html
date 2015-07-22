@@ -1,6 +1,4 @@
-<h1><a ng-cloak ui-sref-active="active" title="{{name}}" ui-sref="home">{{'HOME' | translate}}</a> / <a
-  ng-cloak
-  class="active" >
-  {{title}}
-</a></h1>
+<h1><a ui-sref-active="active" title="{{::name}}" ui-sref="home" ng-bind="('HOME' | translate)"></a> / <a
+  class="active"
+  ng-bind="::title"></a></h1>
 <aws-language-selector></aws-language-selector>

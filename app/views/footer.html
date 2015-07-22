@@ -1,6 +1,6 @@
 <p>
-  <a ui-sref="home">{{$root.config.meta.name.toLowerCase()}}</a>&nbsp;|
+  <a ui-sref="home" ng-bind="::$root.config.meta.name.toLowerCase();"></a>&nbsp;|
   &copy;  {{'COPY' | translate}}&nbsp;|
-  <a ui-sref="home.static.about">{{'STATIC.ABOUT' | translate}}</a>&nbsp;|
-  <a ui-sref="home.static.contacts">{{'STATIC.CONTACTS' | translate}}</a>
+  <a ui-sref="home.static.about" ng-bind="('STATIC.ABOUT' | translate)"></a>&nbsp;|
+  <a ui-sref="home.static.contacts" ng-bind="('STATIC.CONTACTS' | translate)"></a>
 </p>

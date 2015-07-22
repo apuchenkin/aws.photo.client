@@ -1,11 +1,11 @@
 <div class="error-404" ng-cloak>
-  <h1><b>{{'404' | translate}}</b> - {{'ERROR.NOT_EXISTS' | translate}}</h1>
-  <p>{{'ERROR.THIS_MIGHT_BE' | translate}}</p>
+  <h1><b ng-bind="('404' | translate)"></b> - {{'ERROR.NOT_EXISTS' | translate}}</h1>
+  <p ng-bind="('ERROR.THIS_MIGHT_BE' | translate)"></p>
   <ol>
-    <li>{{'ERROR.REASON1' | translate}}</li>
-    <li>{{'ERROR.REASON2' | translate}}</li>
+    <li ng-bind="('ERROR.REASON1' | translate)"></li>
+    <li ng-bind="('ERROR.REASON2' | translate)"></li>
   </ol>
-  <p>{{'ERROR.CONSEQUENCE' | translate}}</p>
-  <a ng-if="backUrl" ng-href="{{backUrl}}">{{'ERROR.BACK' | translate}}</a>
-  <a ui-sref="home">{{'ERROR.HOME' | translate}}</a>
+  <p ng-bind="('ERROR.CONSEQUENCE' | translate)"></p>
+  <a ng-if="backUrl" ng-href="{{backUrl}}" ng-bind="('ERROR.BACK' | translate)"></a>
+  <a ui-sref="home" ng-bind="('ERROR.HOME' | translate)"></a>
 </div>
