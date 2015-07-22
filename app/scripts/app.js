@@ -47,7 +47,7 @@ angular
           'ru_RU': 'ru'
         })
         .fallbackLanguage('en')
-        .useSanitizeValueStrategy('sanitize')
+        .useSanitizeValueStrategy('escape')
         .determinePreferredLanguage();
     }])
 
