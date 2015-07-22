@@ -3,7 +3,9 @@
 angular.module('aws.photo.core')
   .factory('aws.model.category', ['restmod', '$http', function (restmod, $http) {
     return restmod.model('/category').mix({
-      date: { decode: 'date' },
+      date: { decode: function(_value) {
+        return _value ? new Date(_value) : null;
+      }},
       photo: {
         hasMany: 'aws.model.photo'
       },

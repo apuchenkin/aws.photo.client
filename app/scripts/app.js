@@ -29,6 +29,18 @@ angular
       $translateProvider
         .translations('en', TRANSLATION.EN)
         .translations('ru', TRANSLATION.RU)
+        .translations('en', {
+          'MONTH': _.zipObject(
+            [0,1,2,3,4,5,6,7,8,9,10,11],
+            'January_February_March_April_May_June_July_August_September_October_November_December'.split('_')
+          )
+        })
+        .translations('ru', {
+          'MONTH': _.zipObject(
+            [0,1,2,3,4,5,6,7,8,9,10,11],
+            'Январь_Февраль_Март_Апрель_Май_Июнь_Июль_Август_Сентябрь_Октябрь_Ноябрь_Декабрь'.split('_')
+          )
+        })
         .registerAvailableLanguageKeys(['en', 'ru'], {
           'en_US': 'en',
           'en_UK': 'en',
@@ -240,8 +252,8 @@ angular
         controller: 'aws.controller.image',
         controllerAs: 'imageCtrl',
         resolve: {
-          photo: ['$stateParams', 'aws.model.photo', 'photos', '$state', 'category', 'subcategory', 'aws.service.meta',
-            function ($stateParams, Photo, photos, $state, category, subcategory, metaService) {
+          photo: ['$stateParams', 'aws.model.photo', 'photos', '$state', 'category', 'subcategory',
+            function ($stateParams, Photo, photos, $state, category, subcategory) {
             var photo = Photo.$find($stateParams.id).$asPromise();
               photo.then(function (p) {
                 if (_.findIndex(photos.raw, 'id', p.id) < 0) {
