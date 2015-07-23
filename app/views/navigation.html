@@ -2,7 +2,7 @@
   <ul>
     <li ng-cloak
         class="item"
-        ng-repeat="child in ::category.childs">
+        ng-repeat="child in ::category.childs track by child.id">
       <a ng-bind="::child.title"
          ui-sref-active="active"
          ui-sref="home.category.gallery({category: category.name, subcategory: child.name})">
