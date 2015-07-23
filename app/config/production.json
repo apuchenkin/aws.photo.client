@@ -1,4 +1,5 @@
 {
+  "hostname": "http://photo.awesomestuff.in",
   "useXDomain": false,
   "html5": true,
   "language": "en",

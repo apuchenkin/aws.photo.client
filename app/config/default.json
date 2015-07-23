@@ -1,4 +1,5 @@
 {
+  "hostname": "http://localhost:9000",
   "useXDomain": true,
   "html5": false,
   "language": "en",

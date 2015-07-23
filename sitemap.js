@@ -1,15 +1,21 @@
+'use strict';
+
 var
   _ = require('lodash'),
   sm = require('sitemap'),
   fs = require('fs'),
   http = require('http'),
   Q = require('q'),
-  config = require('./app/config/production.json'),
+  Hashes = require('jshashes'),
+  config = require('./app/config/default.json'),
   urls = [
     { url: '/',  changefreq: 'monthly'}
   ],
   promises = [],
-  hostname = 'http://photo.awesomestuff.in'
+  baseUrl = '', //config.hostnamem
+  sha = new Hashes.SHA1(),
+  w = 1200,
+  h = 900
 ;
 
 _.map(config.static, function(s){
@@ -17,38 +23,58 @@ _.map(config.static, function(s){
 });
 
 var deferred = Q.defer();
+var remapPhoto = function (id) {
+  var sign = sha.hex_hmac(config.secret, id + '-' + w + 'x' + h);
+  return [config.apiEndpoint, 'hs/photo', id, w, h, sign].join('/');
+};
 
-http.get([hostname, config.apiEndpoint, 'category'].join('/'), function(response) {
-  console.log("Got response: " + response.statusCode);
+http.get(_.filter([baseUrl, config.apiEndpoint, 'category']).join('/'), function(response) {
+  console.log('Got response: ' + response.statusCode);
   var body = '';
   response.on('data', function(d) {
     body += d;
   });
   response.on('end', function() {
     // Data reception is done, do whatever with it!
-    var categories = JSON.parse(body);
-    categories.map(function(c){
-      urls.push({ url: '/' + c.name,  changefreq: 'weekly'});
-      var d = Q.defer();
-      promises.push(d.promise);
+    var categories = JSON.parse(body),
+        groups = _.groupBy(categories, 'parent');
 
-      http.get([hostname, config.apiEndpoint, 'category', c.id, 'photo'].join('/'), function(response) {
-        console.log("Got response: " + response.statusCode);
-        var body = '';
-        response.on('data', function(d) {
-          body += d;
-        });
-        response.on('end', function() {
-          // Data reception is done, do whatever with it!
-          var photos = JSON.parse(body);
-          photos.map(function(p){
-            urls.push({ url: '/' + c.name + '/photo/' + p.id,  changefreq: 'monthly'});
+    _.map(groups, function (group, key) {
+      _.map(group, function(c) {
+        var url;
+        if (key === 'null') {
+          url = '/' + c.name;
+        } else {
+          var parent = _.find(categories, {id: +key});
+          url = '/' + parent.name + '/' + c.name;
+        }
+
+        urls.push({ url: url,  changefreq: 'weekly'});
+        var d = Q.defer();
+        promises.push(d.promise);
+
+        http.get(_.filter([baseUrl, config.apiEndpoint, 'category', c.id, 'photo']).join('/'), function(response) {
+          console.log('Got response: ' + response.statusCode);
+          var body = '';
+          response.on('data', function(d) {
+            body += d;
           });
-          d.resolve();
+          response.on('end', function() {
+            // Data reception is done, do whatever with it!
+            var photos = JSON.parse(body);
+            photos.map(function(p){
+              urls.push({
+                url: url + '/photo/' + p.id,
+                changefreq: 'monthly',
+                img: remapPhoto(p.id)
+              });
+            });
+            d.resolve();
+          });
+        }).on('error', function(e) {
+          console.log('Got error: ' + e.message);
+          d.reject(e.message);
         });
-      }).on('error', function(e) {
-        console.log("Got error: " + e.message);
-        d.reject(e.message);
       });
     });
     Q.all(promises).then(function() {
@@ -56,16 +82,16 @@ http.get([hostname, config.apiEndpoint, 'category'].join('/'), function(response
     });
   });
 }).on('error', function(e) {
-  console.log("Got error: " + e.message);
+  console.log('Got error: ' + e.message);
   deferred.reject(e.message);
 });
 
 deferred.promise.then(function(){
   var sitemap = sm.createSitemap ({
-    hostname: hostname,
+    hostname: config.hostname,
     cacheTime: 600000,        // 600 sec - cache purge period
     urls: urls
   });
 
-  fs.writeFileSync("./app/sitemap.xml", sitemap.toString());
+  fs.writeFileSync('./app/sitemap.xml', sitemap.toString());
 });
