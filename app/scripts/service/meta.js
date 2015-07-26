@@ -4,13 +4,14 @@ angular.module('aws.photo.client')
   .service('aws.service.meta', ['CONFIG', '$rootScope', '$translate', function (config, $rootScope, $translate) {
     var
       defaults = {
-        title: config.meta.name + ' - ' + $translate.instant('DESCRIPTION')
+        title: config.meta.name + ' - ' + $translate.instant('DESCRIPTION'),
+        description: $translate.instant('META_DESCRIPTION')
       },
       meta = {},
 
       clean = function () {
         meta.keywords = [];
-        meta.description = '';
+        meta.description = defaults.description;
         meta.title = defaults.title;
       },
 
@@ -20,12 +21,16 @@ angular.module('aws.photo.client')
       },
 
       setDescription = function (description) {
-        meta.description = description;
+        //Author: A.N. Author, Illustrator: P. Picture, Category: Books, Price:  £9.24, Length: 784 pages
+        meta.description = description || defaults.description;
         $rootScope.meta.description = getDescription();
       },
 
       setTitle = function (title) {
-        meta.title = title + ' - ' + config.meta.name;
+        meta.title = title
+          ? title + ' - ' + config.meta.name
+          : defaults.title;
+
         $rootScope.meta.title = getTitle();
       },
 

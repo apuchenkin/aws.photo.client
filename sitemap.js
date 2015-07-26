@@ -7,12 +7,12 @@ var
   http = require('http'),
   Q = require('q'),
   Hashes = require('jshashes'),
-  config = require('./app/config/default.json'),
+  config = require('./app/config/production.json'),
   urls = [
     { url: '/',  changefreq: 'monthly'}
   ],
   promises = [],
-  baseUrl = '', //config.hostnamem
+  baseUrl = config.hostname,
   sha = new Hashes.SHA1(),
   w = 1200,
   h = 900

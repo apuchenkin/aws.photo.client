@@ -1,6 +1,8 @@
 {
   "ALPHA": "alpha",
   "DESCRIPTION": "Travel in photography",
+  "META_DESCRIPTION": "Travel Photography by Artem Puchenkin and Tatiana Kuzmicheva.",
+  "META_DESCRIPTION_PHOTO": "Author: {{author}}, Title: {{title}}",
   "HOME": "Home",
   "GALLERIES": "Galleries",
   "COPY": "2015, Artem Puchenkin",

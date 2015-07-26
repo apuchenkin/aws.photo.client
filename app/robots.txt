@@ -2,3 +2,6 @@
 
 User-agent: *
 Disallow: /
+Disallow: /api
+Disallow: /404
+Disallow: /admin

@@ -15,6 +15,7 @@ angular
       },
       $extend: {
         Model: {
+          decodeName: inflector.camelize,
           encodeUrlName: inflector.parameterize,
           unpack: function (_resource, _raw) {
             return _raw;

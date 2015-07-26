@@ -237,7 +237,9 @@ angular
           }]
         },
         onEnter: ['category', 'subcategory', 'aws.service.meta', function(category, subcategory, metaService) {
-          metaService.setTitle((subcategory || category).title);
+          var subj = subcategory || category;
+          metaService.setDescription(subj.shortDescription || subj.description);
+          metaService.setTitle(subj.title);
         }],
         onExit: function() {
           Ps.destroy(angular.element('.content')[0]);
@@ -276,10 +278,9 @@ angular
             return $http.get('/resolution.json');
           }]
         },
-        onEnter: ['$rootScope', 'category', 'photo', 'aws.service.meta', function($rootScope, category, photo, metaService) {
+        onEnter: ['$rootScope', 'category', 'photo', 'aws.service.meta', '$translate', function($rootScope, category, photo, metaService, $translate) {
           metaService.setTitle(photo.caption);
-          metaService.setDescription(photo.caption);
-          metaService.setKeywords(_.pluck(photo.categories, 'title'));
+          metaService.setDescription($translate.instant('META_DESCRIPTION_PHOTO', {author: photo.author.name, title: photo.caption}));
         }]
       })
     ;

@@ -134,9 +134,7 @@ img, figure {
 }
 
 footer {
-  //position: absolute;
-  //bottom: 0;
-  //height: 100px;
+  padding-top: @divisor;
   text-align: center;
   color: @light-grey;
 
@@ -173,7 +171,7 @@ section {
         padding: 2px;
       }
 
-      figure {
+      a.cover {
         float: left;
         display: block;
         outline: 2px solid rgba(0, 0, 0, 0);
@@ -181,7 +179,7 @@ section {
         transition: outline-color 0.2s ease-out;
         position: relative;
 
-        figcaption {
+        span.sub {
           width: 100%;
           color: @light;
           padding: @divisor / 4;
