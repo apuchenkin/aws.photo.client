@@ -44,12 +44,13 @@ http.get(_.filter([baseUrl, config.apiEndpoint, 'category']).join('/'), function
         var url;
         if (key === 'null') {
           url = '/' + c.name;
+          urls.push({ url: url,  changefreq: 'weekly', priority: 0.8});
         } else {
           var parent = _.find(categories, {id: +key});
           url = '/' + parent.name + '/' + c.name;
+          urls.push({ url: url,  changefreq: 'weekly'});
         }
 
-        urls.push({ url: url,  changefreq: 'weekly'});
         var d = Q.defer();
         promises.push(d.promise);
 
