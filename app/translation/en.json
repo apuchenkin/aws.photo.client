@@ -19,6 +19,10 @@
     "BACK": "Go back",
     "HOME": "Return home"
   },
+  "FORM": {
+    "BUGREPORT": "http://goo.gl/forms/PytHUvBm48",
+    "FEEDBACK": "http://goo.gl/forms/mD6GCLnzCT"
+  },
   "STATIC": {
     "ABOUT": "About",
     "CONTACTS": "Contacts"

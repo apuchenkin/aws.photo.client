@@ -8,6 +8,7 @@ html, body {
   width: 100%;
   height: 100%;
   font-family: @font-default;
+  font-size: 100%;
 }
 
 .container {
@@ -255,6 +256,16 @@ section {
   .ps-scrollbar-y-rail {
     .ps-scrollbar-y {
       border-radius: 0;
+    }
+  }
+}
+
+.static {
+  .details {
+    margin-bottom: @divisor;
+    b {
+      color: @accent;
+      font-weight: normal;
     }
   }
 }

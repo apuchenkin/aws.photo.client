@@ -19,6 +19,10 @@
     "BACK": "Назад",
     "HOME": "На главную"
   },
+  "FORM": {
+    "BUGREPORT": "http://goo.gl/forms/gjCXgnadYm",
+    "FEEDBACK": "http://goo.gl/forms/jCZLgQfTx4"
+  },
   "STATIC": {
     "ABOUT": "О сайте",
     "CONTACTS": "Контакты"

@@ -103,6 +103,11 @@ angular
     // Public routes
     $stateProvider
       .state('home.static', {
+        views: {
+          'content@': {
+            template: '<div class="static"><ui-view></ui-view></div>'
+          }
+        },
         abstract: true
       });
 
@@ -119,16 +124,15 @@ angular
         views: {
           'title@': {
             templateUrl: 'views/static/title.html',
-            controller: ['$scope', 'CONFIG', '$translate', function($scope, config, $translate) {
+            controller: ['$scope', 'CONFIG', '$translate', function ($scope, config, $translate) {
               $scope.name = config.meta.name;
               $scope.title = $translate.instant('STATIC.' + url.toUpperCase());
             }]
           },
-          'content@': {
-            template: '<div class="static" ng-bind-html="content"></div>',
-            controller: ['$scope', 'page', '$sce',
-              function ($scope, page, $sce) {
-                $scope.content = $sce.trustAsHtml(page.data);
+          '': {
+            templateProvider: ['page',
+              function (page) {
+                return page.data;
               }]
           }
         }
