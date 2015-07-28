@@ -9,7 +9,7 @@ var
   Hashes = require('jshashes'),
   config = require('./app/config/production.json'),
   urls = [
-    { url: '/',  changefreq: 'monthly'}
+    { url: '/', changefreq: 'monthly', priority: 1}
   ],
   promises = [],
   baseUrl = config.hostname,
@@ -19,7 +19,7 @@ var
 ;
 
 _.map(config.static, function(s){
-  urls.push({ url: '/' + s,  changefreq: 'monthly'});
+  urls.push({ url: '/' + s,  changefreq: 'monthly', priority: 0.5});
 });
 
 var deferred = Q.defer();
@@ -48,7 +48,7 @@ http.get(_.filter([baseUrl, config.apiEndpoint, 'category']).join('/'), function
         } else {
           var parent = _.find(categories, {id: +key});
           url = '/' + parent.name + '/' + c.name;
-          urls.push({ url: url,  changefreq: 'weekly'});
+          urls.push({ url: url,  changefreq: 'weekly', priority: 0.6});
         }
 
         var d = Q.defer();
@@ -67,7 +67,8 @@ http.get(_.filter([baseUrl, config.apiEndpoint, 'category']).join('/'), function
               urls.push({
                 url: url + '/photo/' + p.id,
                 changefreq: 'monthly',
-                img: remapPhoto(p.id)
+                priority: 0.4,
+                img: baseUrl + remapPhoto(p.id)
               });
             });
             d.resolve();
