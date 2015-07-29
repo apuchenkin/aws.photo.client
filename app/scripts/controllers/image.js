@@ -24,7 +24,11 @@ angular.module('aws.photo.client')
 
             $scope.magnific.currItem.data.title = $compile('<div class="aws-photo-title"></div>')(angular.extend($scope.$new(), {data: photo}));
             $scope.magnific.updateItemHTML();
-            ga('send', 'pageview');
+
+            ga('send', 'pageview', {
+              'page': $state.href($state.current, $state.params),
+              'title': metaService.getTitle()
+            });
           },
 
           updatePage = function(magnific) {

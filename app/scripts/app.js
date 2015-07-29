@@ -325,12 +325,16 @@ angular
     });
 
     $rootScope.$on('$stateChangeSuccess',
-      function (a, state) {
+      function (a, state, params) {
         $rootScope.loading = false;
         $rootScope.meta.keywords = metaService.getKeywords();
         $rootScope.meta.description = metaService.getDescription();
         $rootScope.meta.title = metaService.getTitle();
         $rootScope.layout  = state.data && state.data.layout || 'default';
-        ga('send', 'pageview');
+
+        ga('send', 'pageview', {
+          'page': $state.href(state, params),
+          'title': $rootScope.meta.title
+        });
       });
   }]);
