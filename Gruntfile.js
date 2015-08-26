@@ -282,6 +282,17 @@ module.exports = function (grunt) {
       }
     },
 
+    purifycss: {
+      options: {
+
+      },
+      target: {
+        src: ['app/index.html', '.tmp/concat/scripts/client.js', '.tmp/concat/scripts/vendor-client.js'],
+        css: ['.tmp/concat/styles/main.css'],
+        dest: '.tmp/concat/styles/main.css'
+      }
+    },
+
     // Performs rewrites based on filerev and the useminPrepare configuration
     usemin: {
       html: [
@@ -292,6 +303,7 @@ module.exports = function (grunt) {
       options: {
         assetsDirs: [
           '<%= yeoman.dist %>',
+          '<%= yeoman.dist %>/styles',
           '<%= yeoman.dist %>/images'
         ]
       }
@@ -552,6 +564,7 @@ module.exports = function (grunt) {
     'ngTemplateCache',
     'autoprefixer',
     'concat',
+    'purifycss',
     'execute',
     'copy:dist',
     'cdnify',
