@@ -50,7 +50,7 @@ angular.module('aws.photo.client')
         };
       };
 
-      me.bricks = photos;
+      me.bricks = photos.map(getBrick);
 
       var container = angular.element('.content')[0];
       container.scrollTop = 0;
