@@ -21,8 +21,6 @@ angular.module('aws.photo.client')
           s4 = (s * 4) + (me.gutter * 3)
       ;
 
-      me.bricks = [];
-
       var getBrick = function (photo) {
         var
           div = Math.floor(photo.views / (std + 1)) + 1,
@@ -52,7 +50,7 @@ angular.module('aws.photo.client')
         };
       };
 
-      angular.extend(me.bricks, photos.map(getBrick));
+      me.bricks = photos;
 
       var container = angular.element('.content')[0];
       container.scrollTop = 0;
