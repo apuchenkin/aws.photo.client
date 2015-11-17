@@ -228,7 +228,7 @@ angular
           }],
           photos: ['category', 'subcategory', '$q', 'aws.service.photo', function (category, subcategory, $q, photoService) {
             var deferred = $q.defer(),
-              photos = (subcategory || category).photo.$fetch(),
+              photos = (subcategory || category).photo,
               groups;
 
             photos.$refresh().$then(function(items) {
