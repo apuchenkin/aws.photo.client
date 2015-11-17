@@ -283,9 +283,7 @@ module.exports = function (grunt) {
     },
 
     purifycss: {
-      options: {
-
-      },
+      options: {},
       target: {
         src: ['app/index.html', '.tmp/concat/scripts/client.js', '.tmp/concat/scripts/vendor-client.js'],
         css: ['.tmp/concat/styles/main.css'],

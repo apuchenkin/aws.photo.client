@@ -1,9 +1,7 @@
 {
   "name": "aws.photo.client",
   "version": "1.2.5",
-  "dependencies": {
-    "grunt-purifycss": "^0.1.0"
-  },
+  "dependencies": {  },
   "devDependencies": {
     "grunt": "^0.4.1",
     "grunt-autoprefixer": "^0.7.3",
@@ -19,6 +17,7 @@
     "grunt-contrib-less": "^1.0.1",
     "grunt-contrib-uglify": "^0.4.0",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-purifycss": "^0.1.0",
     "grunt-execute": "^0.2.2",
     "grunt-filerev": "^0.2.1",
     "grunt-google-cdn": "^0.4.0",
