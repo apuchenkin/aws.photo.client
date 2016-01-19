@@ -13,7 +13,6 @@ angular
     'aws.config',
     'aws.photo.core',
     'ngAnimate',
-    'ngCookies',
     'ui.router',
     'pascalprecht.translate',
     'ngSanitize'
@@ -56,6 +55,7 @@ angular
     // Public routes
     $stateProvider
       .state('error', {
+        parent: 'root',
         abstract: true,
         views: {
           'title@': {
@@ -68,6 +68,7 @@ angular
         }
       })
       .state('error.404', {
+        parent: 'error',
         url: '/404',
         resolve: {
           previousState: [
@@ -103,6 +104,7 @@ angular
     // Public routes
     $stateProvider
       .state('home.static', {
+        parent: 'home',
         views: {
           'content@': {
             template: '<div class="static"><ui-view></ui-view></div>'
@@ -113,7 +115,8 @@ angular
 
     _.each(config.static, function (url, key) {
       $stateProvider.state(key, {
-        url: url,
+        url: '/' + url,
+        parent: 'home.static',
         resolve: {
           page: ['$translate', '$http', 'aws.service.meta',
             function ($translate, $http, metaService) {
@@ -140,8 +143,12 @@ angular
     });
 
     $stateProvider
-      .state('home', {
-        url: '/',
+      .state('root', {
+        url: '/{locale:(?:ru|en)}',
+        params: {
+          locale: {value: null, squash: true}
+        },
+        abstract: true,
         views: {
           title: {
             templateUrl: 'views/landing/title.html',
@@ -150,13 +157,21 @@ angular
               $scope.description = $translate.instant('DESCRIPTION');
             }]
           },
-          content: {
+          content: {},
+          footer: {
+            templateUrl: 'views/footer.html'
+          }
+        }
+      })
+
+      .state('home', {
+        url: '',
+        parent: 'root',
+        views: {
+          'content@': {
             templateUrl: 'views/landing/content.html',
             controller: 'aws.controller.landing',
             controllerAs: 'landing'
-          },
-          footer: {
-            templateUrl: 'views/footer.html'
           }
         },
         resolve: {
@@ -170,12 +185,13 @@ angular
 
       .state('home.category', {
         abstract: true,
-        url: ':category',
+        url: '/:category',
+        parent: 'home',
         resolve: {
           category: ['$stateParams', '$state', 'categories', function ($stateParams, $state, categories) {
             var category = categories.$findByName($stateParams.category);
             if (!category) {
-              $state.go('error.404', {}, {reload: true});
+              $state.go('error.404', {lang: $stateParams.lang}, {reload: true});
             } else if (category.parent) {
               $state.go('home.category.gallery', {category: categories.$findById(category.parent).name, subcategory: category.name});
             } else {
@@ -189,6 +205,7 @@ angular
 
       .state('home.category.gallery', {
         url: '/:subcategory',
+        parent: 'home.category',
         params: {
           subcategory: {value: null, squash: true}
         },
@@ -255,6 +272,7 @@ angular
 
       .state('home.category.gallery.image', {
         url: '/photo/{id:int}',
+        parent: 'home.category.gallery',
         controller: 'aws.controller.image',
         controllerAs: 'imageCtrl',
         resolve: {
@@ -308,20 +326,33 @@ angular
     $locationProvider.html5Mode(config.html5);
   }])
 
-  .run(['$rootScope', '$cookieStore', '$state', 'CONFIG', '$translate', 'aws.service.meta', function ($rootScope, $cookieStore, $state, config, $translate, metaService) {
-    if ($cookieStore.get('language')) {
-      $translate.use($cookieStore.get('language'));
-    }
+  .run(['$rootScope', '$state', '$stateParams', 'CONFIG', '$translate', 'aws.service.meta', '$location',
+    function ($rootScope, $state, $stateParams, config, $translate, metaService, $location) {
 
     $rootScope.config = config;
     $rootScope.language = $translate.use();
     $rootScope.layout = 'default';
     $rootScope.meta = {};
+    $rootScope.link = {};
 
-    $rootScope.$on('$stateChangeStart', function () {
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
       $rootScope.loading = true;
       $.magnificPopup.close();
       metaService.clean();
+
+      var getLink = function(locale){
+        return $state.href(toState, angular.extend(angular.copy(toParams), {locale: locale}));
+      };
+
+      $rootScope.link.default = getLink(null);
+      $rootScope.link.ru = getLink('ru');
+      $rootScope.link.en = getLink('en');
+
+      if (!toParams.locale || _.indexOf(config.languages, toParams.locale) < 0) {
+        $location.url($rootScope.link[$translate.use()].replace('#',''));
+      } else {
+        $translate.use(toParams.locale);
+      }
     });
 
     $rootScope.$on('$stateChangeSuccess',
@@ -333,7 +364,7 @@ angular
         $rootScope.layout  = state.data && state.data.layout || 'default';
 
         ga('send', 'pageview', {
-          'page': $state.href(state, params),
+          'page':  $state.href(state, params),
           'title': $rootScope.meta.title
         });
       });

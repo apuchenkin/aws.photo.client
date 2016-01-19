@@ -11,7 +11,7 @@ angular.module('aws.photo.client')
   .controller('aws.controller.gallery', ['$timeout', 'photos', 'CONFIG', 'aws.service.photo',
     function ($timeout, photos, config, photoService) {
       var me = this,
-          views = _.pluck(photos, 'views'),
+          views = _.map(photos, 'views'),
           std = math.std(views),
           max = math.max(views),
           gutter = me.gutter = config.gutter,

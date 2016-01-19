@@ -13,11 +13,12 @@ angular.module('aws.photo.core')
           data = _.reduce(_.keys(groups), function (acc, i) {
             if (+i > 0) {
               var items = groups[i],
-                probs = _.map(_.pluck(items, 'views'), succ),
+                views = _.map(items, 'views'),
+                probs = _.map(views, succ),
                 index = weightedRandom(probs),
                 photo = items[index];
 
-              photo.views = _.sum(items, 'views');
+              photo.views = _.sum(views);
               acc.push(photo);
             }
             return acc;

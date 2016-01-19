@@ -8,9 +8,7 @@ var
   Q = require('q'),
   Hashes = require('jshashes'),
   config = require('./app/config/production.json'),
-  urls = [
-    { url: '/', changefreq: 'monthly', priority: 1}
-  ],
+  urls = [],
   promises = [],
   baseUrl = config.hostname,
   sha = new Hashes.SHA1(),
@@ -18,17 +16,31 @@ var
   h = 900
 ;
 
-_.map(config.static, function(s){
-  urls.push({ url: '/' + s,  changefreq: 'monthly', priority: 0.5});
-});
-
 var deferred = Q.defer();
 var remapPhoto = function (id) {
   var sign = sha.hex_hmac(config.secret, id + '-' + w + 'x' + h);
   return [config.apiEndpoint, 'hs/photo', id, w, h, sign].join('/');
 };
 
-http.get(_.filter([baseUrl, config.apiEndpoint, 'category']).join('/'), function(response) {
+var genLinks = function(url) {
+  return [
+    {lang: 'x-default', url: url},
+    {lang: 'ru', url: '/ru' + url},
+    {lang: 'en', url: '/en' + url}
+  ];
+};
+
+urls.push({ url: '/', changefreq: 'monthly', priority: 1, links: genLinks('/')});
+_.map(config.static, function(s){
+  urls.push({ url: '/' + s,  changefreq: 'monthly', priority: 0.5, links: genLinks('/' + s)});
+});
+
+http.get(
+  {
+    host: 'proxy02.merann.ru',
+    port: 8080,
+    path: _.filter([baseUrl, config.apiEndpoint, 'category']).join('/')
+  }, function(response) {
   console.log('Got response: ' + response.statusCode);
   var body = '';
   response.on('data', function(d) {
@@ -44,17 +56,23 @@ http.get(_.filter([baseUrl, config.apiEndpoint, 'category']).join('/'), function
         var url;
         if (key === 'null') {
           url = '/' + c.name;
-          urls.push({ url: url,  changefreq: 'weekly', priority: 0.8});
+          urls.push({ url: url,  changefreq: 'weekly', priority: 0.8, links: genLinks(url)});
         } else {
           var parent = _.find(categories, {id: +key});
           url = '/' + parent.name + '/' + c.name;
-          urls.push({ url: url,  changefreq: 'weekly', priority: 0.6});
+          urls.push({ url: url,  changefreq: 'weekly', priority: 0.6, links: genLinks(url)});
         }
 
         var d = Q.defer();
         promises.push(d.promise);
 
-        http.get(_.filter([baseUrl, config.apiEndpoint, 'category', c.id, 'photo']).join('/'), function(response) {
+        http.get(
+          {
+            host: 'proxy02.merann.ru',
+            port: 8080,
+            path: _.filter([baseUrl, config.apiEndpoint, 'category', c.id, 'photo']).join('/')
+          },
+          function(response) {
           console.log('Got response: ' + response.statusCode);
           var body = '';
           response.on('data', function(d) {
@@ -68,7 +86,8 @@ http.get(_.filter([baseUrl, config.apiEndpoint, 'category']).join('/'), function
                 url: url + '/photo/' + p.id,
                 changefreq: 'monthly',
                 priority: 0.4,
-                img: baseUrl + remapPhoto(p.id)
+                img: baseUrl + remapPhoto(p.id),
+                links: genLinks(url + '/photo/' + p.id)
               });
             });
             d.resolve();

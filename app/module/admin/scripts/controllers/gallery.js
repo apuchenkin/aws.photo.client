@@ -55,7 +55,7 @@ angular.module('aws.photo.admin')
       };
 
       me.groupPhoto = function(item, photo) {
-        var pack = me.selected.length ? _.pluck(me.selected, 'id') : [item];
+        var pack = me.selected.length ? _.map(me.selected, 'id') : [item];
 
         if (photo.group) { // append to photo group
           Photo.$collection().$groupAdd(photo.group, pack);
@@ -72,12 +72,12 @@ angular.module('aws.photo.admin')
 
       me.drop = function() {
         var category = _.find(me.categories, {name: me.category});
-        category.$dropPhotos(_.pluck(me.selected, 'id'));
+        category.$dropPhotos(_.map(me.selected, 'id'));
         updatePhotoData();
       };
 
       me.onDrop = function(item, category) {
-        var pack = me.selected.length ? _.pluck(me.selected, 'id') : [item];
+        var pack = me.selected.length ? _.map(me.selected, 'id') : [item];
         category.$appendPhotos(pack);
       };
 
